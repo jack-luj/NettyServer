@@ -1,5 +1,6 @@
 package com.phei.netty.frame.fault;
 
+import com.company.DataTool;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
@@ -27,11 +28,11 @@ public class PackageClientHandler extends ChannelHandlerAdapter {
 
 
     }
-    String successStr="23 23 00 4D 01 55 D2 0F E7 13 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 55 BE E2 58 31 32 33 34 35 36 37 38 39 31 39 39 31 32 33 34 35 36 37 38 39 31 39 39 39 31 32 33 34 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 5D ";
+    String successStr="23 23 00 4C 00 56 1E 16 3D 13 01 33 35 35 30 36 35 30 35 33 33 31 31 30 30 31 00 00 00 00 0C 00 00 56 1E 16 3D 31 32 33 34 35 36 37 38 39 31 39 39 31 32 33 34 35 36 37 38 39 31 39 39 39 31 32 33 34 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 6B ";
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        ByteBuf message = null;
-        for (int i = 0; i < 100; i++) {
+
+         for (int i = 0; i < 100; i++) {
             try{
                 Thread.sleep(1);
             }catch (InterruptedException e){e.printStackTrace();}
@@ -56,7 +57,7 @@ public class PackageClientHandler extends ChannelHandlerAdapter {
         ByteBuf buf = (ByteBuf) msg;
         byte[] req = new byte[buf.readableBytes()];
         buf.readBytes(req);
-        String bodyHexString=bytes2hex(req);
+        String bodyHexString= DataTool.bytes2hex(req);
         System.out.println("receive: " + bodyHexString + " ; the counter is : "
                 + ++counter);
     }
@@ -69,23 +70,5 @@ public class PackageClientHandler extends ChannelHandlerAdapter {
         ctx.close();
     }
 
-       public  String bytes2hex(byte[] bArray) {
-        //字节数据转16进制字符串
-        StringBuffer sb = new StringBuffer(bArray.length);
-        String sTemp;
-        for (int i = 0; i < bArray.length; i++) {
-            sTemp = Integer.toHexString(0xFF & bArray[i]);
-            if (sTemp.length() < 2)
-                sb.append(0);
-            sb.append(sTemp.toUpperCase());
-        }
-        return getSpaceHex(sb.toString());
-    }
-    public  String getSpaceHex(String str){
-        //将不带空格的16进制字符串加上空格
-        String re="";
-        String regex = "(.{2})";
-        re = str.replaceAll (regex, "$1 ");
-        return re;
-    }
+
 }
