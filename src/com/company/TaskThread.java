@@ -31,6 +31,9 @@ public class TaskThread implements Runnable {
                 new TaskThread("job1"), initialDelay1,
                 period1, TimeUnit.SECONDS);
 
+        service.schedule(
+                new TaskThread("ont-shot"), 0, TimeUnit.SECONDS);
+
         long initialDelay2 = 1;
         long delay2 = 1;
         // 从现在开始2秒钟之后，每隔2秒钟执行一次job2
