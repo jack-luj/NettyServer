@@ -2,6 +2,7 @@ package com.company;
 
 import io.netty.buffer.ByteBuf;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import static io.netty.buffer.Unpooled.buffer;
@@ -9,6 +10,7 @@ import static io.netty.buffer.Unpooled.buffer;
 public class Main {
 
     public static void main(String[] args) {
+
 
         Long start=new Date().getTime();
         Long now=start;
@@ -27,7 +29,7 @@ public class Main {
 
 
         // write your code here
-        //ÔìackÊý¾Ý
+        //ï¿½ï¿½ackï¿½ï¿½ï¿½ï¿½
         ByteBuf bb=buffer(1024);
         bb.writeByte(0x23);//0
         bb.writeByte(0x23);//1
@@ -40,7 +42,7 @@ public class Main {
         bb.writeBytes(new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00});//26-32
         bb.writeInt(0x55BEE258);//33-36 eventId 1438573144
         bb.writeByte(1);//37
-        bb.writeByte(3);//38 ¸öÊý
+        bb.writeByte(3);//38 ï¿½ï¿½ï¿½ï¿½
         //data
         bb.writeByte(1);//39
         bb.writeBytes(new byte[]{0x61, 0x62, 0x63, 0x64, 0x65, 0x66});//40-43

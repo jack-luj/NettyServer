@@ -61,11 +61,30 @@ public class TesterA extends Thread{
 
 
 
+    public static void main(String[] args)
+    {
+        int i = 43690;
+        printInt("i", i);
+    }
 
+    static void printInt(String s, int i)
+    {
+        System.out.println(s + ", int:" + i + ",binary:");
+        System.out.print("   ");
+        for (int j = 31; j >= 0; j--)
+        {
+            if (((1 << j) & i) != 0)
+            {
+                System.out.print("1");
+            }
+            else
+            {
+                System.out.print("0");
+            }
+        }
+    }
 
-
-
-    public static void main(String[] args) {
+    public  void check(String[] args) {
         // write your code here
         String registerSuccess="23 23 00 4C 00 56 1E 16 3D 13 01 33 35 35 30 36 35 30 35 33 33 31 31 30 30 31 00 00 00 00 0C 00 00 56 1E 16 3D 31 32 33 34 35 36 37 38 39 31 39 39 31 32 33 34 35 36 37 38 39 31 39 39 39 31 32 33 34 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 6B ";
         String[]  sss =new String[10];
