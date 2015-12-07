@@ -2,16 +2,34 @@ package com.company;
 
 import io.netty.buffer.ByteBuf;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import static io.netty.buffer.Unpooled.buffer;
 
 public class Main {
+    public static Date parseStrToDate(String dateStr) {
+        Date date;
 
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+            date = (Date) dateFormat.parse(dateStr);
+        } catch (Exception e) {
+            return null;
+        }
+        return date;
+    }
     public static void main(String[] args) {
 
+    try{
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+    Date date = (Date) dateFormat.parse(String.valueOf(20120331));
+    System.out.println(date.toLocaleString());
+    }   catch (Exception e) {
 
+
+/*
         Long start=new Date().getTime();
         Long now=start;
         now=new Date().getTime();
@@ -56,6 +74,6 @@ public class Main {
 
 
         String byteStr=DataTool.getStringFromByteBuf(bb);
-        System.out.println(byteStr);
-    }
+        System.out.println(byteStr);*/
+}}
 }
