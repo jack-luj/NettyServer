@@ -1,7 +1,9 @@
 package com.company;
 
 import io.netty.buffer.ByteBuf;
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,13 +24,16 @@ public class Main {
     }
     public static void main(String[] args) {
 
-    try{
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-    Date date = (Date) dateFormat.parse(String.valueOf(20120331));
-    System.out.println(date.toLocaleString());
-    }   catch (Exception e) {
+       /* byte a = (byte) 128;
+        System.out.println((short) a - (short) 40);*/
+
+        String a="测试测试";
+        try{
+            System.out.println(java.net.URLEncoder.encode(a,"UTF-8"));
+        }catch (UnsupportedEncodingException ee){}
 
 
+    }
 /*
         Long start=new Date().getTime();
         Long now=start;
@@ -75,5 +80,5 @@ public class Main {
 
         String byteStr=DataTool.getStringFromByteBuf(bb);
         System.out.println(byteStr);*/
-}}
+
 }
