@@ -1,13 +1,14 @@
 package com.company;
 
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Administrator on 2016/1/17.
  */
 public class ConCurrentHashMapTest {
 
-    public static final HashMap<String, String> firstHashMap=new HashMap<String, String>();
+    public static final ConcurrentHashMap<String, String> firstHashMap=new ConcurrentHashMap<String, String>();
 
                 public static void main(String[] args) throws InterruptedException {
 
