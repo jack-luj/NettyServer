@@ -2,6 +2,7 @@ package com.company.NIOTBoxTest;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
@@ -17,7 +18,7 @@ public class Tester extends Thread{
     private Selector selector;
     private int index;
     private boolean hasSendData=false;
-
+    private  SocketChannel channel;
 
     public Tester(int i){
         this.index=i;
@@ -39,10 +40,10 @@ public class Tester extends Thread{
      * @throws IOException
      */
 
-    public void initClient(String ip,int port) throws IOException {
-
+    public void initClient(String ip,int port)  {
+            try{
             // 获得一个Socket通道
-            SocketChannel channel = SocketChannel.open();
+            channel = SocketChannel.open();
             // 设置通道为非阻塞
             channel.configureBlocking(false);
             // 获得一个通道管理器
@@ -53,6 +54,13 @@ public class Tester extends Thread{
             channel.connect(new InetSocketAddress(ip, port));
             //将通道管理器和该通道绑定，并为该通道注册SelectionKey.OP_CONNECT事件。
             channel.register(selector, SelectionKey.OP_CONNECT);
+            }catch (ConnectException e){
+                e.printStackTrace();
+                Tools.fileLog( new Date().toLocaleString()+" "+index+" connect error:"+e);
+
+            }catch (IOException e){
+                Tools.fileLog( new Date().toLocaleString()+" "+index+" io error:"+e);
+            }
     }
 
     /**
@@ -83,7 +91,7 @@ public class Tester extends Thread{
                     channel.configureBlocking(false);
                     //在这里可以给服务端发送信息哦
                    String sendS=getRegSuccessStr(index);
-                    //Tools.fileLog(new Date().toLocaleString() + " - " + index + " 发送注册报文");
+                   // Tools.fileLog(new Date().toLocaleString() + " - " + index + " 发送注册报文");
                    //channel.write(getByteBuffer(sendS));
                     //在和服务端连接成功之后，为了可以接收到服务端的信息，需要给通道设置读的权限。
                     channel.register(this.selector, SelectionKey.OP_READ);

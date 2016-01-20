@@ -16,12 +16,12 @@ import static io.netty.buffer.Unpooled.buffer;
  * Created by jack lu on 2016/1/18.
  */
 public class Tools {
-    public static int threadCount=3000;
+    public static int threadCount=10000;
     public static String hostIp="localhost";//121.40.157.200 //localhost
     public static int hostPort=9000;
     public static void main(String[] args) {
         try{
-            Tools.fileLog("测试开始" + new Date().toLocaleString());
+            Tools.fileLog( new Date().toLocaleString()+"测试开始，模拟用户数:" +threadCount);
             for(int i=1;i<=Tools.threadCount;i++)
                 //连接服务端，进行注册，并发送一条测试数据（可以通过验证并保存的）
                 new TBoxTester(i).start();
@@ -30,7 +30,7 @@ public class Tools {
 
 
     public static void fileLog(String conent) {
-
+        System.out.println(conent);
         String file="E:\\test-"+threadCount +".log";
         BufferedWriter out = null;
         try {
