@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class Tools {
     public static int threadCount=10000;
-    public static String hostIp="localhost";//121.40.157.200 //localhost/10.0.12.35
+    public static String hostIp="localhost";//localhost/10.0.12.35
     public static int hostPort=9000;
 
 
