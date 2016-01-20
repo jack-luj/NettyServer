@@ -87,7 +87,8 @@ public class ShortUrl {
         return responseResult.toString();
 }
     public static void main(String[] args) {
-        ShortUrl s=new ShortUrl();
-        System.out.println(s.getShortUrl("https://www.baidu.com/"));
+        //ShortUrl s=new ShortUrl();
+        //System.out.println(s.getShortUrl("https://www.baidu.com/"));
+        System.out.println("http:\\/\\/dwz.cn\\/11111".replace("\\",""));
     }
 }

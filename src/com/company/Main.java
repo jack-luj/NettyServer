@@ -23,17 +23,89 @@ public class Main {
         return date;
     }
     public static void main(String[] args) {
+        String by="23 23 00 0b 00 56 98 96 07 13 02 56 1e 16 3d 00 26";
+        System.out.println(by.length());
+        System.out.println(by.substring(by.length()-5,by.length()-3));
 
        /* byte a = (byte) 128;
         System.out.println((short) a - (short) 40);*/
 
-        String a="测试测试";
+     /*   String a="测试测试";
         try{
             System.out.println(java.net.URLEncoder.encode(a,"UTF-8"));
         }catch (UnsupportedEncodingException ee){}
 
 
+        String sa="a";  // 0x61 0x00
+        String ss="";   //0x00
+
+*/
+
+/*
+        Calendar c=Calendar.getInstance();
+        c.clear();
+        c.set(Calendar.YEAR,2016);
+        c.set(Calendar.MONTH, 1 - 1);
+        c.set(Calendar.DAY_OF_MONTH, 4);
+        c.set(Calendar.HOUR_OF_DAY,2);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND,0);
+        c.set(Calendar.MILLISECOND,0);
+        getHandleYearWeek(c.getTime());*/
+      /*  c.set(Calendar.YEAR,2017);
+        c.set(Calendar.MONTH, 1-1);
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        getYearMonth(c.getTime());*/
     }
+    /**
+     * 从当前时间得到需要处理周报的year,week参数
+      * @param date
+     */
+    public static void getHandleYearWeek(Date date){
+        System.out.println(date.toLocaleString());
+        date=new Date(date.getTime()-60*1000*60*24*7);//一周前的时间
+        System.out.println(date.toLocaleString());
+        int year=0;
+        int month=0;
+        int week=0;
+        Calendar c=Calendar.getInstance();
+        c.clear();
+        c.setFirstDayOfWeek(Calendar.MONDAY);
+        c.setTime(date);
+        year=c.get(Calendar.YEAR);
+        month=c.get(Calendar.MONTH);
+        week= c.get(Calendar.WEEK_OF_YEAR);
+        if(month==11&&week<=1){//DECEMBER出现了week=1
+        //最后一周跨年的情况特殊处理 2015-12-28取到的week_of_year是1,year是2015，归入下一年的第一周
+            year+=1;
+        }
+        System.out.println("处理年、周参数:" + year + "--" +   "" + week);
+    }
+
+
+
+    /**
+     * 从当前时间得到需要处理周报的year,month
+     * @param date
+     */
+    public static void getHandleYearMonth(Date date){
+        System.out.println(date.toLocaleString());
+        int year=0;
+        int month=0;
+        Calendar c=Calendar.getInstance();
+        c.clear();
+        c.setTime(date);
+        year=c.get(Calendar.YEAR);
+        month= c.get(Calendar.MONTH);
+        if(month==0){//当前JANUARY应该处理上一年的12月
+            year=year-1;
+            month=12;
+        }
+        System.out.println("处理年、月参数:"+year+"--"+month);
+    }
+
+
+
 /*
         Long start=new Date().getTime();
         Long now=start;
