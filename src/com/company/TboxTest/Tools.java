@@ -16,7 +16,7 @@ import static io.netty.buffer.Unpooled.buffer;
  * Created by jack lu on 2016/1/18.
  */
 public class Tools {
-    public static int threadCount=1000;
+    public static int threadCount=800;
     public static String hostIp="localhost"; //localhost
     public static int hostPort=9000;
     public static void main(String[] args) {
@@ -31,7 +31,7 @@ public class Tools {
 
     public static void fileLog(String conent) {
         System.out.println(conent);
-        String file="E:\\test-"+threadCount +".log";
+        String file="E:\\test-"+hostIp+"-"+threadCount +".log";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)));
