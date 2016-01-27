@@ -46,8 +46,8 @@ public class ClientHandler extends ChannelHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         String sendS=Tools.getRegSuccessStr(index);
-        Tools.fileLog(new Date().toLocaleString() + " - 【" + index + "】 发送注册报文");
-        ctx.channel().writeAndFlush(Tools.getByteBuf(sendS));
+        //Tools.fileLog(new Date().toLocaleString() + " - 【" + index + "】 发送注册报文");
+        //ctx.channel().writeAndFlush(Tools.getByteBuf(sendS));
     }
 
     @Override

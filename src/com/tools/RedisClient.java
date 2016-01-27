@@ -19,7 +19,7 @@ public class RedisClient {
         r.saveRealTimeDataToRedis(10000);
 
     }
-    String realTimeDataSuffix="1,2,3,4,5,6,7,8,9,10";
+    String realTimeDataSuffix="1,2,3,4,5";
     public  void saveRealTimeDataToRedis(int count){
         System.out.println(new Date().getTime() + ">>>>>>>>>>>>>write "+count+" start");
         for(int i=1;i<=count;i++){
