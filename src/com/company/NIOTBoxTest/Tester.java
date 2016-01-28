@@ -42,6 +42,7 @@ public class Tester extends Thread{
 
     public void initClient(String ip,int port)  {
             try{
+             Tools.fileLog(new Date().toLocaleString() + " - 【" + index + "】 正在连接服务器 " + ip + ":" + port);
             // 获得一个Socket通道
             channel = SocketChannel.open();
             // 设置通道为非阻塞
@@ -91,8 +92,8 @@ public class Tester extends Thread{
                     channel.configureBlocking(false);
                     //在这里可以给服务端发送信息哦
                    String sendS=getRegSuccessStr(index);
-                   // Tools.fileLog(new Date().toLocaleString() + " - " + index + " 发送注册报文");
-                   //channel.write(getByteBuffer(sendS));
+                    Tools.fileLog(new Date().toLocaleString() + " - " + index + " 发送注册报文");
+                   channel.write(getByteBuffer(sendS));
                     //在和服务端连接成功之后，为了可以接收到服务端的信息，需要给通道设置读的权限。
                     channel.register(this.selector, SelectionKey.OP_READ);
 
@@ -131,9 +132,9 @@ public class Tester extends Thread{
                         Tools.fileLog(new Date().toLocaleString() + " " + e.getMessage());
                     }
 
-                    Tools.fileLog(new Date().toLocaleString()+ " - " +index+" 实时数据发送完毕" );
-                    System.out.println(new Date().toLocaleString()+ " - " +index+" send realTime Data" );
-                    channel.write(getByteBuffer(sendStr));
+                   // Tools.fileLog(new Date().toLocaleString()+ " - " +index+" 实时数据发送完毕" );
+                    //System.out.println(new Date().toLocaleString()+ " - " +index+" send realTime Data" );
+                    //channel.write(getByteBuffer(sendStr));
                     hasSendData = true;
                   }
 

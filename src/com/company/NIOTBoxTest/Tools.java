@@ -28,7 +28,7 @@ public class Tools {
 
 
     public static void fileLog(String conent) {
-
+        System.out.println(conent);
         String file="E:\\test-"+threadCount +".log";
         BufferedWriter out = null;
         try {

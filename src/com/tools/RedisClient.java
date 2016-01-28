@@ -16,7 +16,7 @@ public class RedisClient {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         RedisClient r=  new RedisClient();
-        r.saveRealTimeDataToRedis(10000);
+        r.saveRealTimeDataToRedis(20000);
 
     }
     String realTimeDataSuffix="1,2,3,4,5";

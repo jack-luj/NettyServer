@@ -16,7 +16,7 @@ import static io.netty.buffer.Unpooled.buffer;
  * Created by jack lu on 2016/1/18.
  */
 public class Tools {
-    public static int threadCount=1000;
+    public static int threadCount=10000;
     public static String hostIp="localhost"; //localhost
     public static int hostPort=9000;
     public static void main(String[] args) {
