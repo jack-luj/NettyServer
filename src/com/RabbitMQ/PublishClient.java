@@ -29,7 +29,7 @@ public class PublishClient {
             String queueName ="queueA";
             channel.queueBind(queueName, exchangeName, routingKey);
 
-            byte[] messageBodyBytes = "Hello, world!".getBytes();
+            byte[] messageBodyBytes = "zzz  Hello, world!".getBytes();
             channel.basicPublish(exchangeName, routingKey, null, messageBodyBytes);
 
 

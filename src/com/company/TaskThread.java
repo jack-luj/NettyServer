@@ -26,7 +26,7 @@ public class TaskThread implements Runnable {
 
         long initialDelay1 = 1;
         long period1 = 1;
-        // ´ÓÏÖÔÚ¿ªÊ¼1ÃëÖÓÖ®ºó£¬Ã¿¸ô1ÃëÖÓÖ´ĞĞÒ»´Îjob1
+        // ä»ç°åœ¨å¼€å§‹1ç§’é’Ÿä¹‹åï¼Œæ¯éš”1ç§’é’Ÿæ‰§è¡Œä¸€æ¬¡job1
         service.scheduleAtFixedRate(
                 new TaskThread("job1"), initialDelay1,
                 period1, TimeUnit.SECONDS);
@@ -36,7 +36,7 @@ public class TaskThread implements Runnable {
 
         long initialDelay2 = 1;
         long delay2 = 1;
-        // ´ÓÏÖÔÚ¿ªÊ¼2ÃëÖÓÖ®ºó£¬Ã¿¸ô2ÃëÖÓÖ´ĞĞÒ»´Îjob2
+        // ä»ç°åœ¨å¼€å§‹2ç§’é’Ÿä¹‹åï¼Œæ¯éš”2ç§’é’Ÿæ‰§è¡Œä¸€æ¬¡job2
         service.scheduleWithFixedDelay(
                 new TaskThread("job2"), initialDelay2,
                 delay2, TimeUnit.SECONDS);

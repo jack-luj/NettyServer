@@ -30,7 +30,7 @@ public class TBoxTester extends Thread{
         try{
             connect(Tools.hostPort, String.valueOf(Tools.hostIp));
             }catch (Exception e){e.printStackTrace();
-            Tools.fileLog( new Date().toLocaleString()+" - ¡¾"+index+"¡¿ error:"+e);}
+            Tools.fileLog( new Date().toLocaleString()+" - ã€"+index+"ã€‘ error:"+e);}
     }
 
     private ScheduledExecutorService executor = Executors
@@ -38,8 +38,8 @@ public class TBoxTester extends Thread{
     EventLoopGroup group = new NioEventLoopGroup();
 
     public void connect(int port, String host) throws Exception {
-        // ÅäÖÃ¿Í»§¶ËNIOÏß³Ì×é
-        Tools.fileLog(new Date().toLocaleString()+" - ¡¾"+index+"¡¿ ÕıÔÚÁ¬½Ó·şÎñÆ÷ " + host + ":" + port);
+        // é…ç½®å®¢æˆ·ç«¯NIOçº¿ç¨‹ç»„
+        Tools.fileLog(new Date().toLocaleString()+" - ã€"+index+"ã€‘ æ­£åœ¨è¿æ¥æœåŠ¡å™¨ " + host + ":" + port);
         try {
             Bootstrap b = new Bootstrap();
             b.group(group).channel(NioSocketChannel.class)
@@ -51,20 +51,20 @@ public class TBoxTester extends Thread{
                             ch.pipeline().addLast(new ClientHandler(index));
                         }
                     });
-            // ·¢ÆğÒì²½Á¬½Ó²Ù×÷
+            // å‘èµ·å¼‚æ­¥è¿æ¥æ“ä½œ
             ChannelFuture future = b.connect(
                     new InetSocketAddress(host, port)).sync();
             future.channel().closeFuture().sync();
         } finally {
-            // ËùÓĞ×ÊÔ´ÊÍ·ÅÍê³ÉÖ®ºó£¬Çå¿Õ×ÊÔ´£¬ÔÙ´Î·¢ÆğÖØÁ¬²Ù×÷
+            // æ‰€æœ‰èµ„æºé‡Šæ”¾å®Œæˆä¹‹åï¼Œæ¸…ç©ºèµ„æºï¼Œå†æ¬¡å‘èµ·é‡è¿æ“ä½œ
             executor.execute(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         TimeUnit.SECONDS.sleep(1);
                         try {
-                            System.out.println(new Date().toLocaleString()+" - ¡¾"+index+"¡¿·¢ÆğÖØÁ¬");
-                            connect(port, host);// ·¢ÆğÖØÁ¬²Ù×÷
+                            System.out.println(new Date().toLocaleString()+" - ã€"+index+"ã€‘å‘èµ·é‡è¿");
+                            connect(port, host);// å‘èµ·é‡è¿æ“ä½œ
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

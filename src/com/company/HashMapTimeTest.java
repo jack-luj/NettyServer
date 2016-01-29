@@ -14,7 +14,7 @@ public class HashMapTimeTest {
             firstHashMap.put(String.valueOf(l),"data"+l);
         }
         for(int l=0;l<500000;l++){
-            //Èç¹ûkeyºÍvalue²»Í¬£¬ËµÃ÷ÔÚÁ½¸öÏß³ÌputµÄ¹ý³ÌÖÐ³öÏÖÒì³£¡£
+            //å¦‚æžœkeyå’Œvalueä¸åŒï¼Œè¯´æ˜Žåœ¨ä¸¤ä¸ªçº¿ç¨‹putçš„è¿‡ç¨‹ä¸­å‡ºçŽ°å¼‚å¸¸ã€‚
            // System.out.println(String.valueOf(l) + ":" + firstHashMap.get(String.valueOf(l)));
         }
         long t2=new Date().getTime();

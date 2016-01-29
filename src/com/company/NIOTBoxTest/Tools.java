@@ -18,9 +18,9 @@ public class Tools {
     public static void main(String[] args) {
         // write your code here
         try{
-            Tools.fileLog("²âÊÔ¿ªÊ¼"+new Date().toLocaleString());
+            Tools.fileLog("æµ‹è¯•å¼€å§‹"+new Date().toLocaleString());
             for(int i=1;i<=Tools.threadCount;i++)
-                //Á¬½Ó·þÎñ¶Ë£¬½øÐÐ×¢²á£¬²¢·¢ËÍÒ»Ìõ²âÊÔÊý¾Ý£¨¿ÉÒÔÍ¨¹ýÑéÖ¤²¢±£´æµÄ£©
+                //è¿žæŽ¥æœåŠ¡ç«¯ï¼Œè¿›è¡Œæ³¨å†Œï¼Œå¹¶å‘é€ä¸€æ¡æµ‹è¯•æ•°æ®ï¼ˆå¯ä»¥é€šè¿‡éªŒè¯å¹¶ä¿å­˜çš„ï¼‰
                 new Tester(i).start();
         }catch (Exception e){e.printStackTrace();}
         //    System.out.println("real connectionCount>>>>>>>>>>>>>>>>:"+Tester.connectionCount);

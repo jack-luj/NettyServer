@@ -21,9 +21,9 @@ public class Tools {
     public static int hostPort=9000;
     public static void main(String[] args) {
         try{
-            Tools.fileLog( new Date().toLocaleString()+"²âÊÔ¿ªÊ¼£¬Ä£ÄâÓÃ»§Êý:" +threadCount);
+            Tools.fileLog( new Date().toLocaleString()+"æµ‹è¯•å¼€å§‹ï¼Œæ¨¡æ‹Ÿç”¨æˆ·æ•°:" +threadCount);
             for(int i=1;i<=Tools.threadCount;i++)
-                //Á¬½Ó·þÎñ¶Ë£¬½øÐÐ×¢²á£¬²¢·¢ËÍÒ»Ìõ²âÊÔÊý¾Ý£¨¿ÉÒÔÍ¨¹ýÑéÖ¤²¢±£´æµÄ£©
+                //è¿žæŽ¥æœåŠ¡ç«¯ï¼Œè¿›è¡Œæ³¨å†Œï¼Œå¹¶å‘é€ä¸€æ¡æµ‹è¯•æ•°æ®ï¼ˆå¯ä»¥é€šè¿‡éªŒè¯å¹¶ä¿å­˜çš„ï¼‰
                 new TBoxTester(i).start();
         }catch (Exception e){e.printStackTrace();}
     }
@@ -50,7 +50,7 @@ public class Tools {
     }
 
     public static ByteBuf getByteBuf(String str){
-        //¸ù¾Ý16½øÖÆ×Ö·û´®µÃµ½ByteBuf¶ÔÏó(netty)
+        //æ ¹æ®16è¿›åˆ¶å­—ç¬¦ä¸²å¾—åˆ°ByteBufå¯¹è±¡(netty)
         ByteBuf bb=buffer(1024);
 
         String[] command=str.split(" ");
@@ -63,23 +63,23 @@ public class Tools {
     }
 
     public  static byte[] getBytesFromByteBuf(ByteBuf buf){
-        //»ùÓÚnetty
+        //åŸºäºŽnetty
         byte[] result = new byte[buf.readableBytes()];
         buf.readBytes(result, 0, buf.readableBytes());
         return result;
     }
 
     public  static String  getRegSuccessStr(int k){
-        //Éú³É×¢²á±¨ÎÄ
+        //ç”Ÿæˆæ³¨å†ŒæŠ¥æ–‡
         Long vin=10000000000000000l+k;//12345678919991234l+k;
         Long sn=100000000000l+k;//123456789199l+k
-        String start="23 23 00 4C 00 56 1E 16 3D 13 01 33 35 35 30 36 35 30 35 33 33 31 31 30 30 31 00 00 00 00 0C 00 00 56 1E 16 3D ";//°üÍ·ºÍsize
+        String start="23 23 00 4C 00 56 1E 16 3D 13 01 33 35 35 30 36 35 30 35 33 33 31 31 30 30 31 00 00 00 00 0C 00 00 56 1E 16 3D ";//åŒ…å¤´å’Œsize
         //String[] replace={"31","32","33","34","35","36","37","38","39"};
-        //¸ù¾Ý×¢²áÐ£Ñé½á¹û£¬ÐÎ³É·µ»ØÊý¾Ý°ü
+        //æ ¹æ®æ³¨å†Œæ ¡éªŒç»“æžœï¼Œå½¢æˆè¿”å›žæ•°æ®åŒ…
         StringBuilder sb=new StringBuilder();
         sb.append(start);
      /*   for (int j = 0; j <17 ; j++) {
-     //Ëæ»úÉú³Évin
+     //éšæœºç”Ÿæˆvin
             int max=8;
             int min=0;
             Random random = new Random();
@@ -100,7 +100,7 @@ public class Tools {
         for(int i=0;i<15;i++)
             bb.put(Integer.valueOf("00", 16).byteValue());
         bb.flip();
-        byte[] bodyData=getBytesFromByteBuffer(bb);//²»°üº¬checkSumµÄ×Ö½ÚÊý×é
+        byte[] bodyData=getBytesFromByteBuffer(bb);//ä¸åŒ…å«checkSumçš„å­—èŠ‚æ•°ç»„
         ByteBuffer re= ByteBuffer.allocate(1024);
         re.put(bodyData);
         re.put(getCheckSum(bodyData));
@@ -110,7 +110,7 @@ public class Tools {
         // return aaa;
     }
     public  static byte getCheckSum(byte[] bytes){
-        //½«×Ö½ÚÊý×é½øÐÐÒì»ò²Ù×÷ÇóºÍ
+        //å°†å­—èŠ‚æ•°ç»„è¿›è¡Œå¼‚æˆ–æ“ä½œæ±‚å’Œ
         byte sum=bytes[0];
         for(int i=1;i<bytes.length;i++){
             sum^=bytes[i];
@@ -125,7 +125,7 @@ public class Tools {
         return result;
     }
     public  static ByteBuffer getByteBuffer(String str){
-        //¸ù¾Ý16½øÖÆ×Ö·û´®µÃµ½buffer
+        //æ ¹æ®16è¿›åˆ¶å­—ç¬¦ä¸²å¾—åˆ°buffer
         ByteBuffer bb= ByteBuffer.allocate(1024);
         String[] command=str.split(" ");
         byte[] abc=new byte[command.length];
@@ -141,21 +141,21 @@ public class Tools {
     public  static String bytes2hex(byte[] bytes)
     {
         /**
-         * µÚÒ»¸ö²ÎÊýµÄ½âÊÍ£¬¼ÇµÃÒ»¶¨ÒªÉèÖÃÎª1
+         * ç¬¬ä¸€ä¸ªå‚æ•°çš„è§£é‡Šï¼Œè®°å¾—ä¸€å®šè¦è®¾ç½®ä¸º1
          *  signum of the number (-1 for negative, 0 for zero, 1 for positive).
          */
         BigInteger bigInteger = new BigInteger(1, bytes);
         return getSpaceHex(bigInteger.toString(16));
     }
     public  static String getSpaceHex(String str){
-        //½«²»´ø¿Õ¸ñµÄ16½øÖÆ×Ö·û´®¼ÓÉÏ¿Õ¸ñ
+        //å°†ä¸å¸¦ç©ºæ ¼çš„16è¿›åˆ¶å­—ç¬¦ä¸²åŠ ä¸Šç©ºæ ¼
         String re="";
         String regex = "(.{2})";
         re = str.replaceAll (regex, "$1 ");
         return re;
     }
     public  static String getSpaceHexFromLong(Long vin){
-        //½«Êý×Ö12345678919991234×ª»»³É31 32 33 34 35 36 37 38 39 31 39 39 39 31 32 33 34
+        //å°†æ•°å­—12345678919991234è½¬æ¢æˆ31 32 33 34 35 36 37 38 39 31 39 39 39 31 32 33 34
         String str=String.valueOf(vin);
         String re="";
         String regex = "(.{1})";

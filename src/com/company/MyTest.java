@@ -9,7 +9,7 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 public class MyTest {
-    // ½ÓÊÕÔÚrun·½·¨ÖĞ²¶»ñµÄÒì³££¬È»ºó×Ô¶¨Òå·½·¨Å×³öÒì³£
+    // æ¥æ”¶åœ¨runæ–¹æ³•ä¸­æ•è·çš„å¼‚å¸¸ï¼Œç„¶åè‡ªå®šä¹‰æ–¹æ³•æŠ›å‡ºå¼‚å¸¸
     //private static Throwable exception;
     /**
      * @param args
@@ -19,9 +19,9 @@ public class MyTest {
         String result = "";
         ExecutorService executor = Executors.newSingleThreadExecutor();
         FutureTask<String> future =
-                new FutureTask<String>(new Callable<String>() {//Ê¹ÓÃCallable½Ó¿Ú×÷Îª¹¹Ôì²ÎÊı
+                new FutureTask<String>(new Callable<String>() {//ä½¿ç”¨Callableæ¥å£ä½œä¸ºæ„é€ å‚æ•°
                     public String call() {
-                        //ÕæÕıµÄÈÎÎñÔÚÕâÀïÖ´ĞĞ£¬ÕâÀïµÄ·µ»ØÖµÀàĞÍÎªString£¬¿ÉÒÔÎªÈÎÒâÀàĞÍ
+                        //çœŸæ­£çš„ä»»åŠ¡åœ¨è¿™é‡Œæ‰§è¡Œï¼Œè¿™é‡Œçš„è¿”å›å€¼ç±»å‹ä¸ºStringï¼Œå¯ä»¥ä¸ºä»»æ„ç±»å‹
                         try {
                             Thread.sleep(10000);
                         } catch (InterruptedException e) {
@@ -32,7 +32,7 @@ public class MyTest {
                         return "11111";
                     }});
         executor.execute(future);
-        //ÔÚÕâÀï¿ÉÒÔ×ö±ğµÄÈÎºÎÊÂÇé
+        //åœ¨è¿™é‡Œå¯ä»¥åšåˆ«çš„ä»»ä½•äº‹æƒ…
         for(int i=0;i<8;i++){
             try {
                 Thread.sleep(2000);
@@ -41,10 +41,10 @@ public class MyTest {
         }
 
         try {
-           // result = future.get(5000, TimeUnit.MILLISECONDS); //È¡µÃ½á¹û£¬Í¬Ê±ÉèÖÃ³¬Ê±Ö´ĞĞÊ±¼äÎª5Ãë¡£Í¬Ñù¿ÉÒÔÓÃfuture.get()£¬²»ÉèÖÃÖ´ĞĞ³¬Ê±Ê±¼äÈ¡µÃ½á¹û
+           // result = future.get(5000, TimeUnit.MILLISECONDS); //å–å¾—ç»“æœï¼ŒåŒæ—¶è®¾ç½®è¶…æ—¶æ‰§è¡Œæ—¶é—´ä¸º5ç§’ã€‚åŒæ ·å¯ä»¥ç”¨future.get()ï¼Œä¸è®¾ç½®æ‰§è¡Œè¶…æ—¶æ—¶é—´å–å¾—ç»“æœ
             result = future.get();
         } catch (InterruptedException e) {
-            //System.out.println("ÈÎÎñÒÑ¾­È¡Ïû");
+            //System.out.println("ä»»åŠ¡å·²ç»å–æ¶ˆ");
             future.cancel(true);
         } catch (ExecutionException e) {
             future.cancel(true);

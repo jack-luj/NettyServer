@@ -34,26 +34,26 @@ public class Tester extends Thread{
     }
 
     /**
-     * »ñµÃÒ»¸öSocketÍ¨µÀ£¬²¢¶Ô¸ÃÍ¨µÀ×öÒ»Ğ©³õÊ¼»¯µÄ¹¤×÷
-     * @param ip Á¬½ÓµÄ·şÎñÆ÷µÄip
-     * @param port  Á¬½ÓµÄ·şÎñÆ÷µÄ¶Ë¿ÚºÅ
+     * è·å¾—ä¸€ä¸ªSocketé€šé“ï¼Œå¹¶å¯¹è¯¥é€šé“åšä¸€äº›åˆå§‹åŒ–çš„å·¥ä½œ
+     * @param ip è¿æ¥çš„æœåŠ¡å™¨çš„ip
+     * @param port  è¿æ¥çš„æœåŠ¡å™¨çš„ç«¯å£å·
      * @throws IOException
      */
 
     public void initClient(String ip,int port)  {
             try{
-             Tools.fileLog(new Date().toLocaleString() + " - ¡¾" + index + "¡¿ ÕıÔÚÁ¬½Ó·şÎñÆ÷ " + ip + ":" + port);
-            // »ñµÃÒ»¸öSocketÍ¨µÀ
+             Tools.fileLog(new Date().toLocaleString() + " - ã€" + index + "ã€‘ æ­£åœ¨è¿æ¥æœåŠ¡å™¨ " + ip + ":" + port);
+            // è·å¾—ä¸€ä¸ªSocketé€šé“
             channel = SocketChannel.open();
-            // ÉèÖÃÍ¨µÀÎª·Ç×èÈû
+            // è®¾ç½®é€šé“ä¸ºéé˜»å¡
             channel.configureBlocking(false);
-            // »ñµÃÒ»¸öÍ¨µÀ¹ÜÀíÆ÷
+            // è·å¾—ä¸€ä¸ªé€šé“ç®¡ç†å™¨
             this.selector = Selector.open();
 
-            // ¿Í»§¶ËÁ¬½Ó·şÎñÆ÷,ÆäÊµ·½·¨Ö´ĞĞ²¢Ã»ÓĞÊµÏÖÁ¬½Ó£¬ĞèÒªÔÚlisten£¨£©·½·¨ÖĞµ÷
-            //ÓÃchannel.finishConnect();²ÅÄÜÍê³ÉÁ¬½Ó
+            // å®¢æˆ·ç«¯è¿æ¥æœåŠ¡å™¨,å…¶å®æ–¹æ³•æ‰§è¡Œå¹¶æ²¡æœ‰å®ç°è¿æ¥ï¼Œéœ€è¦åœ¨listenï¼ˆï¼‰æ–¹æ³•ä¸­è°ƒ
+            //ç”¨channel.finishConnect();æ‰èƒ½å®Œæˆè¿æ¥
             channel.connect(new InetSocketAddress(ip, port));
-            //½«Í¨µÀ¹ÜÀíÆ÷ºÍ¸ÃÍ¨µÀ°ó¶¨£¬²¢Îª¸ÃÍ¨µÀ×¢²áSelectionKey.OP_CONNECTÊÂ¼ş¡£
+            //å°†é€šé“ç®¡ç†å™¨å’Œè¯¥é€šé“ç»‘å®šï¼Œå¹¶ä¸ºè¯¥é€šé“æ³¨å†ŒSelectionKey.OP_CONNECTäº‹ä»¶ã€‚
             channel.register(selector, SelectionKey.OP_CONNECT);
             }catch (ConnectException e){
                 e.printStackTrace();
@@ -65,39 +65,39 @@ public class Tester extends Thread{
     }
 
     /**
-     * ²ÉÓÃÂÖÑ¯µÄ·½Ê½¼àÌıselectorÉÏÊÇ·ñÓĞĞèÒª´¦ÀíµÄÊÂ¼ş£¬Èç¹ûÓĞ£¬Ôò½øĞĞ´¦Àí
+     * é‡‡ç”¨è½®è¯¢çš„æ–¹å¼ç›‘å¬selectorä¸Šæ˜¯å¦æœ‰éœ€è¦å¤„ç†çš„äº‹ä»¶ï¼Œå¦‚æœæœ‰ï¼Œåˆ™è¿›è¡Œå¤„ç†
      * @throws IOException
      */
     @SuppressWarnings("unchecked")
     public void listen() throws IOException {
-        // ÂÖÑ¯·ÃÎÊselector
+        // è½®è¯¢è®¿é—®selector
         while (true) {
             selector.select();
-            // »ñµÃselectorÖĞÑ¡ÖĞµÄÏîµÄµü´úÆ÷
+            // è·å¾—selectorä¸­é€‰ä¸­çš„é¡¹çš„è¿­ä»£å™¨
             Iterator ite = this.selector.selectedKeys().iterator();
             while (ite.hasNext()) {
                 SelectionKey key = (SelectionKey) ite.next();
-                // É¾³ıÒÑÑ¡µÄkey,ÒÔ·ÀÖØ¸´´¦Àí
+                // åˆ é™¤å·²é€‰çš„key,ä»¥é˜²é‡å¤å¤„ç†
                 ite.remove();
-                // Á¬½ÓÊÂ¼ş·¢Éú
+                // è¿æ¥äº‹ä»¶å‘ç”Ÿ
                 if (key.isConnectable()) {
                     SocketChannel channel = (SocketChannel) key
                             .channel();
-                    // Èç¹ûÕıÔÚÁ¬½Ó£¬ÔòÍê³ÉÁ¬½Ó
+                    // å¦‚æœæ­£åœ¨è¿æ¥ï¼Œåˆ™å®Œæˆè¿æ¥
                     if(channel.isConnectionPending()){
                         channel.finishConnect();
                     }
 
-                    // ÉèÖÃ³É·Ç×èÈû
+                    // è®¾ç½®æˆéé˜»å¡
                     channel.configureBlocking(false);
-                    //ÔÚÕâÀï¿ÉÒÔ¸ø·şÎñ¶Ë·¢ËÍĞÅÏ¢Å¶
+                    //åœ¨è¿™é‡Œå¯ä»¥ç»™æœåŠ¡ç«¯å‘é€ä¿¡æ¯å“¦
                    String sendS=getRegSuccessStr(index);
-                    Tools.fileLog(new Date().toLocaleString() + " - " + index + " ·¢ËÍ×¢²á±¨ÎÄ");
+                    Tools.fileLog(new Date().toLocaleString() + " - " + index + " å‘é€æ³¨å†ŒæŠ¥æ–‡");
                    channel.write(getByteBuffer(sendS));
-                    //ÔÚºÍ·şÎñ¶ËÁ¬½Ó³É¹¦Ö®ºó£¬ÎªÁË¿ÉÒÔ½ÓÊÕµ½·şÎñ¶ËµÄĞÅÏ¢£¬ĞèÒª¸øÍ¨µÀÉèÖÃ¶ÁµÄÈ¨ÏŞ¡£
+                    //åœ¨å’ŒæœåŠ¡ç«¯è¿æ¥æˆåŠŸä¹‹åï¼Œä¸ºäº†å¯ä»¥æ¥æ”¶åˆ°æœåŠ¡ç«¯çš„ä¿¡æ¯ï¼Œéœ€è¦ç»™é€šé“è®¾ç½®è¯»çš„æƒé™ã€‚
                     channel.register(this.selector, SelectionKey.OP_READ);
 
-                    // »ñµÃÁË¿É¶ÁµÄÊÂ¼ş
+                    // è·å¾—äº†å¯è¯»çš„äº‹ä»¶
                 } else if (key.isReadable()) {
                     read(key);
                 }
@@ -107,13 +107,13 @@ public class Tester extends Thread{
         }
     }
     /**
-     * ´¦Àí¶ÁÈ¡·şÎñ¶Ë·¢À´µÄĞÅÏ¢ µÄÊÂ¼ş
+     * å¤„ç†è¯»å–æœåŠ¡ç«¯å‘æ¥çš„ä¿¡æ¯ çš„äº‹ä»¶
      * @param key
      * @throws IOException
      */
     public void read(SelectionKey key) throws IOException{
         SocketChannel channel = (SocketChannel) key.channel();
-        // ´´½¨¶ÁÈ¡µÄ»º³åÇø
+        // åˆ›å»ºè¯»å–çš„ç¼“å†²åŒº
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         channel.read(buffer);
         buffer.flip();
@@ -124,7 +124,7 @@ public class Tester extends Thread{
             if (receiveDataHexString.length() == 51 && receiveDataHexString.substring(receiveDataHexString.length() - 6, receiveDataHexString.length() - 4).equals("00")) {
                 String sendStr = "23 23 00 39 00 56 04 BF DA 22 01 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 01 00 00 00 01 00 00 00 00 00 1E 41 00 00 72 1F 06 1F 00 EA 00 63 00 7B 00 86 04 D2 64 65 66 67 0F 41 43 0F 96 ";
                 if (hasSendData == false) {
-                //    Tools.fileLog("×¢²á½á¹û thread" + index + " receive:" + receiveDataHexString.length() + ":" + receiveDataHexString.substring(receiveDataHexString.length() - 6, receiveDataHexString.length() - 4));
+                //    Tools.fileLog("æ³¨å†Œç»“æœ thread" + index + " receive:" + receiveDataHexString.length() + ":" + receiveDataHexString.substring(receiveDataHexString.length() - 6, receiveDataHexString.length() - 4));
                     try {
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
@@ -132,7 +132,7 @@ public class Tester extends Thread{
                         Tools.fileLog(new Date().toLocaleString() + " " + e.getMessage());
                     }
 
-                   // Tools.fileLog(new Date().toLocaleString()+ " - " +index+" ÊµÊ±Êı¾İ·¢ËÍÍê±Ï" );
+                   // Tools.fileLog(new Date().toLocaleString()+ " - " +index+" å®æ—¶æ•°æ®å‘é€å®Œæ¯•" );
                     //System.out.println(new Date().toLocaleString()+ " - " +index+" send realTime Data" );
                     //channel.write(getByteBuffer(sendStr));
                     hasSendData = true;
@@ -142,16 +142,16 @@ public class Tester extends Thread{
         }
     }
     public  String  getRegSuccessStr(int k){
-        //Éú³É×¢²á±¨ÎÄ
+        //ç”Ÿæˆæ³¨å†ŒæŠ¥æ–‡
         Long vin=10000000000000000l+k;//12345678919991234l+k;
         Long sn=100000000000l+k;//123456789199l+k
-        String start="23 23 00 4C 00 56 1E 16 3D 13 01 33 35 35 30 36 35 30 35 33 33 31 31 30 30 31 00 00 00 00 0C 00 00 56 1E 16 3D ";//°üÍ·ºÍsize
+        String start="23 23 00 4C 00 56 1E 16 3D 13 01 33 35 35 30 36 35 30 35 33 33 31 31 30 30 31 00 00 00 00 0C 00 00 56 1E 16 3D ";//åŒ…å¤´å’Œsize
         //String[] replace={"31","32","33","34","35","36","37","38","39"};
-        //¸ù¾İ×¢²áĞ£Ñé½á¹û£¬ĞÎ³É·µ»ØÊı¾İ°ü
+        //æ ¹æ®æ³¨å†Œæ ¡éªŒç»“æœï¼Œå½¢æˆè¿”å›æ•°æ®åŒ…
         StringBuilder sb=new StringBuilder();
         sb.append(start);
      /*   for (int j = 0; j <17 ; j++) {
-     //Ëæ»úÉú³Évin
+     //éšæœºç”Ÿæˆvin
             int max=8;
             int min=0;
             Random random = new Random();
@@ -172,7 +172,7 @@ public class Tester extends Thread{
         for(int i=0;i<15;i++)
         bb.put(Integer.valueOf("00", 16).byteValue());
         bb.flip();
-        byte[] bodyData=getBytesFromByteBuffer(bb);//²»°üº¬checkSumµÄ×Ö½ÚÊı×é
+        byte[] bodyData=getBytesFromByteBuffer(bb);//ä¸åŒ…å«checkSumçš„å­—èŠ‚æ•°ç»„
         ByteBuffer re= ByteBuffer.allocate(1024);
         re.put(bodyData);
         re.put(getCheckSum(bodyData));
@@ -182,7 +182,7 @@ public class Tester extends Thread{
        // return aaa;
     }
     public  byte getCheckSum(byte[] bytes){
-        //½«×Ö½ÚÊı×é½øĞĞÒì»ò²Ù×÷ÇóºÍ
+        //å°†å­—èŠ‚æ•°ç»„è¿›è¡Œå¼‚æˆ–æ“ä½œæ±‚å’Œ
         byte sum=bytes[0];
         for(int i=1;i<bytes.length;i++){
             sum^=bytes[i];
@@ -199,7 +199,7 @@ public class Tester extends Thread{
         return result;
     }
     public  ByteBuffer getByteBuffer(String str){
-        //¸ù¾İ16½øÖÆ×Ö·û´®µÃµ½buffer
+        //æ ¹æ®16è¿›åˆ¶å­—ç¬¦ä¸²å¾—åˆ°buffer
         ByteBuffer bb= ByteBuffer.allocate(1024);
         String[] command=str.split(" ");
         byte[] abc=new byte[command.length];
@@ -215,21 +215,21 @@ public class Tester extends Thread{
     public  String bytes2hex(byte[] bytes)
     {
         /**
-         * µÚÒ»¸ö²ÎÊıµÄ½âÊÍ£¬¼ÇµÃÒ»¶¨ÒªÉèÖÃÎª1
+         * ç¬¬ä¸€ä¸ªå‚æ•°çš„è§£é‡Šï¼Œè®°å¾—ä¸€å®šè¦è®¾ç½®ä¸º1
          *  signum of the number (-1 for negative, 0 for zero, 1 for positive).
          */
         BigInteger bigInteger = new BigInteger(1, bytes);
         return getSpaceHex(bigInteger.toString(16));
     }
     public  String getSpaceHex(String str){
-        //½«²»´ø¿Õ¸ñµÄ16½øÖÆ×Ö·û´®¼ÓÉÏ¿Õ¸ñ
+        //å°†ä¸å¸¦ç©ºæ ¼çš„16è¿›åˆ¶å­—ç¬¦ä¸²åŠ ä¸Šç©ºæ ¼
         String re="";
         String regex = "(.{2})";
         re = str.replaceAll (regex, "$1 ");
         return re;
     }
     public  String getSpaceHexFromLong(Long vin){
-        //½«Êı×Ö12345678919991234×ª»»³É31 32 33 34 35 36 37 38 39 31 39 39 39 31 32 33 34
+        //å°†æ•°å­—12345678919991234è½¬æ¢æˆ31 32 33 34 35 36 37 38 39 31 39 39 39 31 32 33 34
         String str=String.valueOf(vin);
         String re="";
         String regex = "(.{1})";

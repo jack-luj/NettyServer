@@ -12,7 +12,7 @@ public class ConCurrentHashMapTest {
 
                 public static void main(String[] args) throws InterruptedException {
 
-                //Ïß³ÌÒ»
+                //çº¿ç¨‹ä¸€
                 Thread t1=new Thread(){
                         public void run() {
                                 for(int i=0;i<250;i++){
@@ -21,7 +21,7 @@ public class ConCurrentHashMapTest {
                             }
                     };
 
-                //Ïß³Ì¶þ
+                //çº¿ç¨‹äºŒ
                 Thread t2=new Thread(){
                         public void run() {
                                 for(int j=250;j<500;j++){
@@ -33,11 +33,11 @@ public class ConCurrentHashMapTest {
                 t1.start();
                 t2.start();
 
-                //Ö÷Ïß³ÌÐÝÃß1ÃëÖÓ£¬ÒÔ±ãt1ºÍt2Á½¸öÏß³Ì½«firstHashMapÌî×°Íê±Ï¡£
+                //ä¸»çº¿ç¨‹ä¼‘çœ 1ç§’é’Ÿï¼Œä»¥ä¾¿t1å’Œt2ä¸¤ä¸ªçº¿ç¨‹å°†firstHashMapå¡«è£…å®Œæ¯•ã€‚
                 Thread.currentThread().sleep(1000);
 
                 for(int l=0;l<500;l++){
-                        //Èç¹ûkeyºÍvalue²»Í¬£¬ËµÃ÷ÔÚÁ½¸öÏß³ÌputµÄ¹ý³ÌÖÐ³öÏÖÒì³£¡£
+                        //å¦‚æžœkeyå’Œvalueä¸åŒï¼Œè¯´æ˜Žåœ¨ä¸¤ä¸ªçº¿ç¨‹putçš„è¿‡ç¨‹ä¸­å‡ºçŽ°å¼‚å¸¸ã€‚
                         if(!String.valueOf(l).equals(firstHashMap.get(String.valueOf(l)))){
                                 System.err.println(String.valueOf(l)+":"+firstHashMap.get(String.valueOf(l)));
                             }

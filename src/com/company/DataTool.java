@@ -10,7 +10,7 @@ import static io.netty.buffer.Unpooled.buffer;
 public class DataTool {
 
     public  static String bytes2hex(byte[] bArray) {
-        //×Ö½ÚÊı¾İ×ª16½øÖÆ×Ö·û´®
+        //å­—èŠ‚æ•°æ®è½¬16è¿›åˆ¶å­—ç¬¦ä¸²
         StringBuffer sb = new StringBuffer(bArray.length);
         String sTemp;
         for (int i = 0; i < bArray.length; i++) {
@@ -22,7 +22,7 @@ public class DataTool {
         return getSpaceHex(sb.toString());
     }
     public static ByteBuf getByteBuf(String str){
-        //¸ù¾İ16½øÖÆ×Ö·û´®µÃµ½ByteBuf¶ÔÏó(netty)
+        //æ ¹æ®16è¿›åˆ¶å­—ç¬¦ä¸²å¾—åˆ°ByteBufå¯¹è±¡(netty)
         ByteBuf bb=buffer(1024);
 
         String[] command=str.split(" ");
@@ -34,7 +34,7 @@ public class DataTool {
         return bb;
     }
     public  static byte[] getBytesFromByteBuf(ByteBuf buf){
-        //»ùÓÚnetty
+        //åŸºäºnetty
         byte[] result = new byte[buf.readableBytes()];
         buf.readBytes(result, 0, buf.readableBytes());
         return result;
@@ -45,7 +45,7 @@ public class DataTool {
 
     }
     public  static String getSpaceHex(String str){
-        //½«²»´ø¿Õ¸ñµÄ16½øÖÆ×Ö·û´®¼ÓÉÏ¿Õ¸ñ
+        //å°†ä¸å¸¦ç©ºæ ¼çš„16è¿›åˆ¶å­—ç¬¦ä¸²åŠ ä¸Šç©ºæ ¼
         String re="";
         String regex = "(.{2})";
         re = str.replaceAll (regex, "$1 ");
