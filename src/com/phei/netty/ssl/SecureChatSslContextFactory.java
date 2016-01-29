@@ -38,7 +38,7 @@ import javax.net.ssl.TrustManagerFactory;
  * <p>
  * You will have to create your context differently in a real world application.
  * 
- * <h3>Client Certificate Authentication</h3>
+ * <h3>PublishClient Certificate Authentication</h3>
  * 
  * To enable client certificate authentication:
  * <ul>

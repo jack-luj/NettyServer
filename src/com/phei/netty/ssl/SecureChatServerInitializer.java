@@ -83,7 +83,7 @@ public class SecureChatServerInitializer extends
 	}
 	engine.setUseClientMode(false);
 
-	// Client auth
+	// PublishClient auth
 	if (SSLMODE.CSA.toString().equals(tlsMode))
 	    engine.setNeedClientAuth(true);
 	pipeline.addLast("ssl", new SslHandler(engine));

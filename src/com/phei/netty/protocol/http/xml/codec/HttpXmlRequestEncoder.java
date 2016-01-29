@@ -33,7 +33,7 @@ public class HttpXmlRequestEncoder extends
 		    "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
 	    headers.set(HttpHeaders.Names.ACCEPT_LANGUAGE, "zh");
 	    headers.set(HttpHeaders.Names.USER_AGENT,
-		    "Netty xml Http Client side");
+		    "Netty xml Http PublishClient side");
 	    headers.set(HttpHeaders.Names.ACCEPT,
 		    "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 	}

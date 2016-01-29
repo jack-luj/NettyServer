@@ -49,7 +49,7 @@ public class HeartBeatReqHandler extends ChannelHandlerAdapter {
 		&& message.getHeader().getType() == MessageType.HEARTBEAT_RESP
 			.value()) {
 	    System.out
-		    .println("Client receive server heart beat message : ---> "
+		    .println("PublishClient receive server heart beat message : ---> "
 			    + message);
 	} else
 	    ctx.fireChannelRead(msg);
@@ -66,7 +66,7 @@ public class HeartBeatReqHandler extends ChannelHandlerAdapter {
 	public void run() {
 	    NettyMessage heatBeat = buildHeatBeat();
 	    System.out
-		    .println("Client send heart beat messsage to server : ---> "
+		    .println("PublishClient send heart beat messsage to server : ---> "
 			    + heatBeat);
 	    ctx.writeAndFlush(heatBeat);
 	}
