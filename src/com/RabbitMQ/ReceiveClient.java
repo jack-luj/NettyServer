@@ -18,7 +18,7 @@ public class ReceiveClient {
         try{
             Connection conn = factory.newConnection();
             Channel channel = conn.createChannel();
-            String queueName="";
+            String queueName="queueA";
             boolean autoAck = false;
             channel.basicConsume(queueName, autoAck, "myConsumerTag",
                     new DefaultConsumer(channel) {
@@ -33,6 +33,7 @@ public class ReceiveClient {
                             String contentType = properties.getContentType();
                             long deliveryTag = envelope.getDeliveryTag();
                             // (process the message components here ...)
+                            System.out.println("receive:"+new String(body));
                             channel.basicAck(deliveryTag, false);
                         }
                     });

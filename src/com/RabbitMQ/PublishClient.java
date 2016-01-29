@@ -13,6 +13,9 @@ public class PublishClient {
         //factory.setVirtualHost("");
         factory.setHost("127.0.0.1");
         factory.setPort(5672);
+        factory.setAutomaticRecoveryEnabled(true);
+        factory.setNetworkRecoveryInterval(10000);
+
         try{
             String exchangeName="amq.direct";
             String routingKey="queueA";
