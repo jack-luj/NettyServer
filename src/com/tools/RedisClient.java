@@ -17,7 +17,7 @@ public class RedisClient {
         // TODO Auto-generated method stub
         RedisClient r=  new RedisClient();
         r.saveRealTimeDataToRedis(10000);
-
+        //r.testServer(10);
     }
     String realTimeDataSuffix="1,2,3,4,5";
     public  void saveRealTimeDataToRedis(int count){
@@ -29,6 +29,23 @@ public class RedisClient {
             jedis.sadd(inputKey, dataStr);
         }
         System.out.println(new Date().getTime() + ">>>>>>>>>>>>>write " + count + " end");
+
+    }
+
+    public  void testServer(int count){
+        System.out.println(new Date().getTime() + ">>>>>>>>>>>>>generate key from redis "+count+" start");
+        for(int i=1;i<=count;i++){
+            String inputKey="input"+ getRandomRealTimeDataSuffixFromRedis()+":";
+            System.out.println(inputKey);
+        }
+        System.out.println(new Date().getTime() + ">>>>>>>>>>>>>generate key from redis" + count + " end");
+
+        System.out.println(new Date().getTime() + ">>>>>>>>>>>>>generate key from file"+count+" start");
+        for(int i=1;i<=count;i++){
+            String inputKey="input"+ getRandomRealTimeDataSuffix()+":";
+            System.out.println(inputKey);
+        }
+        System.out.println(new Date().getTime() + ">>>>>>>>>>>>>generate key from file " + count + " end");
 
     }
     public RedisClient()
@@ -53,7 +70,7 @@ public class RedisClient {
 //        config.setMaxWait(1000l);
         config.setTestOnBorrow(false);
 
-        jedisPool = new JedisPool(config,"127.0.0.1",6379);//
+        jedisPool = new JedisPool(config,"192.168.85.129",6379);//
     }
 
     /**
@@ -69,17 +86,11 @@ public class RedisClient {
         config.setTestOnBorrow(false);
         // slave链接
         List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
-        shards.add(new JedisShardInfo("127.0.0.1", 6379));//120.55.98.235
+        shards.add(new JedisShardInfo("192.168.85.129", 6379));//120.55.98.235
 
         // 构造池
         shardedJedisPool = new ShardedJedisPool(config, shards);
     }
-
-
-
-
-
-
 
     public  String getRandomRealTimeDataSuffix(){
         String suffix="";
@@ -104,6 +115,25 @@ public class RedisClient {
         }
         return re;
     }
+
+    public  Set<String> getRealTimeDataSuffixesFromRedis(){
+        return jedis.smembers("available-data-handler");
+    }
+    public  String getRandomRealTimeDataSuffixFromRedis(){
+        String suffix="";
+        Set<String> suffixes=getRealTimeDataSuffixesFromRedis();
+        int _suffixes_size=suffixes.size();
+        if(_suffixes_size>0){
+            String[] suffixesArray = suffixes.toArray(new String[_suffixes_size-1]);
+            int max=_suffixes_size;
+            int min=0;
+            Random random = new Random();
+            int index = random.nextInt(max)%(max-min+1) + min;
+            suffix=suffixesArray[index];
+        }
+        return suffix;
+    }
+
 
 
     public void show() {
@@ -287,7 +317,7 @@ public class RedisClient {
         System.out.println("======================set==========================");
         // 清空数据
         System.out.println("清空库中所有数据："+jedis.flushDB());
-
+        System.out.println("查看sets集合中的所有元素:"+jedis.smembers("sets"));
         System.out.println("=============增=============");
         System.out.println("向sets集合中加入元素element001："+jedis.sadd("sets", "element001"));
         System.out.println("向sets集合中加入元素element002："+jedis.sadd("sets", "element002"));

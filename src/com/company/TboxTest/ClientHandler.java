@@ -46,8 +46,8 @@ public class ClientHandler extends ChannelHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         String sendS=Tools.getRegSuccessStr(index);
-        //Tools.fileLog(new Date().toLocaleString() + " - 【" + index + "】 发送注册报文");
-        //ctx.channel().writeAndFlush(Tools.getByteBuf(sendS));
+        Tools.fileLog(new Date().toLocaleString() + " - 【" + index + "】 发送注册报文");
+        ctx.channel().writeAndFlush(Tools.getByteBuf(sendS));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ClientHandler extends ChannelHandlerAdapter {
             Tools.fileLog(new Date().toLocaleString() + " - 【" + index + "】 收到:" + receiveDataHexString);
             if (receiveDataHexString.length() == 51 && receiveDataHexString.substring(receiveDataHexString.length() - 6, receiveDataHexString.length() - 4).equals("00")) {
                 ctx.executor().scheduleAtFixedRate(
-                        new RealTimeDataTask(ctx), 0, 10000,
+                        new RealTimeDataTask(ctx), 0, 15000,
                         TimeUnit.MILLISECONDS);
             }
         }

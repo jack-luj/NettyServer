@@ -29,7 +29,8 @@ public class TBoxTester extends Thread{
     {
         try{
             connect(Tools.hostPort, String.valueOf(Tools.hostIp));
-            }catch (Exception e){e.printStackTrace();
+            }catch (Exception e){
+            //e.printStackTrace();
             Tools.fileLog( new Date().toLocaleString()+" - 【"+index+"】 error:"+e);}
     }
 
@@ -66,7 +67,8 @@ public class TBoxTester extends Thread{
                             System.out.println(new Date().toLocaleString()+" - 【"+index+"】发起重连");
                             connect(port, host);// 发起重连操作
                         } catch (Exception e) {
-                            e.printStackTrace();
+                        //e.printStackTrace();
+                            System.out.println(e.getMessage());
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();

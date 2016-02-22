@@ -16,7 +16,7 @@ import static io.netty.buffer.Unpooled.buffer;
  * Created by jack lu on 2016/1/18.
  */
 public class Tools {
-    public static int threadCount=10000;
+    public static int threadCount=1;
     public static String hostIp="localhost"; //localhost
     public static int hostPort=9000;
     public static void main(String[] args) {
@@ -25,17 +25,20 @@ public class Tools {
             for(int i=1;i<=Tools.threadCount;i++)
                 //连接服务端，进行注册，并发送一条测试数据（可以通过验证并保存的）
                 new TBoxTester(i).start();
-        }catch (Exception e){e.printStackTrace();}
+        }catch (Exception e){
+            //e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
     }
 
 
-    public static void fileLog(String conent) {
-        System.out.println(conent);
+    public static void fileLog(String content) {
+        System.out.println(content);
         String file="E:\\test-"+hostIp+"-"+threadCount +".log";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)));
-            out.write(conent+"\r\n");
+            out.write(content+"\r\n");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

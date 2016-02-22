@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by jack lu on 2016/1/14.
  */
 public class Tools {
-    public static int threadCount=10000;
+    public static int threadCount=1;
     public static String hostIp="localhost";//localhost/10.0.12.35
     public static int hostPort=9000;
 
