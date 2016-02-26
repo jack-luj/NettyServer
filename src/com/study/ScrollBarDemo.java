@@ -14,13 +14,13 @@ public class ScrollBarDemo {
     public static void main(String[] args) {
         DrawFrame frame = new DrawFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.show();
+        frame.setVisible(true);
     }
 
 }
 
 class DrawFrame extends JFrame {
-    private static String txt=buildTxt(100);
+    private static String txt=buildTxt(30);
     public DrawFrame() {
         setTitle("ScrollBarDemo");
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -58,15 +58,15 @@ class DrawFrame extends JFrame {
     class DrawPanel extends JPanel {
         private int scrollBarValue=0;
 
-        public void paintComponent(Graphics g,double leftX,  double topY , double width,  double height) {
+        public void paintComponent(Graphics g,double leftX,  double topY ) {
             super.paintComponent(g);
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setFont(new Font("", 12, 20));
 
-            String[] str=format(txt,this.getWidth()-6,g);//最大行宽=窗体宽度-6
-            drawTxtArray(str,g2,10,(int) topY + 20);
+            g.setFont(new Font("", Font.ROMAN_BASELINE, 16));
 
-            g2.drawString("这是最后一行文本" + this.getWidth(), 10, this.getHeight() - 5 > 0 ? this.getHeight() - 5 : 0);
+            String[] str=format(txt,this.getWidth(),g);//最大行宽=窗体宽度-6
+            drawTxtArray(str,g,0,(int) topY + 10);//起始坐标
+
+            g.drawString("这是最后一行文本 当前字体行高:" + g.getFontMetrics().getHeight()+"  窗体宽度:"+this.getWidth(), 0, this.getHeight()-5 );
         }
 
         // 字符串切割,实现字符串自动换行
@@ -108,15 +108,15 @@ class DrawFrame extends JFrame {
         /**
          * 写字符串数组到指定起始坐标
          * @param texts 文本数组
-         * @param g Graphics2D
+         * @param g Graphics
          * @param x 起始坐标x
          * @param y 起始坐标y
          */
-        public void drawTxtArray(String[] texts,Graphics2D g,int x,int y){
+        public void drawTxtArray(String[] texts,Graphics g,int x,int y){
             for(int i=0;i<texts.length;i++){
-                if(y+20*i<=this.getHeight()-g.getFontMetrics().getHeight()){
+                if(y+g.getFontMetrics().getHeight()*i<=this.getHeight()-g.getFontMetrics().getHeight()){
                     //确保文本不会绘制到最后一行的保留区域
-                    g.drawString(texts[i], 10, y + 20*i);
+                    g.drawString(texts[i], 0, y + g.getFontMetrics().getHeight()*i);
                 }
 
             }
@@ -129,7 +129,7 @@ class DrawFrame extends JFrame {
         public void paint(Graphics g) {
 
             System.out.println(new Date().toLocaleString() + " 重绘..." + this.getWidth() + ":" + this.getHeight()+" value:"+scrollBarValue);
-            paintComponent(g, 10 + (this.getWidth() - this.getWidth()), 10 - scrollBarValue * 5 + (this.getHeight() - this.getHeight()), 200, 150);
+            paintComponent(g, 0, 10 - scrollBarValue * 5 );
         }
 
         /**
@@ -152,7 +152,10 @@ class DrawFrame extends JFrame {
     public static String buildTxt(int lineLength){
         StringBuilder sb=new StringBuilder();
         for(int i=0;i < lineLength; i++) {
-            sb.append(new Date().getTime()).append("-").append(i+"t");
+            //sb.append(new Date().getTime()).append("-").append(i+"t");
+            for(int j=65;j<91;j++){
+                sb.append((char)j).append("中文");
+            }
         }
         return sb.toString();
     }
