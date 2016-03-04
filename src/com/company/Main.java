@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,6 +25,19 @@ public class Main {
         return date;
     }
     public static void main(String[] args) {
+
+        BigDecimal bigLoanAmount = new BigDecimal(123.456);   //创建BigDecimal对象
+        BigDecimal bigInterestRate = new BigDecimal(456);
+        BigDecimal bigInterest = bigLoanAmount.multiply(bigInterestRate); //BigDecimal运算
+        NumberFormat currency = NumberFormat.getCurrencyInstance();    //建立货币格式化引用
+        NumberFormat percent = NumberFormat.getPercentInstance();     //建立百分比格式化用
+        percent.setMaximumFractionDigits(3);               //百分比小数点最多3位
+        //利用BigDecimal对象作为参数在format()中调用货币和百分比格式化
+        System.out.println("Loan amount:\t" + currency.format(bigLoanAmount));
+        System.out.println("Interest rate:\t" + percent.format(bigInterestRate));
+        System.out.println("Interest:\t" + currency.format(bigInterest));
+
+
         String by="23 23 00 0b 00 56 98 96 07 13 02 56 1e 16 3d 00 26";
         System.out.println(by.length());
         System.out.println(by.substring(by.length()-5,by.length()-3));

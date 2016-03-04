@@ -9,19 +9,16 @@ import java.util.Vector;
 
 import javax.swing.*;
 
-public class ScrollBarDemo {
+public class ScrollBarDemo extends JFrame {
 
     public static void main(String[] args) {
-        DrawFrame frame = new DrawFrame();
+        ScrollBarDemo frame = new ScrollBarDemo();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
-}
-
-class DrawFrame extends JFrame {
     private static String txt=buildTxt(30);
-    public DrawFrame() {
+    public ScrollBarDemo() {
         setTitle("ScrollBarDemo");
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         // 将 panel 加到 frame
