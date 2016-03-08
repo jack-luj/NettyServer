@@ -6,12 +6,12 @@ package com.study;
 public class Test {
     public static void main(String[] args) {
         // 画一个半径为10，旋转为0，空白为全身空格，填充为★的五角星
-        Pentagram pen = new Pentagram(10, 0, ' ', '★');
+        Pentagrama pen = new Pentagrama(10, 0, ' ', '★');
         // 在控制台上输出这个五角星
         Draw.printCanvas(pen.getPentagram());
     }
 }
-class Pentagram {
+class Pentagrama {
     private final char FILL_CHAR;   // 填充字符
     private final char SPACE_CHAR;  // 空档字符
     private final int R;            // 五角星的外接圆半径
@@ -26,7 +26,7 @@ class Pentagram {
      * @param spaceChar 画布上空白处填充字符
      * @param fillChar 画布上线条部分填充字符
      */
-    public Pentagram(int radius, float rotation, char spaceChar, char fillChar) {
+    public Pentagrama(int radius, float rotation, char spaceChar, char fillChar) {
         this.R = radius;
         this.ROTATION = rotation;
         this.FILL_CHAR = fillChar;
