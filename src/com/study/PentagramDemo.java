@@ -2,121 +2,65 @@ package com.study;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Date;
 
 /**
  * Created by jack lu on 2016/3/8.
  */
-public class PentagramDemo extends JPanel {
+public class PentagramDemo extends JFrame {
 
-    private static final long serialVersionUID = 1L;
-
-    private JFrame frame = null;
-
-    private int r =150; // 外顶点外接圆半径
-
-    private int startX;
-    private int startY;
-    private double rotate;
-    public int getStartX() {
-        return startX;
-    }
-
-    public void setStartX(int startX) {
-        this.startX = startX;
-    }
-
-    public int getStartY() {
-        return startY;
-    }
-
-    public void setStartY(int startY) {
-        this.startY = startY;
-    }
-
-    private Point pa;
-    private Point pb;
-    private Point pc;
-    private Point pd;
-    private Point pe;
-
-
-    public PentagramDemo(int startX, int startY) {
-        this.startX=startX;
-        this.startY=startY;
-      //  this.math();
-        frame = new JFrame("五角星");
-        frame.getContentPane().add(this);
+    public static void main(String[] args) {
+        PentagramDemo frame = new PentagramDemo();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300,300);
         frame.setVisible(true);
     }
+    public PentagramDemo() {
+        setTitle("PentagramDemo");
+        setSize(800, 600);
+        setBackground(Color.red);
+        // 将 panel 加到 frame
+        DrawPanel panel = new DrawPanel();
+        Container contentPane = getContentPane();
+        contentPane.add(panel, BorderLayout.CENTER);
 
-    private void math() {
-        int c = 360 / 5; // 弧对应角度 1等分
-        pa=new Point(r+startX,0+startY);
-        pb=new Point((int)(Math.sin(angleToRadian(54))*Math.sin(angleToRadian(36))*2*r)+r+startX,(int)(Math.cos(angleToRadian(54))*Math.sin(angleToRadian(36))*2*r)+startY);
-        pc=new Point((int)((int)(Math.sin(angleToRadian(c))*2*r)*Math.sin(angleToRadian(18)))+r+startX,(int)(Math.cos(angleToRadian(18))*(int)(Math.sin(angleToRadian(c))*2*r))+startY);
-        pd=new Point(r-(int)((int)(Math.sin(angleToRadian(c))*2*r)*Math.sin(angleToRadian(18)))+startX,(int)(Math.cos(angleToRadian(18))*(int)(Math.sin(angleToRadian(c))*2*r))+startY);
-        pe=new Point(r-(int)(Math.sin(angleToRadian(54))*Math.sin(angleToRadian(36))*2*r)+startX,(int)(Math.cos(angleToRadian(54))*Math.sin(angleToRadian(36))*2*r)+startY);
-    }
-    double angleToRadian(double angle){
-        //角度转弧度
-        return Math.PI*angle/180;
-    }
-
-    public void paint(Graphics g) {
-
-        startX=5;
-        startY=5;
-        r=(Math.min(this.getWidth(),this.getHeight())-10)/2;
-        Graphics2D g2=(Graphics2D) g;
-        rotate=rotate+0.1;
-        g2.rotate(rotate,startX+r*1.0,(startY+r)*1.0);
-        math();
-        super.paint(g);
-        g.setColor(Color.RED);
+      }
 
 
-        g.drawOval(startX, startY, 2 * r, 2 * r);
-        g.setColor(Color.RED);
-        g.drawLine(pa.getX(), pa.getY(), pc.getX(), pc.getY());
-        g.drawLine(pb.getX(), pb.getY(), pd.getX(), pd.getY());
-        g.drawLine(pc.getX(), pc.getY(), pe.getX(), pe.getY());
-        g.drawLine(pd.getX(), pd.getY(), pa.getX(), pa.getY());
-        g.drawLine(pe.getX(), pe.getY(), pb.getX(), pb.getY());
+    class DrawPanel extends JPanel {
+
+        public void paintComponent(Graphics g ) {
+            this.setBackground(Color.RED);
+            super.paintComponent(g);
+            Graphics2D g2=(Graphics2D) g;
+
+            Pentagram p1=new Pentagram(60,100,100,0);
+            drawingPentagram(p1, g2);
+            Pentagram p2=new Pentagram(300,60,40,0.2);
+            drawingPentagram(p2, g2);
+            Pentagram p3=new Pentagram(350,130,40,0.2);
+            drawingPentagram(p3, g2);
+            Pentagram p4=new Pentagram(380,210,40,0.2);
+            drawingPentagram(p4, g2);
+            Pentagram p5=new Pentagram(400,290,40,0.25);
+            drawingPentagram(p5, g2);
+
+           // g2.fillOval(100,300,100,100);
+     //       g.drawString("这是最后一行文本 当前字体行高:" + g.getFontMetrics().getHeight()+"  窗体宽度:"+this.getWidth(), 0, this.getHeight()-5 );
+        }
+        public void drawingPentagram(Pentagram p,Graphics2D g){
+            g.setColor(Color.yellow);
+            g.rotate(p.getRotate(), (p.getStartX() + p.getR()) * 1.0, (p.getStartY() + p.getR()) * 1.0);
+            // g.drawOval(p.getStartX(), p.getStartY(), p.getR() * 2, p.getR() * 2);
+            g.drawLine(p.getX1(), p.getY1(), p.getX3(), p.getY3());
+            g.drawLine(p.getX2(), p.getY2(), p.getX4(), p.getY4());
+            g.drawLine(p.getX3(), p.getY3(), p.getX5(), p.getY5());
+            g.drawLine(p.getX4(), p.getY4(), p.getX1(), p.getY1());
+            g.drawLine(p.getX5(), p.getY5(), p.getX2(), p.getY2());
 
         }
-    public void repaint(int value) {
-        System.out.println(">>repaint");
-        super.repaint();
-    }
-    public static void main(String[] args) {
-        new PentagramDemo(100,100);
-    }
-
-    class Point{
-        public Point(int x,int y){
-            this.x=x;
-            this.y=y;
+        public void paint(Graphics g) {
+           paintComponent(g );
         }
 
-        int x;
-        int y;
-
-        public int getX() {
-            return x;
-        }
-
-        public void setX(int x) {
-            this.x = x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
     }
 }
