@@ -20,24 +20,25 @@ public class VirtualCar {
         this.license = license;
         this.activeTime = activeTime;
     }
-
-    public VirtualCar(){
-
-    }
-
     /**
-     * ¼¤»î
+     * æ¿€æ´»
      */
     private void active(){
-        //todo ¼¤»î³µÁ¾
+        //todo æ¿€æ´»è½¦è¾†
+        System.out.println("æ¿€æ´»:" + obdCode + " " + new Date().toLocaleString());
     }
 
     /**
-     * Õı³£ĞĞÊ»
+     * æ­£å¸¸è¡Œé©¶
      */
     private void drive(){
-        //todo ·¢ËÍĞĞÊ»Êı¾İ
-        //todo ·¢ËÍ¶¨Î»Êı¾İ
+        //todo å‘é€è¡Œé©¶æ•°æ®
+        //todo å‘é€å®šä½æ•°æ®
+        System.out.println("å¯åŠ¨:"+obdCode+" "+sn+" " +new Date().toLocaleString());
+        System.out.println("è¡Œé©¶:" + obdCode + " " + sn + " " + new Date().toLocaleString());
+        System.out.println("è¡Œé©¶:" + obdCode + " " + sn + " " + new Date().toLocaleString());
+        System.out.println("è¡Œé©¶:" + obdCode + " " + sn + " " + new Date().toLocaleString());
+        System.out.println("ç†„ç«:"+obdCode+" "+sn+" " +new Date().toLocaleString());
     }
 
     public int getId() {
@@ -78,5 +79,11 @@ public class VirtualCar {
 
     public void setActiveTime(Date activeTime) {
         this.activeTime = activeTime;
+    }
+
+    public static  void main(String[] args){
+        VirtualCar vr=new VirtualCar(1,"IN123456789","HUGY3671234567890","äº¬N12345",new Date());
+        vr.active();
+        vr.drive();
     }
 }
