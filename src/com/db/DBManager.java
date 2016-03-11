@@ -10,7 +10,7 @@ import java.sql.Statement;
 
 public class DBManager {
     Connection conn = null;
-    String url = "jdbc:mysql://localhost:3306/incardb?"
+    String url = "jdbc:mysql://localhost:3306/incarobd?"
             + "user=root&password=123456&useUnicode=true&characterEncoding=UTF8";
 
     public void buildConnection() {
