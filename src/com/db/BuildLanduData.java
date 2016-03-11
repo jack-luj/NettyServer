@@ -71,8 +71,6 @@ public class BuildLanduData {
         }
     }
 
-
-
     public String getSql(String s,int id,String date,int minDate,int maxDate,int minHour,int maxHour){
         String obdId="INCAR"+id+""+Tools.getRandom4int();
         s = s.replace("{0}", obdId);
