@@ -1,7 +1,6 @@
 package com.db;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created by jack lu on 2016/3/7.
@@ -27,7 +26,7 @@ public class Tools {
         }
         return s;
     }
-    public static void writeTxt(String content){
+    public static void writeTxt1(String content){
         String filename="d:\\sql.txt";
         try{
             FileWriter fileWriter=new FileWriter(filename);
@@ -35,5 +34,24 @@ public class Tools {
             fileWriter.flush();
             fileWriter.close();
         }catch (IOException e){e.printStackTrace();}
+    }
+
+    public static void writeTxt(String content) {
+        System.out.println(content);
+        String file="d:\\sql.txt";
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(file, true)));
+            out.write(content+"\r\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

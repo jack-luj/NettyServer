@@ -370,6 +370,15 @@ public class DateUtil {
 		return dayNames[dayOfWeek - 1];
 
 	}
+
+	/**
+	 * 北京时间转UTC时间
+	 * @param date 日期
+	 * @return
+	 */
+	public static Date gmt8toUTC(Date date){
+		return new Date(date.getTime()-1000*60*60*8);
+	}
 	
 	/**
 	  * 计算两个日期之间的假期
