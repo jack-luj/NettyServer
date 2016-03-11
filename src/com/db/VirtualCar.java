@@ -15,6 +15,7 @@ public class VirtualCar {
     private Date activeTime;
     private Date currentDate;
     private int tripId;
+    private int totalMileage;
 
     public VirtualCar(int id, String obdCode, String vin, String license,String simNumber, Date activeTime) {
         this.id = id;
@@ -24,6 +25,7 @@ public class VirtualCar {
         this.simNumber=simNumber;
         this.activeTime = activeTime;
         tripId=1;
+        totalMileage=Tools.getNoBetween(8000,16000);
     }
 
 
@@ -117,11 +119,13 @@ public class VirtualCar {
                     break;
                 }
             }
+            totalMileage=totalMileage+startDistance;
+            Stringtmp = Stringtmp.replace("{currentMileage}",String.valueOf(totalMileage));
+            Stringtmp = Stringtmp.replace("{mileage}",String.valueOf(startDistance));
             Stringtmp = Stringtmp.replace("{driveTime}",String.valueOf(alreadyDriveSeconds));
             Stringtmp = Stringtmp.replace("{flameOutTime}",DateUtil.format(new Date(currentDate.getTime() + 1000 * alreadyDriveSeconds)));
             Stringtmp = Stringtmp.replace("{lastUpdateTime}",DateUtil.format(new Date(currentDate.getTime() + 3 + 1000 * alreadyDriveSeconds)));
             Stringtmp = Stringtmp.replace("{flameOutLocationTime}",DateUtil.format(DateUtil.gmt8toUTC(new Date(currentDate.getTime() + 2 + 1000 * alreadyDriveSeconds))));
-
 
             Tools.writeTxt(Stringtmp);
             Tools.writeTxt("-- 本次启动后行驶时间:" + obdCode + " " + alreadyDriveSeconds + " 秒:");
