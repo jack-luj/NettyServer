@@ -11,11 +11,17 @@ import java.util.List;
 public class Generator {
 
     public static  void main(String[] args){
+
+
+
+
+        long start=new Date().getTime();
+
         File log=new File("d:\\sql.txt");
         log.delete();
         int startObdcode=1001000;
+        Date driveDeadLine=DateUtil.parseStrToDate("2015-06-20 08:30:00");
 
-        int count20156=Tools.getNoBetween(20,30);
         List<Integer> countList=new ArrayList<Integer>();
         List<String> preDateStrList=new ArrayList<String>();
         countList.add(Tools.getNoBetween(20,30));
@@ -49,14 +55,18 @@ public class Generator {
                 String license="京NC"+Tools.getWidthNo(1000,9999,4);
                 String simNumber="199"+Tools.getWidthNo(10000000,99999999,8);
                 Date activeTime=DateUtil.parseStrToDate(preDateStrList.get(i) + Tools.getWidthNo(1, 30, 2) + " " + Tools.getWidthNo(8, 19, 2) + ":" + Tools.getWidthNo(1, 59, 2) + ":" + Tools.getWidthNo(1, 59, 2) + "");
-                VirtualCar vr=new VirtualCar(1,obdCode,sn,license,simNumber,activeTime);
+                if(i==preDateStrList.size()-1){
+                    activeTime=DateUtil.parseStrToDate(preDateStrList.get(i) + Tools.getWidthNo(1, 13, 2) + " " + Tools.getWidthNo(8, 19, 2) + ":" + Tools.getWidthNo(1, 59, 2) + ":" + Tools.getWidthNo(1, 59, 2) + "");
+
+                }
+                VirtualCar vr=new VirtualCar(1,obdCode,sn,license,simNumber,activeTime,driveDeadLine);
                 vr.enable();
                 startObdcode++;
             }
         }
 
 
-
-
+        long end=new Date().getTime();
+        Tools.writeTxt("-- 耗时:" + (end - start) + "ms");
     }
 }

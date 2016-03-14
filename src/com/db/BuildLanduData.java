@@ -4,6 +4,7 @@ import javax.tools.Tool;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by jack lu on 2016/3/4.
@@ -11,12 +12,12 @@ import java.util.List;
 public class BuildLanduData {
 
     public static  void main(String[] args){
-        BuildLanduData buildLanduData=new BuildLanduData();
-        DBManager dbManager=new DBManager();
-        long start=new Date().getTime();
-        buildLanduData.buildData();
-        long end=new Date().getTime();
-        System.out.println("耗时:"+(end-start)+"ms");
+
+        TimeZone tz = TimeZone.getTimeZone("America/Los_Angeles");
+
+        Date a=DateUtil.parseStrToDate("2015-10-11 06:30:00");
+        Date b=DateUtil.parseStrToDate("2015-10-13 06:31:00");
+        System.out.println(DateUtil.diffDate(a,b));
 
     }
 

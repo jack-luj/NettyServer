@@ -208,12 +208,12 @@ public class DateUtil {
 
 	/**
 	 * 功能描述：日期相减
-	 * @param date 日期
-	 * @param date1 日期
+	 * @param dateA 日期
+	 * @param dateB 日期
 	 * @return 返回相减后的天数
 	 */
-	public static int diffDate(Date date, Date date1) {
-		return (int) ((getMillis(date) - getMillis(date1)) / (24 * 3600 * 1000));
+	public static int diffDate(Date dateA, Date dateB) {
+		return (int) ((dateB.getTime() - dateA.getTime()) / (24 * 3600 * 1000));
 	}
 
 	/**
