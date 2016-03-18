@@ -17,8 +17,8 @@ public class BuildLanduData {
 
         Date a=DateUtil.parseStrToDate("2015-10-11 06:30:00");
         Date b=DateUtil.parseStrToDate("2015-10-13 06:31:00");
-        System.out.println(DateUtil.diffDate(a,b));
-
+       // System.out.println(DateUtil.diffDate(a,b));
+        System.out.println(DateUtil.format(a,"yyyy-MM-dd'T'hh:mm:ss"));
     }
 
     public void buildData(){
