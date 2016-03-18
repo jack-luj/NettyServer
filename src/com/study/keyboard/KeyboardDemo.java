@@ -11,6 +11,9 @@ import java.util.Date;
  * Created by jack lu on 2016/3/18.
  */
 public class KeyboardDemo extends JFrame {
+    private Color bColor=Color.black;
+    private Color fColor=Color.green;
+
     public static void main(String[] args) {
         KeyboardDemo frame = new KeyboardDemo();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -19,8 +22,7 @@ public class KeyboardDemo extends JFrame {
 
 
     public KeyboardDemo() {
-        Color bColor=Color.black;
-        Color fColor=Color.green;
+
 
         setTitle("KeyboardDemo");
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -61,10 +63,25 @@ public class KeyboardDemo extends JFrame {
                 }
 
                 if(e.isControlDown()&&e.getKeyCode()== KeyEvent.VK_LEFT){
-                    panel.count=panel.count-2<10?10:panel.count-2;
+                    panel.count=panel.count-5<10?10:panel.count-5;
                 }
                 else if(e.isControlDown()&&e.getKeyCode()==KeyEvent.VK_RIGHT){
-                    panel.count=panel.count+2<10?10:panel.count+2;
+                    panel.count=panel.count+5<10?10:panel.count+5;
+                }
+
+
+
+                else if(e.isAltDown()&&e.getKeyCode()==KeyEvent.VK_R){
+                    panel.fColor=Color.red;
+                    fColor=Color.red;
+                    jTextField.setForeground(fColor);
+                    jLabel.setForeground(fColor);
+                }
+                else if(e.isAltDown()&&e.getKeyCode()==KeyEvent.VK_G){
+                    panel.fColor=Color.green;
+                    fColor=Color.green;
+                    jTextField.setForeground(fColor);
+                    jLabel.setForeground(fColor);
                 }
             }
 
@@ -73,7 +90,7 @@ public class KeyboardDemo extends JFrame {
                 String txt=jTextField.getText();
                 jLabel.setText(txt);
                 panel.txt=txt;
-            //   panel.repaint();
+
             }
         });
 
@@ -86,9 +103,10 @@ public class KeyboardDemo extends JFrame {
         private String txt="";
         private int sleep=100;
         private int count=15;
+        private Color fColor=Color.green;
         public void paintComponent(Graphics g,double leftX,  double topY ) {
             super.paintComponent(g);
-            g.setColor(Color.green);
+            g.setColor(fColor);
             g.setFont(new Font("", Font.ROMAN_BASELINE, 16));
             g.drawString("这是最后一行文本 当前字体行高:" + g.getFontMetrics().getHeight() + "  窗体宽度:" + this.getWidth()+ "  字条个数:" + count+" 延时："+sleep, 0, this.getHeight() - 5);
             for(int i=0;i<count;i++){
@@ -105,7 +123,7 @@ public class KeyboardDemo extends JFrame {
          * @param y 起始坐标y
          */
         public void drawTxtArray(String text,Graphics g,int x,int y){
-            g.setFont(new Font("", Font.ROMAN_BASELINE, com.db.Tools.getNoBetween(14,34)));
+            g.setFont(new Font("", Font.ROMAN_BASELINE, com.db.Tools.getNoBetween(14,40)));
             char[] chars=text.toCharArray();
             for(int i=0;i<chars.length;i++){
             if(y+g.getFontMetrics().getHeight()*i<=this.getHeight()-g.getFontMetrics().getHeight()){
