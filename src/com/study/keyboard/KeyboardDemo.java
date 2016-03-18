@@ -1,5 +1,7 @@
 package com.study.keyboard;
 
+import javafx.scene.input.KeyCode;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -23,13 +25,11 @@ public class KeyboardDemo extends JFrame {
         setTitle("KeyboardDemo");
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         // 将 panel 加到 frame
-
         JTextField  jTextField=new JTextField(30);
         jTextField.setBackground(bColor);
         jTextField.setForeground(fColor);
-        jTextField.setSize(200,30);
+        jTextField.setSize(200, 30);
         JLabel  jLabel=new JLabel("");
-
         jLabel.setForeground(fColor);
         jTextField.setSize(200,30);
 
@@ -41,20 +41,31 @@ public class KeyboardDemo extends JFrame {
         buttonPanel.add(jTextField);
         buttonPanel.add(jLabel);
 
-
         buttonPanel.setBackground(bColor);
         contentPane.add(buttonPanel, BorderLayout.NORTH);
         panel.setBackground(bColor);
+        Thread t1 = new Thread(panel,"一");
         contentPane.add(panel, BorderLayout.CENTER);
-
+        t1.start();
         jTextField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
             }
-
             @Override
             public void keyPressed(KeyEvent e) {
+               if(e.isControlDown()&&e.getKeyCode()== KeyEvent.VK_DOWN){
+                   panel.sleep=panel.sleep-10<10?10:panel.sleep-10;
+               }
+               else if(e.isControlDown()&&e.getKeyCode()==KeyEvent.VK_UP){
+                   panel.sleep=panel.sleep+10<10?10:panel.sleep+10;
+                }
 
+                if(e.isControlDown()&&e.getKeyCode()== KeyEvent.VK_LEFT){
+                    panel.count=panel.count-2<10?10:panel.count-2;
+                }
+                else if(e.isControlDown()&&e.getKeyCode()==KeyEvent.VK_RIGHT){
+                    panel.count=panel.count+2<10?10:panel.count+2;
+                }
             }
 
             @Override
@@ -62,7 +73,7 @@ public class KeyboardDemo extends JFrame {
                 String txt=jTextField.getText();
                 jLabel.setText(txt);
                 panel.txt=txt;
-               panel.repaint();
+            //   panel.repaint();
             }
         });
 
@@ -71,17 +82,17 @@ public class KeyboardDemo extends JFrame {
     public static final int DEFAULT_WIDTH = 800;
     public static final int DEFAULT_HEIGHT = 600;
 
-
-    class DrawPanel extends JPanel {
+    class DrawPanel extends JPanel implements Runnable{
         private String txt="";
-        private int sleep=1000;
+        private int sleep=100;
+        private int count=15;
         public void paintComponent(Graphics g,double leftX,  double topY ) {
             super.paintComponent(g);
             g.setColor(Color.green);
             g.setFont(new Font("", Font.ROMAN_BASELINE, 16));
-            g.drawString("这是最后一行文本 当前字体行高:" + g.getFontMetrics().getHeight() + "  窗体宽度:" + this.getWidth(), 0, this.getHeight() - 5);
-            for(int i=0;i<15;i++){
-               drawTxtArray(txt, g, Tools.getNoBetween(10,this.getWidth()/10)*10-100, Tools.getNoBetween(5,60)*10);
+            g.drawString("这是最后一行文本 当前字体行高:" + g.getFontMetrics().getHeight() + "  窗体宽度:" + this.getWidth()+ "  字条个数:" + count+" 延时："+sleep, 0, this.getHeight() - 5);
+            for(int i=0;i<count;i++){
+               drawTxtArray(txt, g, Tools.getNoBetween(10, this.getWidth() / 10) * 10 - 100, Tools.getNoBetween(5, 60) * 10);
            }
         }
 
@@ -94,6 +105,7 @@ public class KeyboardDemo extends JFrame {
          * @param y 起始坐标y
          */
         public void drawTxtArray(String text,Graphics g,int x,int y){
+            g.setFont(new Font("", Font.ROMAN_BASELINE, com.db.Tools.getNoBetween(14,34)));
             char[] chars=text.toCharArray();
             for(int i=0;i<chars.length;i++){
             if(y+g.getFontMetrics().getHeight()*i<=this.getHeight()-g.getFontMetrics().getHeight()){
@@ -112,5 +124,16 @@ public class KeyboardDemo extends JFrame {
         }
 
 
+        @Override
+        public void run() {
+            while (true){
+                try{
+                    Thread.sleep(sleep);
+                }catch (InterruptedException ee){
+
+                }
+              repaint();
+            }
+        }
     }}
 
