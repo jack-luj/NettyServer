@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by jack lu on 2016/3/18.
@@ -107,6 +110,15 @@ public class KeyboardDemo extends JFrame {
                     jTextField.setForeground(fColor);
                     jLabel.setForeground(fColor);
                 }
+                else if(e.isAltDown()&&e.getKeyCode()==KeyEvent.VK_0){
+                  panel.stringRandom=false;
+                }
+                else if(e.isAltDown()&&e.getKeyCode()==KeyEvent.VK_1){
+                    jTextField.setText("我们路过高山路过湖泊");
+                }
+                else if(e.isAltDown()&&e.getKeyCode()==KeyEvent.VK_2){
+                    jTextField.setText("办证13912345678");
+                }
                 else if(e.isAltDown()&&e.getKeyCode()==KeyEvent.VK_3){
                     jTextField.setText("▲");
                 }
@@ -147,6 +159,7 @@ public class KeyboardDemo extends JFrame {
     public static final int DEFAULT_HEIGHT = 600;
 
     class DrawPanel extends JPanel implements Runnable{
+        private boolean stringRandom=true;
         private int isSuspend=0;
         private String txt="";
         private int sleep=100;
@@ -176,11 +189,15 @@ public class KeyboardDemo extends JFrame {
          * @param y 起始坐标y
          */
         public void drawTxtArray(String text,Graphics g,int x,int y,int index){
-            g.setFont(new Font("", Font.ROMAN_BASELINE, Tools.getNoBetween(14,40)));
-            char[] chars=text.toCharArray();
+            Graphics2D g2=(Graphics2D) g;
+           // g.setFont(new Font("", Font.ROMAN_BASELINE, Tools.getNoBetween(14,40)));
+            g.setFont(new Font("", Font.ROMAN_BASELINE, 16));
+            char[] chars=getChars(text);
             for(int i=0;i<chars.length;i++){
             if(y+g.getFontMetrics().getHeight()*i<=this.getHeight()-g.getFontMetrics().getHeight()){
-                    g.drawString(String.valueOf(chars[i]), x, y + g.getFontMetrics().getHeight()*i);
+
+                //g2.rotate(1,1.0, Tools.getNoBetween(1,10)*1.0);
+                g.drawString(String.valueOf(chars[i]), x, y + g.getFontMetrics().getHeight() *i);
                 }
                 }
             startY[index]=startY[index]+speeds[index];
@@ -188,6 +205,21 @@ public class KeyboardDemo extends JFrame {
                 startY[index]=50;
             }
         }
+        public  char[] getChars(String text) {
+            char[] chars=text.toCharArray();
+            if(stringRandom){
+                    Random random = new Random();
+                    for(int i = 0; i < chars.length; i++){
+                            int p = random.nextInt(chars.length);
+                             char tmp = chars[i];
+                            chars[i] = chars[p];
+                            chars[p] = tmp;
+                         }
+            }
+            return chars;
+        }
+
+
         /**
          * 自动调用重绘方法
          * @param g Graphics
