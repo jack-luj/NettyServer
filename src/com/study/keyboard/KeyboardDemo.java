@@ -84,7 +84,7 @@ public class KeyboardDemo extends JFrame {
                 }
 
                 if(e.isControlDown()&&e.getKeyCode()== KeyEvent.VK_LEFT){
-                    panel.count=panel.count-5<10?10:panel.count-5;
+                    panel.count=panel.count-5<5?5:panel.count-5;
                     initXY();
                 }
                 else if(e.isControlDown()&&e.getKeyCode()==KeyEvent.VK_RIGHT){
@@ -128,10 +128,10 @@ public class KeyboardDemo extends JFrame {
                 else if(e.isAltDown()&&e.getKeyCode()==KeyEvent.VK_5){
                     jTextField.setText("★");
                 }
-                else if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
+                else if(e.getKeyCode()==KeyEvent.VK_ESCAPE){//清空
                     jTextField.setText("");
                 }
-                else if(e.isControlDown()&&e.getKeyCode()==KeyEvent.VK_P){
+                else if(e.isControlDown()&&e.getKeyCode()==KeyEvent.VK_P){//暂停/继续
                     if(panel.isSuspend==0){
                         t1.suspend();
                         panel.isSuspend=1;
@@ -140,6 +140,10 @@ public class KeyboardDemo extends JFrame {
                         panel.isSuspend=0;
                     }
 
+                }
+                else if(e.isAltDown()&&e.getKeyCode()==KeyEvent.VK_ENTER){//
+                 //   jLabel.setText( jTextField.getParent().getParent().getParent().toString());
+               e.getComponent().getParent().getParent().getParent().setBackground(Color.blue);
                 }
 
             }
@@ -162,7 +166,7 @@ public class KeyboardDemo extends JFrame {
         private boolean stringRandom=true;
         private int isSuspend=0;
         private String txt="";
-        private int sleep=100;
+        private int sleep=150;
         private int count=15;
         private Color fColor=Color.green;
         private int[] speeds;
@@ -197,7 +201,7 @@ public class KeyboardDemo extends JFrame {
             if(y+g.getFontMetrics().getHeight()*i<=this.getHeight()-g.getFontMetrics().getHeight()){
 
                 //g2.rotate(1,1.0, Tools.getNoBetween(1,10)*1.0);
-                g.drawString(String.valueOf(chars[i]), x, y + g.getFontMetrics().getHeight() *i);
+                g.drawString(String.valueOf(chars[i]), x, y + g.getFontMetrics().getHeight() * i);
                 }
                 }
             startY[index]=startY[index]+speeds[index];
