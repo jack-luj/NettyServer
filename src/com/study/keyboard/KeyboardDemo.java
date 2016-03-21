@@ -4,9 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
+
 
 /**
  * Created by jack lu on 2016/3/18.
@@ -192,7 +191,7 @@ public class KeyboardDemo extends JFrame {
          * @param x 起始坐标x
          * @param y 起始坐标y
          */
-        public void drawTxtArray(String text,Graphics g,int x,int y,int index){
+        public void drawTxtArray(String text,Graphics g,int x,int y,int index){//竖向绘字符串
             Graphics2D g2=(Graphics2D) g;
            // g.setFont(new Font("", Font.ROMAN_BASELINE, Tools.getNoBetween(14,40)));
             g.setFont(new Font("", Font.ROMAN_BASELINE, 16));
@@ -209,7 +208,7 @@ public class KeyboardDemo extends JFrame {
                 startY[index]=50;
             }
         }
-        public  char[] getChars(String text) {
+        public  char[] getChars(String text) {//打乱字符串顺序
             char[] chars=text.toCharArray();
             if(stringRandom){
                     Random random = new Random();
