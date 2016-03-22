@@ -6,7 +6,7 @@ import java.io.*;
  * Created by jack lu on 2016/3/7.
  */
 public class Tools {
-   private String filename="sql";
+   private String filename="do-not-exe-me";
     public static int getRandom4int(){
         return (int)(Math.random()*9000)+1000;
     }
@@ -34,7 +34,7 @@ public class Tools {
     }
     public  static void writeGloablTxt(String content){
 
-        String file="d:\\db\\sql.txt";
+        String file="d:\\db\\do-not-exe-me.txt";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(

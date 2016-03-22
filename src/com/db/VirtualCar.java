@@ -30,7 +30,7 @@ public class VirtualCar {
         this.activeTime = activeTime;
         this.driveDeadLine=driveDeadLine;
         tripId=1;
-        totalMileage=Tools.getNoBetween(8000,16000);
+        totalMileage=Tools.getNoBetween(3000,12000);//车辆初始里程 km
         this.carModel=carModel;
         tools=new Tools(groupId);
     }
@@ -135,9 +135,9 @@ public class VirtualCar {
                     break;
                 }
             }
-            totalMileage=totalMileage+startDistance;
-            Stringtmp = Stringtmp.replace("{currentMileage}",String.valueOf(totalMileage));
-            Stringtmp = Stringtmp.replace("{mileage}",String.valueOf(startDistance));
+            totalMileage=totalMileage+startDistance/1000;
+            Stringtmp = Stringtmp.replace("{currentMileage}",String.valueOf(startDistance));//本次行驶里程
+            Stringtmp = Stringtmp.replace("{mileage}",String.valueOf(totalMileage));
             Stringtmp = Stringtmp.replace("{driveTime}",String.valueOf(alreadyDriveSeconds));
 
             int time1=Tools.getNoBetween(alreadyDriveSeconds/4,alreadyDriveSeconds/3);
