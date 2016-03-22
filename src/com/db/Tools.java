@@ -51,9 +51,84 @@ public class Tools {
         }
     }
 
-    public  void writeTxt(String content) {
+    public  void writeCarTxt(String content) {
         System.out.println(content);
-        String file="d:\\db\\"+ this.getFilename() +".txt";
+        String file="d:\\db\\"+ this.getFilename() +"car.txt";
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(file, true)));
+            out.write(content+"\r\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public  void writeDriveTxt(String content) {
+        System.out.println(content);
+        String file="d:\\db\\"+ this.getFilename() +"drive.txt";
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(file, true)));
+            out.write(content+"\r\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public  void writeLocationTxt(String content) {
+        System.out.println(content);
+        String file="d:\\db\\"+ this.getFilename() +"location.txt";
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(file, true)));
+            out.write(content+"\r\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public  void writeDetailTxt(String content) {
+        System.out.println(content);
+        String file="d:\\db\\"+ this.getFilename() +"detail.txt";
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(file, true)));
+            out.write(content+"\r\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public  void writeConditionTxt(String content) {
+        System.out.println(content);
+        String file="d:\\db\\"+ this.getFilename() +"condition.txt";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(

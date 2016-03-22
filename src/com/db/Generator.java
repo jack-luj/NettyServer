@@ -82,6 +82,7 @@ public class Generator {
         preDateStrList.add("2016-02-");
         preDateStrList.add("2016-03-");
 
+        int id=1;//自增主键
 
 
         for (int i = 0; i < preDateStrList.size(); i++) {//preDateStrList.size();
@@ -97,7 +98,8 @@ public class Generator {
 
                 }
                 CarModel carModel=carModelList.get(Tools.getNoBetween(0,carModelList.size()-1));
-                VirtualCar vr=new VirtualCar(preDateStrList.get(i),1,obdCode,sn,license,simNumber,activeTime,driveDeadLine,carModel);
+                VirtualCar vr=new VirtualCar(preDateStrList.get(i),id,obdCode,sn,license,simNumber,activeTime,driveDeadLine,carModel);
+                id++;
                 vr.enable();
                 startObdcode++;
             }
