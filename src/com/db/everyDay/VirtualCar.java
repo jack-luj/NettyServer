@@ -135,6 +135,9 @@ public class VirtualCar {
             int countPerTrip= com.db.Tools.getNoBetween(10, 300);
 
             //需要记录依次行程的累计行驶时间
+
+            Date tripStartDate=currentDate;//每次行程的开始时间
+            Date tripendDate=currentDate;//每次行程的结束时间
             for (int j = 0; j < countPerTrip; j++) {
                 int second= com.db.Tools.getNoBetween(5, 13);//
                 addSeconds(second);
@@ -168,6 +171,7 @@ public class VirtualCar {
                     break;
                 }
             }
+            tripendDate=currentDate;
             totalMileage=totalMileage+startDistance/1000;
             Stringtmp = Stringtmp.replace("{currentMileage}",String.valueOf(startDistance));//本次行驶里程
             Stringtmp = Stringtmp.replace("{mileage}",String.valueOf(totalMileage));
@@ -207,14 +211,24 @@ public class VirtualCar {
             tools.writeConditionTxt(condition);
 
 
-            String driveDetail="INSERT INTO t_drive_detail VALUES (null, '{obdCode}', (select id from t_obd_drive where obdCode='{obdCode}' and tripId={tripId}), '[{\"id\":257,\"value\":\"305\"},{\"id\":258,\"value\":\"2012\"},{\"id\":259,\"value\":\"3850\"},{\"id\":260,\"value\":\"12.5\"},{\"id\":262,\"value\":\"2461\"},{\"id\":263,\"value\":\"200.2\"},{\"id\":264,\"value\":\"8.1\"},{\"id\":0,\"value\":\"1.4\"},{\"id\":1,\"value\":\"0\"},{\"id\":2,\"value\":\"关\"},{\"id\":4,\"value\":\"CL\"},{\"id\":5,\"value\":\"CL\"},{\"id\":6,\"value\":\"65.1\"},{\"id\":7,\"value\":\"77\"},{\"id\":8,\"value\":\"-1.6\"},{\"id\":10,\"value\":\"-4.7\"},{\"id\":12,\"value\":\"0.8\"},{\"id\":14,\"value\":\"-4.7\"},{\"id\":18,\"value\":\"1588\"},{\"id\":19,\"value\":\"45\"},{\"id\":20,\"value\":\"19\"},{\"id\":21,\"value\":\"17\"},{\"id\":22,\"value\":\"14.05\"},{\"id\":23,\"value\":\"21.2\"},{\"id\":25,\"value\":\"O2S22 | O2S21 | O2S12 | O2S11\"},{\"id\":26,\"value\":\"0.150\"},{\"id\":27,\"value\":\"-1.6\"},{\"id\":28,\"value\":\"0.735\"},{\"id\":34,\"value\":\"0.085\"},{\"id\":35,\"value\":\"-3.9\"},{\"id\":36,\"value\":\"0.770\"},{\"id\":74,\"value\":\"EOBD\"},{\"id\":125,\"value\":\"307\"},{\"id\":126,\"value\":\"0\"},{\"id\":131,\"value\":\"0.0\"},{\"id\":132,\"value\":\"0.0\"},{\"id\":133,\"value\":\"255\"},{\"id\":134,\"value\":\"22082\"},{\"id\":137,\"value\":\"483.9\"},{\"id\":138,\"value\":\"483.9\"},{\"id\":139,\"value\":\"500.8\"},{\"id\":140,\"value\":\"500.8\"},{\"id\":163,\"value\":\"14.147\"},{\"id\":165,\"value\":\"1.000\"},{\"id\":167,\"value\":\"13\"},{\"id\":168,\"value\":\"16.1\"},{\"id\":170,\"value\":\"15.3\"},{\"id\":171,\"value\":\"15.7\"},{\"id\":173,\"value\":\"3.9\"}]', '{recordTime}');";
-            driveDetail = driveDetail.replace("{detail_iid}", String.valueOf(uuid));
-            uuid++;
-            driveDetail = driveDetail.replace("{obdCode}", obdCode);
-            driveDetail = driveDetail.replace("{drive_id}", String.valueOf(drive_id));
-            driveDetail = driveDetail.replace("{tripId}", String.valueOf(tripId));
-            driveDetail = driveDetail.replace("{recordTime}", DateUtil.format(new Date(currentDate.getTime() + 1000 * com.db.Tools.getNoBetween(40, 150))));
-            tools.writeDetailTxt(driveDetail);
+          
+            long startMillseconds=tripStartDate.getTime()+5*60000;//确保行程开始后才产生detail数据
+            long endMillseconds=tripendDate.getTime();
+            while (startMillseconds<endMillseconds){
+                String driveDetail="INSERT INTO t_drive_detail VALUES (null, '{obdCode}', (select id from t_obd_drive where obdCode='{obdCode}' and tripId={tripId}), '[{\"id\":257,\"value\":\"305\"},{\"id\":258,\"value\":\"2012\"},{\"id\":259,\"value\":\"3850\"},{\"id\":260,\"value\":\"12.5\"},{\"id\":262,\"value\":\"2461\"},{\"id\":263,\"value\":\"200.2\"},{\"id\":264,\"value\":\"8.1\"},{\"id\":0,\"value\":\"1.4\"},{\"id\":1,\"value\":\"0\"},{\"id\":2,\"value\":\"关\"},{\"id\":4,\"value\":\"CL\"},{\"id\":5,\"value\":\"CL\"},{\"id\":6,\"value\":\"65.1\"},{\"id\":7,\"value\":\"77\"},{\"id\":8,\"value\":\"-1.6\"},{\"id\":10,\"value\":\"-4.7\"},{\"id\":12,\"value\":\"0.8\"},{\"id\":14,\"value\":\"-4.7\"},{\"id\":18,\"value\":\"1588\"},{\"id\":19,\"value\":\"45\"},{\"id\":20,\"value\":\"19\"},{\"id\":21,\"value\":\"17\"},{\"id\":22,\"value\":\"14.05\"},{\"id\":23,\"value\":\"21.2\"},{\"id\":25,\"value\":\"O2S22 | O2S21 | O2S12 | O2S11\"},{\"id\":26,\"value\":\"0.150\"},{\"id\":27,\"value\":\"-1.6\"},{\"id\":28,\"value\":\"0.735\"},{\"id\":34,\"value\":\"0.085\"},{\"id\":35,\"value\":\"-3.9\"},{\"id\":36,\"value\":\"0.770\"},{\"id\":74,\"value\":\"EOBD\"},{\"id\":125,\"value\":\"307\"},{\"id\":126,\"value\":\"0\"},{\"id\":131,\"value\":\"0.0\"},{\"id\":132,\"value\":\"0.0\"},{\"id\":133,\"value\":\"255\"},{\"id\":134,\"value\":\"22082\"},{\"id\":137,\"value\":\"483.9\"},{\"id\":138,\"value\":\"483.9\"},{\"id\":139,\"value\":\"500.8\"},{\"id\":140,\"value\":\"500.8\"},{\"id\":163,\"value\":\"14.147\"},{\"id\":165,\"value\":\"1.000\"},{\"id\":167,\"value\":\"13\"},{\"id\":168,\"value\":\"16.1\"},{\"id\":170,\"value\":\"15.3\"},{\"id\":171,\"value\":\"15.7\"},{\"id\":173,\"value\":\"3.9\"}]', '{recordTime}');";
+                driveDetail = driveDetail.replace("{detail_iid}", String.valueOf(uuid));
+                uuid++;
+                driveDetail = driveDetail.replace("{obdCode}", obdCode);
+                driveDetail = driveDetail.replace("{drive_id}", String.valueOf(drive_id));
+                driveDetail = driveDetail.replace("{tripId}", String.valueOf(tripId));
+                driveDetail = driveDetail.replace("{recordTime}", DateUtil.format(new Date(startMillseconds)));
+                tools.writeDetailTxt(driveDetail);
+                startMillseconds=startMillseconds+5*60000;//间隔5分钟发送一次detail数据
+            }
+
+
+
+
 
             com.db.Tools.writeGloablTxt("-- 本次启动后行驶时间:" + obdCode + " " + alreadyDriveSeconds + " 秒:");
             Tools.writeGloablTxt("-- 熄火:" + obdCode + " " + vin + " " + DateUtil.format(currentDate));
