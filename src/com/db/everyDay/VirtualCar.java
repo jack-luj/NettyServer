@@ -1,6 +1,6 @@
 package com.db.everyDay;
 
-import com.db.*;
+
 import com.db.DateUtil;
 import com.db.Tools;
 
@@ -37,7 +37,17 @@ public class VirtualCar {
         tripId=1;
         totalMileage= com.db.everyDay.Tools.getNoBetween(3000, 12000);//车辆初始里程 km
         this.carModel=carModel;
-        tools=new com.db.Tools(groupId);
+        tools=new com.db.everyDay.Tools(groupId);
+    }
+
+    public VirtualCar(int id, String obdCode, String vin,   Date driveDeadLine) {
+        this.id = id;
+        this.obdCode = obdCode;
+        this.vin = vin;
+        this.driveDeadLine=driveDeadLine;
+        tripId=1;
+        totalMileage= com.db.everyDay.Tools.getNoBetween(3000, 12000);//车辆初始里程 km
+        tools=new com.db.everyDay.Tools("");
     }
 
 
@@ -85,7 +95,7 @@ public class VirtualCar {
     public void driveOneDay(){
         //todo 发送行驶数据
         //todo 发送定位数据
-        addDate(1);
+        addDate(-1);
         resetTime();
         if(currentDate.getTime()>new Date().getTime()){
             return;
@@ -102,8 +112,9 @@ public class VirtualCar {
             addHours(com.db.Tools.getNoBetween(1, 3) - 1);addMinutes(com.db.Tools.getNoBetween(1, 50)); addSeconds(com.db.Tools.getNoBetween(1, 50));
 
             com.db.Tools.writeGloablTxt("-- >>>启动一次:" + obdCode + " " + vin + " " + DateUtil.format(currentDate));
-            String Stringtmp="{drive_iid}#{obdCode}#{tripId}#{id}#{vin}#{fireTime}#8.9#0#0#W000.000000#S00.000000#0#1970-01-02 00:00:00#0#{driveTime}#{currentMileage}# {currentAvgOil}# {mileage}# {avgOil}# '[{\\\"speed\\\":1,\\\"time\\\":{time1},\\\"distance\\\":{distance1}},{\\\"speed\\\":45,\\\"time\\\":{time2},\\\"distance\\\":{distance2}},{\\\"speed\\\":90,\\\"time\\\":{time3},\\\"distance\\\":{distance3}},{\\\"speed\\\":255,\\\"time\\\":{time4},\\\"distance\\\":{distance4}}]'#0#{speedUp}#0#0#{maxSpeed}#0#{currentMileage}#E{lon}#N{lat}#0#{flameOutLocationTime}#0#10.2#3#{flameOutTime}#{lastUpdateTime}";
-          //  String Stringfile="null, {obdCode}, {tripId}, {id}, {vin}, {fireTime}, 8.9, 0, 0, W000.000000, S00.000000, 0, 1970-01-02 00:00:00, 0, {driveTime}, {currentMileage}, {currentAvgOil}, {mileage}, {avgOil}, [{\\\"speed\\\":1,\\\"time\\\":{time1},\\\"distance\\\":{distance1}},{\\\"speed\\\":45,\\\"time\\\":{time2},\\\"distance\\\":{distance2}},{\\\"speed\\\":90,\\\"time\\\":{time3},\\\"distance\\\":{distance3}},{\\\"speed\\\":255,\\\"time\\\":{time4},\\\"distance\\\":{distance4}}], 0, {speedUp}, 0, 0, {maxSpeed}, 0, {currentMileage}, E{lon}, N{lat}, 0, {flameOutLocationTime}, 0, 10.2, 3, {flameOutTime}, {lastUpdateTime})";
+            //String Stringtmp="{drive_iid}#{obdCode}#{tripId}#{id}#{vin}#{fireTime}#8.9#0#0#W000.000000#S00.000000#0#1970-01-02 00:00:00#0#{driveTime}#{currentMileage}# {currentAvgOil}# {mileage}# {avgOil}# '[{\\\"speed\\\":1,\\\"time\\\":{time1},\\\"distance\\\":{distance1}},{\\\"speed\\\":45,\\\"time\\\":{time2},\\\"distance\\\":{distance2}},{\\\"speed\\\":90,\\\"time\\\":{time3},\\\"distance\\\":{distance3}},{\\\"speed\\\":255,\\\"time\\\":{time4},\\\"distance\\\":{distance4}}]'#0#{speedUp}#0#0#{maxSpeed}#0#{currentMileage}#E{lon}#N{lat}#0#{flameOutLocationTime}#0#10.2#3#{flameOutTime}#{lastUpdateTime}";
+            String Stringtmp="INSERT INTO t_obd_drive VALUES (null, '{obdCode}', '{tripId}', (select id from t_car where obd_code='{obdCode}' ), '{vin}', '{fireTime}', '8.9', '0', '0', 'W000.000000', 'S00.000000', '0', '1970-01-02 00:00:00', '0', '{driveTime}', '{currentMileage}', '{currentAvgOil}', '{mileage}', '{avgOil}', '[{\\\"speed\\\":1,\\\"time\\\":{time1},\\\"distance\\\":{distance1}},{\\\"speed\\\":45,\\\"time\\\":{time2},\\\"distance\\\":{distance2}},{\\\"speed\\\":90,\\\"time\\\":{time3},\\\"distance\\\":{distance3}},{\\\"speed\\\":255,\\\"time\\\":{time4},\\\"distance\\\":{distance4}}]', '0', '{speedUp}', '0', '0', '{maxSpeed}', '0', '{currentMileage}', 'E{lon}', 'N{lat}', '0', '{flameOutLocationTime}', '0', '10.2', '3', '{flameOutTime}', '{lastUpdateTime}');";
+
             drive_id=uuid;
             Stringtmp = Stringtmp.replace("{drive_iid}", String.valueOf(drive_id));
             uuid++;
@@ -125,9 +136,10 @@ public class VirtualCar {
 
             //需要记录依次行程的累计行驶时间
             for (int j = 0; j < countPerTrip; j++) {
-                int second= com.db.Tools.getNoBetween(10, 18);
+                int second= com.db.Tools.getNoBetween(5, 13);//
                 addSeconds(second);
-                String s="{location_iid},{obdCode},{tripId},{id},{vin},{locationSpeed},{distance},E{lon},N{lat},{direction},{locationTime},2,{recordTime}";
+
+                String s="INSERT INTO t_obd_location VALUES (null, '{obdCode}', '{tripId}', (select id from t_car where obd_code='{obdCode}' ), '{vin}', '{locationSpeed}', '{distance}', 'E{lon}', 'N{lat}', '{direction}', '{locationTime}', '2', '{recordTime}');";
                 s = s.replace("{location_iid}", String.valueOf(uuid));
                 uuid++;
                 s = s.replace("{obdCode}", obdCode);
@@ -180,11 +192,11 @@ public class VirtualCar {
 
             Stringtmp = Stringtmp.replace("{flameOutTime}",DateUtil.format(new Date(currentDate.getTime() + 1000 * alreadyDriveSeconds)));
             Stringtmp = Stringtmp.replace("{lastUpdateTime}",DateUtil.format(new Date(currentDate.getTime() + 3 + 1000 * alreadyDriveSeconds)));
-            Stringtmp = Stringtmp.replace("{flameOutLocationTime}",DateUtil.format(DateUtil.gmt8toUTC(new Date(currentDate.getTime() + 1000*60 * com.db.Tools.getNoBetween(5, 10)))));
+            Stringtmp = Stringtmp.replace("{flameOutLocationTime}",DateUtil.format(DateUtil.gmt8toUTC(new Date(currentDate.getTime() + 1000 * 60 * com.db.Tools.getNoBetween(5, 10)))));
 
             tools.writeDriveTxt(Stringtmp);
 
-            String condition="{condition_iid}#{obdCode}#{tripId}#{id}#{vin}#[]#[{\\\"id\\\":0,\\\"value\\\":\\\"13.39\\\"},{\\\"id\\\":1,\\\"value\\\":\\\"0\\\"},{\\\"id\\\":2,\\\"value\\\":\\\"关\\\"},{\\\"id\\\":4,\\\"value\\\":\\\"CL\\\"},{\\\"id\\\":5,\\\"value\\\":\\\"---\\\"},{\\\"id\\\":6,\\\"value\\\":\\\"63.5\\\"},{\\\"id\\\":7,\\\"value\\\":\\\"85\\\"},{\\\"id\\\":8,\\\"value\\\":\\\"-2.3\\\"},{\\\"id\\\":10,\\\"value\\\":\\\"3.1\\\"},{\\\"id\\\":17,\\\"value\\\":\\\"29\\\"},{\\\"id\\\":18,\\\"value\\\":\\\"816\\\"},{\\\"id\\\":19,\\\"value\\\":\\\"0\\\"},{\\\"id\\\":20,\\\"value\\\":\\\"12\\\"},{\\\"id\\\":21,\\\"value\\\":\\\"48\\\"},{\\\"id\\\":23,\\\"value\\\":\\\"14.5\\\"},{\\\"id\\\":25,\\\"value\\\":\\\"O2S12 | O2S11\\\"},{\\\"id\\\":26,\\\"value\\\":\\\"0.090\\\"},{\\\"id\\\":27,\\\"value\\\":\\\"-2.3\\\"},{\\\"id\\\":28,\\\"value\\\":\\\"0.700\\\"},{\\\"id\\\":74,\\\"value\\\":\\\"EOBD\\\"},{\\\"id\\\":125,\\\"value\\\":\\\"280\\\"},{\\\"id\\\":126,\\\"value\\\":\\\"0\\\"},{\\\"id\\\":133,\\\"value\\\":\\\"255\\\"},{\\\"id\\\":134,\\\"value\\\":\\\"30434\\\"},{\\\"id\\\":141,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":142,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":143,\\\"value\\\":\\\"有效\\\"},{\\\"id\\\":144,\\\"value\\\":\\\"完成\\\"},{\\\"id\\\":145,\\\"value\\\":\\\"完成\\\"},{\\\"id\\\":146,\\\"value\\\":\\\"完成\\\"},{\\\"id\\\":147,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":148,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":149,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":150,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":151,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":152,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":153,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":154,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":155,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":156,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":157,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":158,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":159,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":160,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":161,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":162,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":163,\\\"value\\\":\\\"13.444\\\"},{\\\"id\\\":167,\\\"value\\\":\\\"36\\\"}]#{recordTime}";
+            String condition="INSERT INTO t_obd_condition VALUES (null, '{obdCode}', '{tripId}', (select id from t_car where obd_code='{obdCode}' ), '{vin}', '[]', '[{\\\"id\\\":0,\\\"value\\\":\\\"13.39\\\"},{\\\"id\\\":1,\\\"value\\\":\\\"0\\\"},{\\\"id\\\":2,\\\"value\\\":\\\"关\\\"},{\\\"id\\\":4,\\\"value\\\":\\\"CL\\\"},{\\\"id\\\":5,\\\"value\\\":\\\"---\\\"},{\\\"id\\\":6,\\\"value\\\":\\\"63.5\\\"},{\\\"id\\\":7,\\\"value\\\":\\\"85\\\"},{\\\"id\\\":8,\\\"value\\\":\\\"-2.3\\\"},{\\\"id\\\":10,\\\"value\\\":\\\"3.1\\\"},{\\\"id\\\":17,\\\"value\\\":\\\"29\\\"},{\\\"id\\\":18,\\\"value\\\":\\\"816\\\"},{\\\"id\\\":19,\\\"value\\\":\\\"0\\\"},{\\\"id\\\":20,\\\"value\\\":\\\"12\\\"},{\\\"id\\\":21,\\\"value\\\":\\\"48\\\"},{\\\"id\\\":23,\\\"value\\\":\\\"14.5\\\"},{\\\"id\\\":25,\\\"value\\\":\\\"O2S12 | O2S11\\\"},{\\\"id\\\":26,\\\"value\\\":\\\"0.090\\\"},{\\\"id\\\":27,\\\"value\\\":\\\"-2.3\\\"},{\\\"id\\\":28,\\\"value\\\":\\\"0.700\\\"},{\\\"id\\\":74,\\\"value\\\":\\\"EOBD\\\"},{\\\"id\\\":125,\\\"value\\\":\\\"280\\\"},{\\\"id\\\":126,\\\"value\\\":\\\"0\\\"},{\\\"id\\\":133,\\\"value\\\":\\\"255\\\"},{\\\"id\\\":134,\\\"value\\\":\\\"30434\\\"},{\\\"id\\\":141,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":142,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":143,\\\"value\\\":\\\"有效\\\"},{\\\"id\\\":144,\\\"value\\\":\\\"完成\\\"},{\\\"id\\\":145,\\\"value\\\":\\\"完成\\\"},{\\\"id\\\":146,\\\"value\\\":\\\"完成\\\"},{\\\"id\\\":147,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":148,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":149,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":150,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":151,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":152,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":153,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":154,\\\"value\\\":\\\"无效\\\"},{\\\"id\\\":155,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":156,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":157,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":158,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":159,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":160,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":161,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":162,\\\"value\\\":\\\"未完成\\\"},{\\\"id\\\":163,\\\"value\\\":\\\"13.444\\\"},{\\\"id\\\":167,\\\"value\\\":\\\"36\\\"}]', '{recordTime}');";
             condition = condition.replace("{condition_iid}", String.valueOf(uuid));
             uuid++;
             condition = condition.replace("{obdCode}", obdCode);
@@ -194,15 +206,16 @@ public class VirtualCar {
             condition = condition.replace("{recordTime}", DateUtil.format(new Date(currentDate.getTime() + 1000 * com.db.Tools.getNoBetween(40, 150))));
             tools.writeConditionTxt(condition);
 
-            String driveDetail="{detail_iid}#{obdCode}#{drive_id}#[{\"id\":257,\"value\":\"305\"},{\"id\":258,\"value\":\"2012\"},{\"id\":259,\"value\":\"3850\"},{\"id\":260,\"value\":\"12.5\"},{\"id\":262,\"value\":\"2461\"},{\"id\":263,\"value\":\"200.2\"},{\"id\":264,\"value\":\"8.1\"},{\"id\":0,\"value\":\"1.4\"},{\"id\":1,\"value\":\"0\"},{\"id\":2,\"value\":\"关\"},{\"id\":4,\"value\":\"CL\"},{\"id\":5,\"value\":\"CL\"},{\"id\":6,\"value\":\"65.1\"},{\"id\":7,\"value\":\"77\"},{\"id\":8,\"value\":\"-1.6\"},{\"id\":10,\"value\":\"-4.7\"},{\"id\":12,\"value\":\"0.8\"},{\"id\":14,\"value\":\"-4.7\"},{\"id\":18,\"value\":\"1588\"},{\"id\":19,\"value\":\"45\"},{\"id\":20,\"value\":\"19\"},{\"id\":21,\"value\":\"17\"},{\"id\":22,\"value\":\"14.05\"},{\"id\":23,\"value\":\"21.2\"},{\"id\":25,\"value\":\"O2S22 | O2S21 | O2S12 | O2S11\"},{\"id\":26,\"value\":\"0.150\"},{\"id\":27,\"value\":\"-1.6\"},{\"id\":28,\"value\":\"0.735\"},{\"id\":34,\"value\":\"0.085\"},{\"id\":35,\"value\":\"-3.9\"},{\"id\":36,\"value\":\"0.770\"},{\"id\":74,\"value\":\"EOBD\"},{\"id\":125,\"value\":\"307\"},{\"id\":126,\"value\":\"0\"},{\"id\":131,\"value\":\"0.0\"},{\"id\":132,\"value\":\"0.0\"},{\"id\":133,\"value\":\"255\"},{\"id\":134,\"value\":\"22082\"},{\"id\":137,\"value\":\"483.9\"},{\"id\":138,\"value\":\"483.9\"},{\"id\":139,\"value\":\"500.8\"},{\"id\":140,\"value\":\"500.8\"},{\"id\":163,\"value\":\"14.147\"},{\"id\":165,\"value\":\"1.000\"},{\"id\":167,\"value\":\"13\"},{\"id\":168,\"value\":\"16.1\"},{\"id\":170,\"value\":\"15.3\"},{\"id\":171,\"value\":\"15.7\"},{\"id\":173,\"value\":\"3.9\"}]#{recordTime}";
+
+            String driveDetail="INSERT INTO t_drive_detail VALUES (null, '{obdCode}', (select id from t_obd_drive where obdCode='{obdCode}' and tripId={tripId}), '[{\"id\":257,\"value\":\"305\"},{\"id\":258,\"value\":\"2012\"},{\"id\":259,\"value\":\"3850\"},{\"id\":260,\"value\":\"12.5\"},{\"id\":262,\"value\":\"2461\"},{\"id\":263,\"value\":\"200.2\"},{\"id\":264,\"value\":\"8.1\"},{\"id\":0,\"value\":\"1.4\"},{\"id\":1,\"value\":\"0\"},{\"id\":2,\"value\":\"关\"},{\"id\":4,\"value\":\"CL\"},{\"id\":5,\"value\":\"CL\"},{\"id\":6,\"value\":\"65.1\"},{\"id\":7,\"value\":\"77\"},{\"id\":8,\"value\":\"-1.6\"},{\"id\":10,\"value\":\"-4.7\"},{\"id\":12,\"value\":\"0.8\"},{\"id\":14,\"value\":\"-4.7\"},{\"id\":18,\"value\":\"1588\"},{\"id\":19,\"value\":\"45\"},{\"id\":20,\"value\":\"19\"},{\"id\":21,\"value\":\"17\"},{\"id\":22,\"value\":\"14.05\"},{\"id\":23,\"value\":\"21.2\"},{\"id\":25,\"value\":\"O2S22 | O2S21 | O2S12 | O2S11\"},{\"id\":26,\"value\":\"0.150\"},{\"id\":27,\"value\":\"-1.6\"},{\"id\":28,\"value\":\"0.735\"},{\"id\":34,\"value\":\"0.085\"},{\"id\":35,\"value\":\"-3.9\"},{\"id\":36,\"value\":\"0.770\"},{\"id\":74,\"value\":\"EOBD\"},{\"id\":125,\"value\":\"307\"},{\"id\":126,\"value\":\"0\"},{\"id\":131,\"value\":\"0.0\"},{\"id\":132,\"value\":\"0.0\"},{\"id\":133,\"value\":\"255\"},{\"id\":134,\"value\":\"22082\"},{\"id\":137,\"value\":\"483.9\"},{\"id\":138,\"value\":\"483.9\"},{\"id\":139,\"value\":\"500.8\"},{\"id\":140,\"value\":\"500.8\"},{\"id\":163,\"value\":\"14.147\"},{\"id\":165,\"value\":\"1.000\"},{\"id\":167,\"value\":\"13\"},{\"id\":168,\"value\":\"16.1\"},{\"id\":170,\"value\":\"15.3\"},{\"id\":171,\"value\":\"15.7\"},{\"id\":173,\"value\":\"3.9\"}]', '{recordTime}');";
             driveDetail = driveDetail.replace("{detail_iid}", String.valueOf(uuid));
             uuid++;
             driveDetail = driveDetail.replace("{obdCode}", obdCode);
             driveDetail = driveDetail.replace("{drive_id}", String.valueOf(drive_id));
             driveDetail = driveDetail.replace("{tripId}", String.valueOf(tripId));
             driveDetail = driveDetail.replace("{recordTime}", DateUtil.format(new Date(currentDate.getTime() + 1000 * com.db.Tools.getNoBetween(40, 150))));
-
             tools.writeDetailTxt(driveDetail);
+
             com.db.Tools.writeGloablTxt("-- 本次启动后行驶时间:" + obdCode + " " + alreadyDriveSeconds + " 秒:");
             Tools.writeGloablTxt("-- 熄火:" + obdCode + " " + vin + " " + DateUtil.format(currentDate));
 

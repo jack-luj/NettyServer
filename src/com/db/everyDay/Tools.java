@@ -53,7 +53,7 @@ public class Tools {
 
     public  void writeCarTxt(String content) {
         System.out.println(content);
-        String file="d:\\db\\"+ this.getFilename() +"car.txt";
+        String file="d:\\db\\"+ this.getFilename() +"car.sql";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
@@ -72,7 +72,7 @@ public class Tools {
 
     public  void writeDriveTxt(String content) {
         System.out.println(content);
-        String file="d:\\db\\"+ this.getFilename() +"drive.txt";
+        String file="d:\\db\\"+ this.getFilename() +"drive.sql";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
@@ -90,7 +90,7 @@ public class Tools {
     }
     public  void writeLocationTxt(String content) {
         System.out.println(content);
-        String file="d:\\db\\"+ this.getFilename() +"location.txt";
+        String file="d:\\db\\"+ this.getFilename() +"location.sql";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
@@ -109,7 +109,7 @@ public class Tools {
 
     public  void writeDetailTxt(String content) {
         System.out.println(content);
-        String file="d:\\db\\"+ this.getFilename() +"detail.txt";
+        String file="d:\\db\\"+ this.getFilename() +"detail.sql";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
@@ -128,7 +128,7 @@ public class Tools {
 
     public  void writeConditionTxt(String content) {
         System.out.println(content);
-        String file="d:\\db\\"+ this.getFilename() +"condition.txt";
+        String file="d:\\db\\"+ this.getFilename() +"condition.sql";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
