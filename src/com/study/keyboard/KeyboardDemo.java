@@ -201,6 +201,7 @@ public class KeyboardDemo extends JFrame {
 
                 //g2.rotate(1,1.0, Tools.getNoBetween(1,10)*1.0);
                 g.drawString(String.valueOf(chars[i]), x, y + g.getFontMetrics().getHeight() * i);
+                //x=x+15;//斜着绘文字
                 }
                 }
             startY[index]=startY[index]+speeds[index];
