@@ -1,8 +1,6 @@
 package com.obd;
 
 
-import com.db.*;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
 import java.util.Date;
 import java.util.TimerTask;
