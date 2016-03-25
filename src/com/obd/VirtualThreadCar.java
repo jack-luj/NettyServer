@@ -1,8 +1,5 @@
-package com.db.everyDay;
+package com.obd;
 
-
-import com.db.DateUtil;
-import com.db.Tools;
 
 import java.util.Date;
 import java.util.TimerTask;
@@ -24,21 +21,7 @@ public class VirtualThreadCar extends TimerTask {
     private int tripId;
     private int totalMileage;
     private CarModel carModel;
-    private com.db.everyDay.Tools tools;
-
-    public VirtualThreadCar(String groupId, int id, String obdCode, String vin, String license, String simNumber, Date activeTime, Date driveDeadLine, CarModel carModel) {
-        this.id = id;
-        this.obdCode = obdCode;
-        this.vin = vin;
-        this.license = license;
-        this.simNumber=simNumber;
-        this.activeTime = activeTime;
-        this.driveDeadLine=driveDeadLine;
-        tripId=1;
-        totalMileage= com.db.everyDay.Tools.getNoBetween(3000, 12000);//车辆初始里程 km
-        this.carModel=carModel;
-        tools=new com.db.everyDay.Tools(groupId);
-    }
+    private Tools tools;
 
     public VirtualThreadCar(int id, String obdCode, String vin, Date driveDeadLine) {
         this.id = id;
@@ -46,24 +29,16 @@ public class VirtualThreadCar extends TimerTask {
         this.vin = vin;
         this.driveDeadLine=driveDeadLine;
         tripId=1;
-        totalMileage= com.db.everyDay.Tools.getNoBetween(3000, 12000);//车辆初始里程 km
-        tools=new com.db.everyDay.Tools("");
+        totalMileage= Tools.getNoBetween(3000, 12000);//车辆初始里程 km
+        tools=new Tools("");
     }
 
 
     public void run(){
-        System.out.println(this.getObdCode());
+        Tools.writeGloablTxt(new Date().toLocaleString() + " drive one day>>>" + this.getId() + "," + this.getObdCode() + "," + this.getTripId() + "," + this.getTotalMileage());
+        driveOneDay();
     }
 
-
-    public void enable(){
-        initDate(activeTime);
-        int driveDays=DateUtil.diffDate(activeTime,driveDeadLine);
-        for (int i = 0; i <driveDays-1 ; i++) {//持续的天数 2015-6-2016-3
-         driveOneDay();
-        }
-       // tools.writeTxt("");
-    }
 
     /**
      * 车一天的使用情况
@@ -71,23 +46,21 @@ public class VirtualThreadCar extends TimerTask {
     public void driveOneDay(){
         //todo 发送行驶数据
         //todo 发送定位数据
-        addDate(-1);
-        resetTime();
-        if(currentDate.getTime()>new Date().getTime()){
-            return;
-        }
 
         int startCount= Tools.getNoBetween(1, 7)-1;//车一天启动0~6次
-        Tools.writeGloablTxt(DateUtil.format(currentDate, "-- 【yyyy-MM-dd】") + "-----" + obdCode + " " + " 启动次数 " + startCount);
+        startCount=1;
+        Tools.writeGloablTxt(DateUtil.format(getCurrentDate(), "-- 【yyyy-MM-dd】") + "-----" + obdCode + " " + " 启动次数 " + startCount);
         for (int i = 0; i < startCount; i++) {
             int drive_id=0;
             int lastSpeed=0;
             int startDistance=0;
             int alreadyDriveSeconds=0;
-            Date startRecordTime=currentDate;
-            addHours(Tools.getNoBetween(1, 3) - 1);addMinutes(Tools.getNoBetween(1, 50)); addSeconds(Tools.getNoBetween(1, 50));
+            Date startRecordTime=getCurrentDate();
+            addHours(Tools.getNoBetween(1, 3) - 1);
+            addMinutes(Tools.getNoBetween(1, 50));
+            addSeconds(Tools.getNoBetween(1, 50));
 
-            Tools.writeGloablTxt("-- >>>启动一次:" + obdCode + " " + vin + " " + DateUtil.format(currentDate));
+            Tools.writeGloablTxt("-- >>>启动一次:" + obdCode + " " + vin + " " + DateUtil.format(getCurrentDate()));
             //String Stringtmp="{drive_iid}#{obdCode}#{tripId}#{id}#{vin}#{fireTime}#8.9#0#0#W000.000000#S00.000000#0#1970-01-02 00:00:00#0#{driveTime}#{currentMileage}# {currentAvgOil}# {mileage}# {avgOil}# '[{\\\"speed\\\":1,\\\"time\\\":{time1},\\\"distance\\\":{distance1}},{\\\"speed\\\":45,\\\"time\\\":{time2},\\\"distance\\\":{distance2}},{\\\"speed\\\":90,\\\"time\\\":{time3},\\\"distance\\\":{distance3}},{\\\"speed\\\":255,\\\"time\\\":{time4},\\\"distance\\\":{distance4}}]'#0#{speedUp}#0#0#{maxSpeed}#0#{currentMileage}#E{lon}#N{lat}#0#{flameOutLocationTime}#0#10.2#3#{flameOutTime}#{lastUpdateTime}";
             String Stringtmp="INSERT INTO t_obd_drive VALUES (null, '{obdCode}', '{tripId}', (select id from t_car where obd_code='{obdCode}' ), '{vin}', '{fireTime}', '8.9', '0', '0', 'W000.000000', 'S00.000000', '0', '1970-01-02 00:00:00', '0', '{driveTime}', '{currentMileage}', '{currentAvgOil}', '{mileage}', '{avgOil}', '[{\\\"speed\\\":1,\\\"time\\\":{time1},\\\"distance\\\":{distance1}},{\\\"speed\\\":45,\\\"time\\\":{time2},\\\"distance\\\":{distance2}},{\\\"speed\\\":90,\\\"time\\\":{time3},\\\"distance\\\":{distance3}},{\\\"speed\\\":255,\\\"time\\\":{time4},\\\"distance\\\":{distance4}}]', '0', '{speedUp}', '0', '0', '{maxSpeed}', '0', '{currentMileage}', 'E{lon}', 'N{lat}', '0', '{flameOutLocationTime}', '0', '10.2', '3', '{flameOutTime}', '{lastUpdateTime}');";
 
@@ -98,7 +71,7 @@ public class VirtualThreadCar extends TimerTask {
             Stringtmp = Stringtmp.replace("{tripId}", String.valueOf(tripId));
             Stringtmp = Stringtmp.replace("{id}", String.valueOf(id));
             Stringtmp = Stringtmp.replace("{vin}", vin);
-            Stringtmp = Stringtmp.replace("{fireTime}",DateUtil.format(currentDate));
+            Stringtmp = Stringtmp.replace("{fireTime}",DateUtil.format(getCurrentDate()));
             Stringtmp = Stringtmp.replace("{currentAvgOil}",String.valueOf(Tools.getNoBetween(800, 1800)));
             Stringtmp = Stringtmp.replace("{avgOil}",String.valueOf(Tools.getNoBetween(1000, 2500)));
             Stringtmp = Stringtmp.replace("{speedUp}",String.valueOf(Tools.getNoBetween(1, 2) - 1));
@@ -107,13 +80,13 @@ public class VirtualThreadCar extends TimerTask {
             Stringtmp = Stringtmp.replace("{lon}", Tools.cutString(String.valueOf(119.965034 + Tools.getNoBetween(1000, 8000) * 0.000001), 11));
             Stringtmp = Stringtmp.replace("{lat}", Tools.cutString(String.valueOf(31.8097941 + Tools.getNoBetween(1000, 8000) * 0.000001), 10));
 
-            startRecordTime=currentDate;
+            startRecordTime=getCurrentDate();
             int countPerTrip= Tools.getNoBetween(10, 300);
 
             //需要记录依次行程的累计行驶时间
 
-            Date tripStartDate=currentDate;//每次行程的开始时间
-            Date tripendDate=currentDate;//每次行程的结束时间
+            Date tripStartDate=getCurrentDate();//每次行程的开始时间
+            Date tripendDate=getCurrentDate();//每次行程的结束时间
             for (int j = 0; j < countPerTrip; j++) {
                 int second= Tools.getNoBetween(5, 13);//
                 addSeconds(second);
@@ -135,9 +108,9 @@ public class VirtualThreadCar extends TimerTask {
                 s = s.replace("{lon}", Tools.cutString(String.valueOf(119.965034 + Tools.getNoBetween(1000, 8000) * 0.000001), 11));
                 s = s.replace("{lat}", Tools.cutString(String.valueOf(31.8097941 + Tools.getNoBetween(1000, 8000) * 0.000001), 10));
                 s = s.replace("{direction}", String.valueOf(Tools.getNoBetween(1, 300)));
-                s = s.replace("{locationTime}", DateUtil.format(DateUtil.gmt8toUTC(currentDate)));
+                s = s.replace("{locationTime}", DateUtil.format(DateUtil.gmt8toUTC(getCurrentDate())));
                 if(j%5==0){
-                    startRecordTime=new Date(currentDate.getTime()+1000* Tools.getNoBetween(40, 150));
+                    startRecordTime=new Date(getCurrentDate().getTime()+1000* Tools.getNoBetween(40, 150));
                 }
                 s = s.replace("{recordTime}", DateUtil.format(startRecordTime));
                 startDistance=startDistance+ Tools.getNoBetween(20, 90);
@@ -147,7 +120,7 @@ public class VirtualThreadCar extends TimerTask {
                     break;
                 }
             }
-            tripendDate=currentDate;
+            tripendDate=getCurrentDate();
             totalMileage=totalMileage+startDistance/1000;
             Stringtmp = Stringtmp.replace("{currentMileage}",String.valueOf(startDistance));//本次行驶里程
             Stringtmp = Stringtmp.replace("{mileage}",String.valueOf(totalMileage));
@@ -170,9 +143,9 @@ public class VirtualThreadCar extends TimerTask {
             Stringtmp = Stringtmp.replace("{time4}",String.valueOf(time4));
             Stringtmp = Stringtmp.replace("{distance4}",String.valueOf(distance4));
 
-            Stringtmp = Stringtmp.replace("{flameOutTime}",DateUtil.format(new Date(currentDate.getTime() + 1000 * alreadyDriveSeconds)));
-            Stringtmp = Stringtmp.replace("{lastUpdateTime}",DateUtil.format(new Date(currentDate.getTime() + 3 + 1000 * alreadyDriveSeconds)));
-            Stringtmp = Stringtmp.replace("{flameOutLocationTime}",DateUtil.format(DateUtil.gmt8toUTC(new Date(currentDate.getTime() + 1000 * 60 * Tools.getNoBetween(5, 10)))));
+            Stringtmp = Stringtmp.replace("{flameOutTime}",DateUtil.format(new Date(getCurrentDate().getTime() + 1000 * alreadyDriveSeconds)));
+            Stringtmp = Stringtmp.replace("{lastUpdateTime}",DateUtil.format(new Date(getCurrentDate().getTime() + 3 + 1000 * alreadyDriveSeconds)));
+            Stringtmp = Stringtmp.replace("{flameOutLocationTime}",DateUtil.format(DateUtil.gmt8toUTC(new Date(getCurrentDate().getTime() + 1000 * 60 * Tools.getNoBetween(5, 10)))));
 
             tools.writeDriveTxt(Stringtmp);
 
@@ -183,7 +156,7 @@ public class VirtualThreadCar extends TimerTask {
             condition = condition.replace("{tripId}", String.valueOf(tripId));
             condition = condition.replace("{id}", String.valueOf(id));
             condition = condition.replace("{vin}", vin);
-            condition = condition.replace("{recordTime}", DateUtil.format(new Date(currentDate.getTime() + 1000 * Tools.getNoBetween(40, 150))));
+            condition = condition.replace("{recordTime}", DateUtil.format(new Date(getCurrentDate().getTime() + 1000 * Tools.getNoBetween(40, 150))));
             tools.writeConditionTxt(condition);
 
 
@@ -202,13 +175,8 @@ public class VirtualThreadCar extends TimerTask {
                 startMillseconds=startMillseconds+5*60000;//间隔5分钟发送一次detail数据
             }
 
-
-
-
-
             Tools.writeGloablTxt("-- 本次启动后行驶时间:" + obdCode + " " + alreadyDriveSeconds + " 秒:");
-            Tools.writeGloablTxt("-- 熄火:" + obdCode + " " + vin + " " + DateUtil.format(currentDate));
-
+            Tools.writeGloablTxt("-- 全天行驶结束熄火:" + obdCode + " " + vin + " " + DateUtil.format(getCurrentDate()));
             tripId++;
         }
 
@@ -216,46 +184,44 @@ public class VirtualThreadCar extends TimerTask {
 
 
     /**
-     * 初始化时钟至指定时分秒
-     */
-    public void resetTime(String time){
-        currentDate=DateUtil.parseStrToDate(DateUtil.format(currentDate, "yyyy-MM-dd" + " "+time));
-    }
-    /**
-     * 初始化时钟至每天06:18:19
-     */
-    public void resetTime(){
-        resetTime("06:30:00");
-    }
-    /**
      * 初始化时钟
      */
     public void initDate(Date date){
         currentDate=date;
     }
-    /**
-     * 时钟加天
-     */
-    public void addDate(int i){
-        currentDate=new Date(currentDate.getTime()+1000*60*60*24*i);
-    }
+
     /**
      * 时钟加小时
      */
     public void addHours(int i){
-        currentDate=new Date(currentDate.getTime()+1000*60*60*i);
+        //currentDate=new Date(currentDate.getTime()+1000*60*60*i);
+        try{
+            Thread.sleep(1000*60*60*i);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
     /**
      * 时钟加分钟
      */
     public void addMinutes(int i){
-        currentDate=new Date(currentDate.getTime()+1000*60*i);
+        //currentDate=new Date(currentDate.getTime()+1000*60*i);
+        try{
+            Thread.sleep(1000*60*i);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
     /**
      * 时钟加秒
      */
     public void addSeconds(int i){
-        currentDate=new Date(currentDate.getTime()+1000*i);
+        //currentDate=new Date(currentDate.getTime()+1000*i);
+        try{
+            Thread.sleep(1000*i);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -296,7 +262,8 @@ public class VirtualThreadCar extends TimerTask {
     }
 
     public Date getCurrentDate() {
-        return currentDate;
+
+        return new Date();
     }
 
     public void setCurrentDate(Date currentDate) {
@@ -335,8 +302,15 @@ public class VirtualThreadCar extends TimerTask {
         this.tripId = tripId;
     }
 
-
     public int getId() {
         return id;
+    }
+
+    public int getTotalMileage() {
+        return totalMileage;
+    }
+
+    public void setTotalMileage(int totalMileage) {
+        this.totalMileage = totalMileage;
     }
 }

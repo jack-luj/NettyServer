@@ -1,8 +1,9 @@
-package com.db.everyDay;
+package com.obd;
 
 
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
 
 /**
  * Created by jack lu on 2016/3/11.
@@ -14,14 +15,14 @@ public class Generator {
         InitTool initTool=new InitTool();
         //初始化车辆
         List<VirtualThreadCar> virtualCarList=initTool.initTripId(initTool.getObdListFromTxt());
-
         long start=new Date().getTime();
         System.out.println("available car count:"+virtualCarList.size());
         for (int i = 0; i < 1; i++) {
           VirtualThreadCar virtualCar=virtualCarList.get(i);
-            System.out.println(virtualCar.getId()+","+virtualCar.getObdCode()+","+virtualCar.getTripId());
-            virtualCar.initDate(new Date());//初始化时间
-            virtualCar.driveOneDay();//
+          //  virtualCar.driveOneDay();//
+
+         Timer timer=new Timer();//DateUtil.parseStrToDate("2016-03-25-16:51:20")
+         timer.scheduleAtFixedRate(virtualCar,2000,1000*60*60*24);//每天
         }
         long end=new Date().getTime();
         Tools.writeGloablTxt("-- 耗时:" + (end - start) + "ms");

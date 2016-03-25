@@ -1,4 +1,4 @@
-package com.db.everyDay;
+package com.obd;
 
 import java.io.*;
 
@@ -33,7 +33,7 @@ public class Tools {
         return s;
     }
     public  static void writeGloablTxt(String content){
-
+        System.out.println(content);
         String file="d:\\db\\do-not-exe-me.txt";
         BufferedWriter out = null;
         try {
