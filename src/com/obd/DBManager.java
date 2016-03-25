@@ -9,12 +9,12 @@ public class DBManager {
     String url = "jdbc:mysql://localhost:3306/incarobd?"
             + "user=root&password=123456&useUnicode=true&characterEncoding=UTF8";
     public void buildConnection() {
-        System.out.println("buildConnection..."+url);
+        Tools.writeGloablTxt("buildConnection..." + url.substring(0,url.indexOf("password")));
         try {
             Class.forName("com.mysql.jdbc.Driver");// 动态加载mysql驱动
             conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
-            System.out.println("MySQL操作错误");
+            Tools.writeGloablTxt("MySQL操作错误 "+e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
@@ -31,7 +31,7 @@ public class DBManager {
             Statement stmt = conn.createStatement();
             result = stmt.executeUpdate(sql);// executeUpdate语句会返回一个受影响的行数，如果返回-1就没有成功
         } catch (SQLException e) {
-            System.out.println("MySQL操作错误");
+            Tools.writeGloablTxt("MySQL操作错误 "+e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,11 +55,11 @@ public class DBManager {
     }
 
     public void closeConnection() {
-        System.out.println("closeConnection..."+url);
+        Tools.writeGloablTxt("closeConnection..." + url);
         try {
             conn.close();
         } catch (SQLException e) {
-            System.out.println("MySQL操作错误");
+            Tools.writeGloablTxt("MySQL操作错误 "+e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();

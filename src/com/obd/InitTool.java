@@ -15,12 +15,15 @@ import java.util.List;
  * Created by jack lu on 2016/3/25.
  */
 public class InitTool {
+    private DBManager dbManager;
+    public InitTool(){
+        dbManager=new DBManager();
+    }
         public List<VirtualThreadCar> initTripId(List<VirtualThreadCar> virtualCarList) {
-        DBManager dbManager = new DBManager();
         List<VirtualThreadCar> re = new ArrayList<VirtualThreadCar>();
         for (int i = 0; i < virtualCarList.size(); i++) {
             VirtualThreadCar c = virtualCarList.get(i);
-            String sql = "select obdCode,max(tripId) as max_trip_id,max(mileage)as max_mileage from temp_t_obd_drive where obdCode='" + c.getObdCode() + "'";
+            String sql = "select obdCode,max(tripId) as max_trip_id,max(mileage)as max_mileage from t_obd_drive where obdCode='" + c.getObdCode() + "'";
             try {
                 ResultSet rs = dbManager.executeQuery(sql);
                 while (rs.next()) {
@@ -42,7 +45,7 @@ public class InitTool {
         Date driveDeadLine = new Date();
         List<VirtualThreadCar> re = new ArrayList<VirtualThreadCar>();
         try {
-            System.out.println("loading obd list from file...");
+            Tools.writeGloablTxt("loading obd list from file...");
             FileReader fr = new FileReader("d:\\db\\obd_list.txt");
             BufferedReader br = new BufferedReader(fr);
             String line = "";
@@ -52,7 +55,7 @@ public class InitTool {
                 i++;
                 arrs = line.split(",");
                 if (arrs[0] != null && arrs[1] != null && !arrs[0].equals("null") && !arrs[1].equals("null")) {
-                    re.add(new VirtualThreadCar(Integer.valueOf(arrs[0]).intValue(), arrs[1], "", driveDeadLine));
+                    re.add(new VirtualThreadCar(Integer.valueOf(arrs[0]).intValue(), arrs[1], "", driveDeadLine,dbManager));
                 }
             }
             br.close();
@@ -60,7 +63,7 @@ public class InitTool {
         } catch (IOException e) {
 
         }
-        System.out.println("loaded "+re.size()+" obd from file.");
+        Tools.writeGloablTxt("loaded " + re.size() + " obd from file.");
     return re;
     }
 
