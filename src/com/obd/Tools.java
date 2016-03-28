@@ -6,6 +6,7 @@ import java.io.*;
  * Created by jack lu on 2016/3/7.
  */
 public class Tools {
+    private String logPath="";
    private String filename="do-not-exe-me";
     public static int getRandom4int(){
         return (int)(Math.random()*9000)+1000;
@@ -14,27 +15,28 @@ public class Tools {
         return (int)(a+Math.random()*(b-a+1));
     }
 
-    public Tools(String filename){
-    this.filename=filename;
+    public Tools(String logPath,String filename){
+        this.logPath=logPath;
+        this.filename=filename;
     }
 
 
-    public static String cutString(String s,int length){
+    public  String cutString(String s,int length){
       if (s.length()>length){
          s=s.substring(0,length-1);
       }
         return s;
     }
-    public static String getWidthNo(int a,int b,int length){
+    public  String getWidthNo(int a,int b,int length){
         String s=getNoBetween(a,b)+"";
         while (s.length()<length){
             s="0"+s;
         }
         return s;
     }
-    public  static void writeGloablTxt(String content){
+    public   void writeGloablTxt(String content){
         System.out.println(content);
-        String file="d:\\db\\do-not-exe-me.txt";
+        String file=logPath+"do-not-exe-me.txt";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
@@ -53,7 +55,7 @@ public class Tools {
 
     public  void writeCarTxt(String content) {
         System.out.println(content);
-        String file="d:\\db\\"+ this.getFilename() +"car.sql";
+        String file=logPath+ this.getFilename() +"car.sql";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
@@ -72,7 +74,7 @@ public class Tools {
 
     public  void writeDriveTxt(String content) {
         System.out.println(content);
-        String file="d:\\db\\"+ this.getFilename() +"drive.sql";
+        String file=logPath+ this.getFilename() +"drive.sql";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
@@ -90,7 +92,7 @@ public class Tools {
     }
     public  void writeLocationTxt(String content) {
         System.out.println(content);
-        String file="d:\\db\\"+ this.getFilename() +"location.sql";
+        String file=logPath+ this.getFilename() +"location.sql";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
@@ -106,9 +108,9 @@ public class Tools {
             }
         }
     }
-    public  static void writeTripTxt(String content){
+    public   void writeTripTxt(String content){
         System.out.println(content);
-        String file="d:\\db\\trip_id.txt";
+        String file=logPath+"trip_id.txt";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
@@ -125,9 +127,9 @@ public class Tools {
         }
     }
 
-    public  static void writeObdTxt(String content){
+    public   void writeObdTxt(String content){
         System.out.println(">"+content);
-        String file="d:\\db\\obd_id.txt";
+        String file=logPath+"obd_id.txt";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
@@ -146,7 +148,7 @@ public class Tools {
 
     public  void writeDetailTxt(String content) {
         System.out.println(content);
-        String file="d:\\db\\"+ this.getFilename() +"detail.sql";
+        String file=logPath+ this.getFilename() +"detail.sql";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
@@ -165,7 +167,7 @@ public class Tools {
 
     public  void writeConditionTxt(String content) {
         System.out.println(content);
-        String file="d:\\db\\"+ this.getFilename() +"condition.sql";
+        String file=logPath+ this.getFilename() +"condition.sql";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
