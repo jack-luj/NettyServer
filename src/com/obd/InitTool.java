@@ -20,9 +20,9 @@ public class InitTool {
     private String jdbcUrl="jdbc:mysql://localhost:3306/incarobd?user=root&password=123456&useUnicode=true&characterEncoding=UTF8";
     private Tools tools;
     private String logPath;
-    public InitTool(String obdListFile,String logPath,String jdbcUrl){
+    public InitTool(String obdListFile,String logPath,String jdbcUrl,DBManager dbManager){
         this.obdListFile=obdListFile;
-        dbManager=new DBManager(logPath,jdbcUrl);
+        this.dbManager=dbManager;
         this.logPath=logPath;
         tools=new Tools(logPath,"");
     }

@@ -21,7 +21,7 @@ public class DBManager {
             Class.forName("com.mysql.jdbc.Driver");// 动态加载mysql驱动
             conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
-            tools.writeGloablTxt("MySQL操作错误 "+e.getMessage());
+            tools.writeGloablTxt("MySQL exception " + e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,7 +38,9 @@ public class DBManager {
             Statement stmt = conn.createStatement();
             result = stmt.executeUpdate(sql);// executeUpdate语句会返回一个受影响的行数，如果返回-1就没有成功
         } catch (SQLException e) {
-            tools.writeGloablTxt("MySQL操作错误 "+e.getMessage());
+            tools.writeGloablTxt("MySQL exception "+e.getMessage());
+            tools.writeGloablTxt("try reconnect to mysql server ");
+            buildConnection();
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,6 +59,9 @@ public class DBManager {
             ResultSet rs = pstmt.executeQuery();
             return rs;
         }catch (SQLException e){
+            tools.writeGloablTxt("MySQL exception "+e.getMessage());
+            tools.writeGloablTxt("try reconnect to mysql server ");
+            buildConnection();
             return null;
         }
     }
@@ -66,7 +71,7 @@ public class DBManager {
         try {
             conn.close();
         } catch (SQLException e) {
-            tools.writeGloablTxt("MySQL操作错误 "+e.getMessage());
+            tools.writeGloablTxt("MySQL exception "+e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();

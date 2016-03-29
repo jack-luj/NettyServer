@@ -1,6 +1,7 @@
 package com.obd;
 
 import java.io.*;
+import java.util.Date;
 
 /**
  * Created by jack lu on 2016/3/7.
@@ -35,6 +36,7 @@ public class Tools {
         return s;
     }
     public   void writeGloablTxt(String content){
+        content=DateUtil.format(new Date())+" "+content;
         System.out.println(content);
         String file=logPath+"do-not-exe-me.txt";
         BufferedWriter out = null;
