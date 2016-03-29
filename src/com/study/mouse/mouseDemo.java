@@ -19,8 +19,7 @@ public class MouseDemo extends JFrame {
     private int offsetX=-13;
     private int offsetY=-43;
 
-    int lastX=offsetX;
-    int lastY=offsetY;
+
     public static void main(String[] args) {
         MouseDemo frame = new MouseDemo();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,10 +29,9 @@ public class MouseDemo extends JFrame {
         setTitle("MouseDemo");
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
-        Container contentPane = getContentPane();
-        panel.setBackground(bColor);
-        contentPane.add(panel);
-
+            Container contentPane = getContentPane();
+            panel.setBackground(bColor);
+            this.add(panel);
             this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -43,14 +41,14 @@ public class MouseDemo extends JFrame {
                 int count = e.getClickCount();
                 panel.startX = 10;
                 panel.startY = 15;
-                panel.txt = "lastX:" + lastX + " lastY:" + lastY + "   X:" + x + " Y:" + y;
+                panel.txt =  "click X:" + x + " Y:" + y;
                 if (z == 1) {//左键单击
                     panel.addPoint(x + offsetX, y + offsetY);
                 } else if (z == 3) {//右键单击
-                    int addX = x - lastX;
-                    int addY = y - lastY;
-                    lastX = x;
-                    lastY = y;
+                    Label center=panel.getCenter();
+                    int addX = x - center.getX();
+                    int addY = y - center.getY();
+
                     panel.refreshPoints(addX, addY);
                   /*  for(int k=0;k<20;k++){
                         panel.refreshPoints(addX/20,addY);
@@ -85,8 +83,11 @@ public class MouseDemo extends JFrame {
         private int startX=0;
         private int startY=0;
         private int r=7;
-        private java.util.List<Point> pointList=new ArrayList<Point>();
+        private java.util.List<Label> pointList=new ArrayList<Label>();
+        Container contentPane = getContentPane();
+        public DrawPanel(){
 
+        }
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.setColor(fColor);
@@ -97,25 +98,63 @@ public class MouseDemo extends JFrame {
 
         }
 
-        public void addPoint(int x,int y){
-            pointList.add(new Point(x, y));
-            JLabel jLabel=new JLabel("o");
-            jLabel.setLocation(100, 100);
-            jLabel.setSize(50, 30);
-            jLabel.setVisible(true);
-            this.add(jLabel);
+
+        /**
+         * 计算中心点
+         * @return
+         */
+        public Label getCenter(){
+            Label center=new Label();
+            center.setLocation(0,0);
+            int xTotal=0;
+            int yTotal=0;
+            for (int i = 0; i < pointList.size(); i++) {
+                Label p=pointList.get(i);
+                xTotal=xTotal+p.getX();
+                yTotal=yTotal+p.getY();
+            }
+            if(pointList.size()>0){
+                center=new Label();
+                center.setLocation(xTotal/pointList.size(),yTotal/pointList.size());
+            }
+            return center;
         }
-        public void remove(){
+
+        /**
+         * 增加一个点
+         * @param x
+         * @param y
+         */
+        public void addPoint(int x,int y){
+
+            Label p=new Label();
+            p.setLocation(x,y);
+            p.setText("O");
+            p.setLocation(x, y);
+            p.setSize(0, 0);
+            p.setBackground(bColor);
+            contentPane.add(p);
+            p.addMouseMotionListener(new MouseMotionListener() {
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                    System.out.println(">>>>>>>>>>>>>>>>.");
+                    p.setLocation(e.getX(),e.getY());
+                }
+                @Override
+                public void mouseMoved(MouseEvent e) {
+
+                }
+            });
+            pointList.add(p);
 
         }
 
 
         public void paintPoint(Graphics g) {
-
             g.setColor(fColor);
             g.setFont(new Font("", Font.ROMAN_BASELINE, fontSize));
             for(int i=0;i<pointList.size();i++){
-                Point p=pointList.get(i);
+                Label p=pointList.get(i);
                 g.drawOval((int)p.getX(),(int)p.getY(),2*r,2*r);
             }
         }
@@ -124,28 +163,21 @@ public class MouseDemo extends JFrame {
             g.setColor(fColor);
             g.setFont(new Font("", Font.ROMAN_BASELINE, fontSize));
             if(pointList.size()>1){
-
                 for(int i=0;i<pointList.size()-1;i++){
                     for(int j=i;j<pointList.size();j++){
-                        Point p1=pointList.get(i);
-                        Point p2=pointList.get(j);
-
+                        Label p1=pointList.get(i);
+                        Label p2=pointList.get(j);
                         g.drawLine((int)p1.getX()+r,(int)p1.getY()+r,(int)p2.getX()+r,(int)p2.getY()+r);
                     }
-
                 }
             }
         }
         public void refreshPoints(int addX,int addY){
-            java.util.List<Point> newList=new ArrayList<Point>();
+            java.util.List<Label> newList=new ArrayList<Label>();
             for(int i=0;i<pointList.size();i++){
-                Point p=pointList.get(i);
+                Label p=pointList.get(i);
                 p.setLocation(p.getX() + addX, p.getY() + addY);
-                p.setText("" + i);
-                p.setVisible(true);
                 newList.add(p);
-
-
             }
             pointList.clear();
             pointList=newList;
@@ -156,28 +188,5 @@ public class MouseDemo extends JFrame {
         }
 
     }
-    class Point extends JLabel{
-        private int x;
-        private int y;
-        public Point(int x,int y){
-            this.x=x;
-            this.y=y;
-        }
 
-        public int getX() {
-            return x;
-        }
-
-        public void setX(int x) {
-            this.x = x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
-    }
 }
