@@ -59,8 +59,12 @@ public class VirtualThreadCar extends TimerTask {
             int startDistance=0;
             int alreadyDriveSeconds=0;
             Date startRecordTime=getCurrentDate();
-            addHours(Tools.getNoBetween(1, 3) - 1);
-            addMinutes(Tools.getNoBetween(1, 50));
+            int delayHour=Tools.getNoBetween(1, 3) - 1;//日行驶0-4次 间隔最大3.7h 最晚6.5+3.7*4=21.3
+            if(startCount>4){
+                delayHour=Tools.getNoBetween(1, 2) - 1;//日行驶5-6次 间隔最大2.7h 最晚6.5+2.7*6=22.7
+            }
+            addHours(delayHour);
+            addMinutes(Tools.getNoBetween(1, 20));
             addSeconds(Tools.getNoBetween(1, 50));
 
             tools.writeGloablTxt("-- >>>启动一次:" + obdCode + " " + vin + " " + DateUtil.format(getCurrentDate()));
