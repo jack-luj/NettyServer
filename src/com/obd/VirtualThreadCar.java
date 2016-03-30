@@ -180,10 +180,9 @@ public class VirtualThreadCar extends TimerTask {
             }
 
             tools.writeGloablTxt("-- 本次启动后行驶时间:" + obdCode + " " + alreadyDriveSeconds + " 秒:");
-            tools.writeGloablTxt("-- 全天行驶结束熄火:" + obdCode + " " + vin + " " + DateUtil.format(getCurrentDate()));
             tripId++;
         }
-
+        tools.writeGloablTxt("-- 全天行驶结束熄火:" + obdCode + " " + vin + " " + DateUtil.format(getCurrentDate()));
     }
 
 
