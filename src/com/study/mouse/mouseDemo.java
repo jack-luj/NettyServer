@@ -32,49 +32,61 @@ public class MouseDemo extends JFrame {
             Container contentPane = getContentPane();
             panel.setBackground(bColor);
             this.add(panel);
-            this.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
-                int z = e.getButton();
-                int count = e.getClickCount();
-                panel.startX = 10;
-                panel.startY = 15;
-                panel.txt =  "click X:" + x + " Y:" + y;
-                if (z == 1) {//左键单击
-                    panel.addPoint(x + offsetX, y + offsetY);
-                } else if (z == 3) {//右键单击
-                    Label center=panel.getCenter();
-                    int addX = x - center.getX();
-                    int addY = y - center.getY();
 
-                    panel.refreshPoints(addX, addY);
-                  /*  for(int k=0;k<20;k++){
-                        panel.refreshPoints(addX/20,addY);
-                        panel.repaint();
-                        try{
-                            Thread.sleep(5);
-                        }catch (InterruptedException eee){eee.printStackTrace();}}*/
-                }
-                if (z == 2) {//中键单击
-                    panel.pointList.remove(panel.pointList.size() - 1);
-                }
+        this.addWindowStateListener(new WindowStateListener() {//最大化时重新初始化数组
+            public void windowStateChanged(WindowEvent e) {
+                System.out.println("state changed");
                 panel.repaint();
             }
+        });
+            this.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int x = e.getX();
+                    int y = e.getY();
+                    int z = e.getButton();
+                    int count = e.getClickCount();
+                   // panel.startX = 10;
+                  //  panel.startY = 15;
+                 //   panel.txt = "click X:" + x + " Y:" + y;
+                    if (z == 1) {//左键单击
+                        panel.addPoint(x + offsetX, y + offsetY);
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
+                    } else if (z == 3) {//右键单击
+                        Label center = panel.getCenter();
+                        int addX = x - center.getX();
+                        int addY = y - center.getY();
+                        panel.refreshPoints(addX, addY);
+
+                    }
+                    if (z == 2 && count == 1) {//中键单击
+                        if(panel.pointList.size()>0){
+                            panel.pointList.remove(panel.pointList.size() - 1);
+                        }
+
+                    }
+                    if (z == 2 && count == 2) {//中键双击
+                        if (panel.pointList.size() > 0) {
+
+                            Label l = panel.pointList.get(0);
+                            l.setLocation(l.getX() + Tools.getNoBetween(10, 30), l.getY() + Tools.getNoBetween(10, 20));
+                        }
+                    }
+                    panel.repaint();
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                }
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                }
         });
     }
     class DrawPanel extends JPanel{
@@ -82,7 +94,7 @@ public class MouseDemo extends JFrame {
         private int fontSize=16;
         private int startX=0;
         private int startY=0;
-        private int r=7;
+        private int r=5;
         private java.util.List<Label> pointList=new ArrayList<Label>();
         Container contentPane = getContentPane();
         public DrawPanel(){
@@ -95,9 +107,7 @@ public class MouseDemo extends JFrame {
             g.drawString(txt, startX, startY);
             paintPoint(g);
             paintLine(g);
-
         }
-
 
         /**
          * 计算中心点
@@ -105,7 +115,7 @@ public class MouseDemo extends JFrame {
          */
         public Label getCenter(){
             Label center=new Label();
-            center.setLocation(0,0);
+            center.setLocation(0, 0);
             int xTotal=0;
             int yTotal=0;
             for (int i = 0; i < pointList.size(); i++) {
@@ -126,27 +136,27 @@ public class MouseDemo extends JFrame {
          * @param y
          */
         public void addPoint(int x,int y){
-
             Label p=new Label();
             p.setLocation(x,y);
             p.setText("O");
-            p.setLocation(x, y);
+            p.setAlignment(Label.CENTER);
             p.setSize(0, 0);
-            p.setBackground(bColor);
+            p.setForeground(Color.red);
             contentPane.add(p);
+
             p.addMouseMotionListener(new MouseMotionListener() {
                 @Override
                 public void mouseDragged(MouseEvent e) {
                     System.out.println(">>>>>>>>>>>>>>>>.");
-                    p.setLocation(e.getX(),e.getY());
+                    p.setLocation(e.getX(), e.getY());
+                    repaint();
                 }
+
                 @Override
                 public void mouseMoved(MouseEvent e) {
-
                 }
             });
             pointList.add(p);
-
         }
 
 
