@@ -27,7 +27,7 @@ public class KeyboardDemo extends JFrame {
         for(int i=0;i<panel.count;i++)
         {
             panel.startX[i]=Tools.getNoBetween(10, this.getWidth() / 10) * 10 - 50;
-            panel.startY[i]=50;
+            panel.startY[i]=-50;
             panel.speeds[i]=Tools.getNoBetween(5, 50);//速度差值,越大列间速度差越大
         }
     }
@@ -195,7 +195,7 @@ public class KeyboardDemo extends JFrame {
 
                 //g2.rotate(1,1.0, Tools.getNoBetween(1,10)*1.0);
                 g.drawString(String.valueOf(chars[i]), x, y + g.getFontMetrics().getHeight() * i);
-                x=x+15;//斜着绘文字
+               // x=x+15;//斜着绘文字
                 }
                 }
             startY[index]=startY[index]+speeds[index];
