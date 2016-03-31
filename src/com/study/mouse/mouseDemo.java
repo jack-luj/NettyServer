@@ -46,9 +46,9 @@ public class MouseDemo extends JFrame {
                     int y = e.getY();
                     int z = e.getButton();
                     int count = e.getClickCount();
-                   // panel.startX = 10;
-                  //  panel.startY = 15;
-                 //   panel.txt = "click X:" + x + " Y:" + y;
+                    // panel.startX = 10;
+                    //  panel.startY = 15;
+                    //   panel.txt = "click X:" + x + " Y:" + y;
                     if (z == 1) {//左键单击
                         panel.addPoint(x + offsetX, y + offsetY);
 
@@ -60,7 +60,7 @@ public class MouseDemo extends JFrame {
 
                     }
                     if (z == 2 && count == 1) {//中键单击
-                        if(panel.pointList.size()>0){
+                        if (panel.pointList.size() > 0) {
                             panel.pointList.remove(panel.pointList.size() - 1);
                         }
 
@@ -78,16 +78,19 @@ public class MouseDemo extends JFrame {
                 @Override
                 public void mousePressed(MouseEvent e) {
                 }
+
                 @Override
                 public void mouseReleased(MouseEvent e) {
                 }
+
                 @Override
                 public void mouseEntered(MouseEvent e) {
                 }
+
                 @Override
                 public void mouseExited(MouseEvent e) {
                 }
-        });
+            });
     }
     class DrawPanel extends JPanel{
         private String txt="hello";
@@ -140,7 +143,8 @@ public class MouseDemo extends JFrame {
             p.setLocation(x,y);
             p.setText("O");
             p.setAlignment(Label.CENTER);
-            p.setSize(0, 0);
+            p.setSize(5, 5);
+
             p.setForeground(Color.red);
             contentPane.add(p);
 
