@@ -4,22 +4,25 @@ package com.study.mouse;
  *
  */
 
-import java.awt.*;
-import java.awt.event.MouseListener;
+/*
+ * MouseMotionEventDemo.java
+ *
+ */
+
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseEvent;
+import java.awt.GridLayout;
+
 import javax.swing.*;
 
 public class MouseMotionEventDemo extends JPanel
-        implements MouseMotionListener,MouseListener{
+        implements MouseMotionListener {
     BlankArea blankArea;
     JTextArea textArea;
-    private int startX=10;
-    private int startY=100;
-
-    private int x[];
-    private int y[];
-
     static final String NEWLINE = System.getProperty("line.separator");
 
     public static void main(String[] args) {
@@ -71,8 +74,8 @@ public class MouseMotionEventDemo extends JPanel
     }
 
     public MouseMotionEventDemo() {
-        super(new GridLayout(0, 1));
-        blankArea = new BlankArea(Color.BLACK);
+        super(new GridLayout(0,1));
+        blankArea = new BlankArea(Color.YELLOW);
         //add(blankArea);
 
         textArea = new JTextArea();
@@ -82,15 +85,18 @@ public class MouseMotionEventDemo extends JPanel
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(200, 75));
 
-       //add(scrollPane);
+        //add(scrollPane);
 
+
+        JButton jButton= new JButton("<html><b><u>T</u>wo</b><br>lines</html>");
+        jButton.setSize(300,200);
+        add(jButton);
         //Register for mouse events on blankArea and panel.
         //blankArea.addMouseMotionListener(this);
         addMouseMotionListener(this);
-        addMouseListener(this);
 
         setPreferredSize(new Dimension(450, 450));
-        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
     }
 
     void eventOutput(String eventDescription, MouseEvent e) {
@@ -100,57 +106,16 @@ public class MouseMotionEventDemo extends JPanel
                 + e.getComponent().getClass().getName()
                 + NEWLINE);
         textArea.setCaretPosition(textArea.getDocument().getLength());
-    }
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(Color.green);
-        g.setFont(new Font("", Font.ROMAN_BASELINE, 18));
-        g.drawString("中国", startX, startY);
-        g.drawString("测试", startX + 200, startY + 100);
+
 
     }
 
     public void mouseMoved(MouseEvent e) {
         eventOutput("Mouse moved", e);
-
     }
 
     public void mouseDragged(MouseEvent e) {
+        System.out.println(e.getX() + "," + e.getY());
         eventOutput("Mouse dragged", e);
-        System.out.println("Mouse dragged" + e.getX() + " " + e.getY());
-        startX=e.getX();
-        startY=e.getY();
-        repaint();
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        System.out.println("click");
-        Graphics g=this.getGraphics();
-        g.setColor(Color.green);
-        g.setFont(new Font("", Font.ROMAN_BASELINE, 18));
-        g.drawRect(e.getX(),e.getY(),100,60);
-        //repaint();
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
     }
 }
