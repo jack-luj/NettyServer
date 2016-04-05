@@ -76,11 +76,12 @@ public class MouseShow extends JPanel implements MouseListener,MouseMotionListen
      * @param g
      */
     public void paintLine(Graphics g) {
-            if(pointList.size()>1){
+            if(pointList.size()>1){  //0,1,2  ->0-1 0-2 1-2
             for(int i=0;i<pointList.size()-1;i++){
-                for(int j=i;j<pointList.size();j++){
+                for(int j=i+1;j<pointList.size();j++){
                     Point p1=pointList.get(i);
                     Point p2=pointList.get(j);
+                    //System.out.println(i+"---"+j);
                     g.drawLine((int)p1.getX(),(int)p1.getY(),(int)p2.getX(),(int)p2.getY());
                 }
             }
