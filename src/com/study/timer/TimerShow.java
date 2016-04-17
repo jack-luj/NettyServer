@@ -18,11 +18,11 @@ public class TimerShow extends JPanel implements Runnable{
     private Date deadDate=new Date();
     private Date currentDate=new Date();
     private int fontSize=30;
-
+    long delay=300;//闪烁间隔
     public static void main(String[] args) {
         TimerShow panel = new TimerShow();
         panel.setBackground(bColor);
-        panel.deadDate=new Date(new Date().getTime()+10*1000);
+        panel.deadDate=new Date(new Date().getTime()+10*1000);//倒计时10s
         JFrame frame = new JFrame();
         frame.setSize(1000, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,21 +45,22 @@ public TimerShow(){
         super.repaint();
         getXY();
     }
-    private String showTxt="2016-04-17 00:00:00";
-    private String countText="00:01:20:123";
+    private String showTxt="";
+    private String countText="";
     private int x=100;
     private int y=100;
     public void painText(Graphics g) {
         g.setColor(fColor);
         g.setFont(new Font("", Font.ROMAN_BASELINE, fontSize));
         String deadLineStr=formatDate(deadDate);
-        g.drawString("发射时间:"+deadLineStr,x,y-50);
+        g.drawString("结束时间:"+deadLineStr,x,y-50);
         showTxt=formatDate(currentDate);
         g.drawString("现在时间:"+showTxt,x,y);
         long count=deadDate.getTime()-currentDate.getTime()<0?0:deadDate.getTime()-currentDate.getTime();
         countText=formatCountDate(count);
-       // g.setFont(new Font("", Font.ROMAN_BASELINE, fontSize+20));
-        g.drawString("倒计时:"+countText,x+100,y+100);
+        //g.drawString("倒计时:"+countText,x+100,y+100);
+        g.setFont(new Font("", Font.TRUETYPE_FONT, fontSize+50));
+        g.drawString("倒计时 "+countText,x-150,y+100);
     }
 
     public void getXY() {
@@ -67,8 +68,7 @@ public TimerShow(){
         int height=this.getHeight();
         x=(width-450)/2;
         y=height/2;
-        System.out.println(x+"-"+y);
-    }
+     }
     String format="yyyy-MM-dd HH:mm:ss.SSS";
     public String formatDate(Date date){
         return new SimpleDateFormat(format).format(date);
@@ -85,24 +85,29 @@ public TimerShow(){
     @Override
     public void run() {
 
-        while (currentDate.getTime()<=deadDate.getTime()) {
-            System.out.println(currentDate.toLocaleString());
+        while (currentDate.getTime()<deadDate.getTime()) {
+            try{
+            Thread.sleep(1);
             currentDate = new Date();
             repaint();
+            }catch (InterruptedException e){e.printStackTrace();}
         }
-        String temp=countText;
+        this.requestFocus();
+
         try{
-            for (int i=0;i<5;i++){
-                System.out.println(">>>>>>>>>>>>>..");
+            for (int i=0;i<10;i++){
                 fColor=Color.black;
+                java.awt.Toolkit tk = java.awt.Toolkit.getDefaultToolkit();
+                // 发出当前系统最简单的声音
+                tk.beep();
                 repaint();
-                Thread.sleep(500);
+                Thread.sleep(delay);
                 fColor=Color.RED;
                 repaint();
-                Thread.sleep(500);
+                Thread.sleep(delay);
             }
         }catch (InterruptedException e){e.printStackTrace();}
-
+        //System.exit(0);
     }
 
 
