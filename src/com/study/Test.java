@@ -1,4 +1,4 @@
-package com.study;
+﻿package com.study;
 
 /**
  * Created by Administrator on 2016/3/5.
@@ -11,6 +11,8 @@ public class Test {
         Draw.printCanvas(pen.getPentagram());
     }
 }
+
+
 class Pentagrama {
     private final char FILL_CHAR;   // 填充字符
     private final char SPACE_CHAR;  // 空档字符
