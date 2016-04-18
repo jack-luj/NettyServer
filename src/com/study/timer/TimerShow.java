@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Timer;
 
 
 /**
@@ -16,9 +17,10 @@ public class TimerShow extends JPanel implements Runnable{
     private static Color bColor=Color.black;//统一背景色
     private static Color fColor=Color.RED;//前景色
     private Date deadDate=new Date();
-    private Date currentDate=new Date();
+
     private int fontSize=30;
     long delay=300;//闪烁间隔
+    private MyTimer  myTimer=new MyTimer();
     public static void main(String[] args) {
         TimerShow panel = new TimerShow();
         panel.setBackground(bColor);
@@ -31,6 +33,9 @@ public class TimerShow extends JPanel implements Runnable{
         frame.setContentPane(panel);
         Thread thread=new Thread(panel);
         thread.start();
+        panel.myTimer.deadDate=panel.deadDate;
+        Timer timer=new Timer();
+        timer.schedule(panel.myTimer,0,1);
 
     }
 public TimerShow(){
@@ -38,7 +43,8 @@ public TimerShow(){
 }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        painText(g);
+        Graphics2D g2=(Graphics2D)g;
+        painText(g2);
 
     }
     public void repaint(){
@@ -49,14 +55,14 @@ public TimerShow(){
     private String countText="";
     private int x=100;
     private int y=100;
-    public void painText(Graphics g) {
+    public void painText(Graphics2D g) {
         g.setColor(fColor);
         g.setFont(new Font("", Font.ROMAN_BASELINE, fontSize));
         String deadLineStr=formatDate(deadDate);
         g.drawString("结束时间:"+deadLineStr,x,y-50);
-        showTxt=formatDate(currentDate);
+        showTxt=formatDate(myTimer.currentDate);
         g.drawString("现在时间:"+showTxt,x,y);
-        long count=deadDate.getTime()-currentDate.getTime()<0?0:deadDate.getTime()-currentDate.getTime();
+        long count=deadDate.getTime()-myTimer.currentDate.getTime()<0?0:deadDate.getTime()-myTimer.currentDate.getTime();
         countText=formatCountDate(count);
         //g.drawString("倒计时:"+countText,x+100,y+100);
         g.setFont(new Font("", Font.TRUETYPE_FONT, fontSize+50));
@@ -85,10 +91,9 @@ public TimerShow(){
     @Override
     public void run() {
 
-        while (currentDate.getTime()<deadDate.getTime()) {
+        while (myTimer.currentDate.getTime()<deadDate.getTime()) {
             try{
             Thread.sleep(1);
-            currentDate = new Date();
             repaint();
             }catch (InterruptedException e){e.printStackTrace();}
         }
@@ -110,5 +115,21 @@ public TimerShow(){
         //System.exit(0);
     }
 
+
+    class MyTimer extends TimerTask{
+        private Date currentDate=new Date();
+        private Date deadDate;
+        public MyTimer(){
+        }
+        public MyTimer(Date deadDate){
+            this.deadDate=deadDate;
+        }
+        @Override
+        public void run() {
+            while (currentDate.getTime()<deadDate.getTime()) {
+                currentDate = new Date();
+            }
+        }
+    }
 
 }
