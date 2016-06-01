@@ -24,7 +24,7 @@ public class TimerShow extends JPanel implements Runnable{
     public static void main(String[] args) {
         TimerShow panel = new TimerShow();
         panel.setBackground(bColor);
-        panel.deadDate=new Date(new Date().getTime()+10*1000);//倒计时10s
+        panel.deadDate=new Date(new Date().getTime()+40*60*1000);//倒计时10s
         JFrame frame = new JFrame();
         frame.setSize(1000, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,7 +100,7 @@ public TimerShow(){
         this.requestFocus();
 
         try{
-            for (int i=0;i<10;i++){
+            for (int i=0;i<999999999;i++){
                 fColor=Color.black;
                 java.awt.Toolkit tk = java.awt.Toolkit.getDefaultToolkit();
                 // 发出当前系统最简单的声音

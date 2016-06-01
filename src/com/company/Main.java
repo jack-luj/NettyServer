@@ -5,6 +5,7 @@ import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,11 +14,28 @@ import java.util.Date;
 import static io.netty.buffer.Unpooled.buffer;
 
 public class Main {
-    public static Date parseStrToDate(String dateStr) {
-        Date date;
 
+    public static  float getRoundHalfDown(float value,int num){
+        BigDecimal bd  =   new  BigDecimal((double)value);
+        bd   =  bd.setScale(num,BigDecimal.ROUND_HALF_DOWN);//四舍五入保留 num 位小数
+        float re=bd.floatValue();
+        return re;
+    }
+    public static Date date = null;
+
+    public static DateFormat dateFormat = null;
+    /**
+     * 功能描述：日期相减
+     * @param  a 日期
+     * @param b  日期
+     * @return 返回相减后的小时
+     */
+    public static int diffHours(Date a, Date b) {
+        return (int) ((b.getTime() - a.getTime()) / ( 3600 * 1000));
+    }
+    public static Date parseStrToDate(String dateStr) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+            dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             date = (Date) dateFormat.parse(dateStr);
         } catch (Exception e) {
             return null;
@@ -26,7 +44,15 @@ public class Main {
     }
     public static void main(String[] args) {
 
-        BigDecimal bigLoanAmount = new BigDecimal(123.456);   //创建BigDecimal对象
+
+        Date a=parseStrToDate("2016-05-30 12:00:00");
+        Date b=parseStrToDate("2016-06-01 12:00:00");
+
+
+        System.out.println(diffHours(a,b));
+
+
+     /*   BigDecimal bigLoanAmount = new BigDecimal(123.456);   //创建BigDecimal对象
         BigDecimal bigInterestRate = new BigDecimal(456);
         BigDecimal bigInterest = bigLoanAmount.multiply(bigInterestRate); //BigDecimal运算
         NumberFormat currency = NumberFormat.getCurrencyInstance();    //建立货币格式化引用
@@ -41,7 +67,7 @@ public class Main {
         String by="23 23 00 0b 00 56 98 96 07 13 02 56 1e 16 3d 00 26";
         System.out.println(by.length());
         System.out.println(by.substring(by.length()-5,by.length()-3));
-
+*/
        /* byte a = (byte) 128;
         System.out.println((short) a - (short) 40);*/
 
