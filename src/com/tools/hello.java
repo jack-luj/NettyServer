@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by jack lu on 2016/1/27.
@@ -16,9 +19,23 @@ public class hello{
         System.out.println(handleIp(ipv4));
         System.out.println("简化格式:" + handleIp(ipv6));
 
+        String re=format(new Date(),"yyyyMMddHHmmssSSS");
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+re);
+
 
     }
-
+    public static DateFormat dateFormat = null;
+    public static String format(Date date, String format) {
+        String result = "";
+        try {
+            if (date != null) {
+                dateFormat = new SimpleDateFormat(format);
+                result = dateFormat.format(date);
+            }
+        } catch (Exception e) {
+        }
+        return result;
+    }
 
     public static String handleIp(String originalIpStr){
         String re="";

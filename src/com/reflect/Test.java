@@ -33,7 +33,7 @@ public class Test {
             System.out.println(type);
             if(type.equals("Integer")||type.equals("String")){
                 if(va!=vb){
-                    System.out.println("@value modify:"+f.getName()+"\t value = "+va+" -> "+vb);
+                    System.err.println("value change:"+f.getName()+"\t value = "+va+" -> "+vb);
                     sb.append(f.getName()+":"+va+"->"+vb+";");
                 }else{
                     System.out.println("value   same:"+f.getName()+"\t value = "+va+" -> "+vb);
@@ -44,7 +44,7 @@ public class Test {
                 if(la.size()==lb.size()&&la.containsAll(lb)){
                     System.out.println("value   same:"+f.getName()+"\t value = "+va+" -> "+vb);
                 }else{
-                    System.out.println("@value modify:"+f.getName()+"\t value = "+va+" -> "+vb);
+                    System.err.println("value change:"+f.getName()+"\t value = "+va+" -> "+vb);
                     sb.append(f.getName() + ":" + va + "->" + vb + ";");
                 }
             }
