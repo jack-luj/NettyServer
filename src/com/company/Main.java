@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 
 import static io.netty.buffer.Unpooled.buffer;
 
@@ -43,6 +44,43 @@ public class Main {
         return date;
     }
     public static void main(String[] args) {
+
+        String chinese="沈阳天气预报：今天19-30度，晴，东北风3-4级，明天多云转阴19-29度。";
+
+        try{
+            byte[] aaa=chinese.getBytes("ISO-10646-UCS-2");
+            System.out.println( SmsDataTool.bytes2hex(aaa));
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
+
+        try{
+            byte[] aaa=chinese.getBytes("UTF-8");
+            System.out.println( SmsDataTool.bytes2hex(aaa));
+
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
+
+        try{
+            byte[] aaa=chinese.getBytes("UTF-16");
+            System.out.println( SmsDataTool.bytes2hex(aaa));
+
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
+
+        System.out.println("----------------------------");
+
+
+
+        HashSet<String> hs = new HashSet<String>();
+        hs.add("aaa");
+        hs.add("bbb");
+        hs.add("ccc");
+        hs.add("aaa");
+
+
 
 
         Date a=parseStrToDate("2016-05-30 12:00:00");
