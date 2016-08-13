@@ -4,8 +4,18 @@ package com.reflect;
  * Created by jackl on 2016/6/1.
  */
 
+import com.company.DataTool;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.IvParameterSpec;
+import javax.xml.bind.DatatypeConverter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,10 +66,49 @@ public class Test {
         return sb.toString();
     }
 
+    public static String encrypt2(String key, String src) throws Exception {
+        byte[] IV = new byte[] {0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01};
+        SecureRandom sr = new SecureRandom();
 
+        DESKeySpec ks = new DESKeySpec(key.getBytes("UTF-8"));
+
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("DES");
+
+        SecretKey sk = skf.generateSecret(ks);
+
+        Cipher cip = Cipher.getInstance("DES/CBC/PKCS5Padding");//Cipher.getInstance("DES");
+
+        IvParameterSpec iv2 = new IvParameterSpec(IV);
+
+        cip.init(Cipher.ENCRYPT_MODE, sk, iv2);//IV的方式
+
+        //cip.init(Cipher.ENCRYPT_MODE, sk, sr);//没有传递IV
+
+        String dest = DataTool.bytes2hex(cip.doFinal(src.getBytes("UTF-8")));
+        return dest.replace(" ", "");
+
+    }
+
+    public static String md5(String inbuf) {
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            md5.update(inbuf.getBytes());
+            byte[] buf = md5.digest();
+            return DatatypeConverter.printHexBinary(buf);
+        }
+        catch(Exception ex){
+            return null;
+        }
+    }
 
     public static void main(String[] args) throws Exception {
 
+        System.out.println(encrypt2("1R4U5ST9", "123456789"));
+        System.out.println(encrypt2("1R4U5ST9", "123456789"));
+        String des_str=encrypt2("1R4U5ST9", "123456789");
+        System.out.println(md5(des_str+"123456789"));
+
+        System.out.println();
         System.out.println(new Date().toLocaleString());
 
         UserBean bean = new UserBean();

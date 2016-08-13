@@ -26,6 +26,7 @@ public class MouseDemo extends JFrame {
         frame.setVisible(true);
     }
     public MouseDemo(){
+
         setTitle("MouseDemo");
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
