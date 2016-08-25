@@ -13,6 +13,8 @@ import java.util.Date;
  */
 public class hello{
     public static void main(String[] args){
+       String strFilePath = System.getProperty("user.dir") + "\\bin\\WTY.dll";
+        System.out.println(strFilePath);
         String ipv4="121.23.36.58";
         String ipv6="1111:0000:0000:3333:5555:0000:0000:1";//-> fe80::bc83:1be6:2415:2d68
 

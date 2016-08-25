@@ -120,7 +120,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 	}
 	ctx.channel().write(
 		new TextWebSocketFrame(request
-			+ " , 欢迎使用Netty WebSocket服务，现在时刻："
+			+ " , 欢迎使用Netty WebSocket服务，现在时刻AAA："
 			+ new java.util.Date().toString()));
     }
 
