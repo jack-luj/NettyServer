@@ -3,12 +3,15 @@ package com.eparking.ui;
 import com.eparking.api.*;
 import com.eparking.callback.*;
 import com.eparking.data.*;
+import com.eparking.msgPanel.MsgPanel;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class Wintone 
 {
@@ -82,7 +85,7 @@ public class Wintone
 			if (nStatus != 1) {
 				System.out.println(chWTYIP + "连接断开");
 			}else{
-				System.out.println(chWTYIP + "连接变化");
+				//System.out.println(chWTYIP + "连接变化");
 			}
 		}
 	}
@@ -95,9 +98,16 @@ public class Wintone
 			if ((ip1.trim()).equals(strPlateIp)) {
 				// 识别出车牌号码
 				if ((new String(plateResult.chLicense)).trim().length() > 0) {
-					System.out.println("识别结果:" + strPlateIp + "," + "车牌："
+					String msg="识别结果:" + strPlateIp + "," + "车牌："
 							+ new String(plateResult.chLicense).trim() + ","
-							+ "颜色：" + new String(plateResult.chColor).trim());
+							+ "颜色：" + new String(plateResult.chColor).trim();
+					System.out.println(msg);
+					HashMap<String,String> msgMap=new HashMap<String,String>();
+					msgMap.put("result",strPlateIp);
+					msgMap.put("plate",new String(plateResult.chLicense).trim());
+					msgMap.put("color", new String(plateResult.chColor).trim());
+					MsgPanel msgPanel=new MsgPanel(msgMap);
+					msgPanel.setAlwaysOnTop(true);
 					pF.jTextField5.setText(new String(plateResult.chLicense).trim());
 				} else {
 					System.out.println("识别结果:" + strPlateIp + " 无牌车");
