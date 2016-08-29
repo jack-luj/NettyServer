@@ -91,7 +91,7 @@ public class MsgPanel extends JFrame{
     {
         HashMap<String,String> msg=new HashMap<String,String>();
         msg.put("result","成功");
-        msg.put("plate","颚A9K999");
+        msg.put("plate","鄂A9K999");
         msg.put("color","蓝");
 
         new MsgPanel(msg);

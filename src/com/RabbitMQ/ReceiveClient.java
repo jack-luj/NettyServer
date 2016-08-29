@@ -9,7 +9,8 @@ import java.io.IOException;
 
 public class ReceiveClient {
     public static void main(String[] args){
-
+        String exchangeName="amq.direct";
+        String routingKey="queueAAAA";
         ConnectionFactory factory = new ConnectionFactory();
         factory.setUsername("jackl");
         factory.setPassword("123456");
@@ -20,6 +21,7 @@ public class ReceiveClient {
             Channel channel = conn.createChannel();
             String queueName="queueA";
             boolean autoAck = false;
+            channel.queueBind(queueName, exchangeName, routingKey);
             channel.basicConsume(queueName, autoAck, "myConsumerTag",
                     new DefaultConsumer(channel) {
                         @Override
@@ -33,7 +35,7 @@ public class ReceiveClient {
                             String contentType = properties.getContentType();
                             long deliveryTag = envelope.getDeliveryTag();
                             // (process the message components here ...)
-                            System.out.println("receive:"+new String(body));
+                            System.out.println("receive:"+new String(body,"UTF-8"));
                             channel.basicAck(deliveryTag, false);
                         }
                     });

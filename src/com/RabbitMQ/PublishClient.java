@@ -18,20 +18,14 @@ public class PublishClient {
 
         try{
             String exchangeName="amq.direct";
-            String routingKey="queueA";
-
-
+            String routingKey="queueAAAA";
             Connection conn = factory.newConnection();
-
             Channel channel = conn.createChannel();
-
             channel.exchangeDeclare(exchangeName, "direct", true);
             String queueName ="queueA";
             channel.queueBind(queueName, exchangeName, routingKey);
-
             byte[] messageBodyBytes = "zzz  Hello, world!".getBytes();
             channel.basicPublish(exchangeName, routingKey, null, messageBodyBytes);
-
 
         }catch (Exception e){
         e.printStackTrace();
