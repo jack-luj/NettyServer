@@ -1,9 +1,9 @@
 *.class
 
-# Mobile Tools for Java (J2ME)
 .mtj.tmp/
 .idea/
 build/
+out/
 # Package Files #
 *.war
 *.ear
