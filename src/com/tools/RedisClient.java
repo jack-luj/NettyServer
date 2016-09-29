@@ -16,7 +16,8 @@ public class RedisClient {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         RedisClient r=  new RedisClient();
-        r.saveRealTimeDataToRedis(10000);
+    //    r.saveRealTimeDataToRedis(10000);
+        r.HashOperate();
         //r.testServer(10);
     }
     String realTimeDataSuffix="1,2,3,4,5";
@@ -70,7 +71,7 @@ public class RedisClient {
 //        config.setMaxWait(1000l);
         config.setTestOnBorrow(false);
 
-        jedisPool = new JedisPool(config,"192.168.85.129",6379);//
+        jedisPool = new JedisPool(config,"127.0.0.1",6379);//
     }
 
     /**
@@ -86,7 +87,7 @@ public class RedisClient {
         config.setTestOnBorrow(false);
         // slave链接
         List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
-        shards.add(new JedisShardInfo("192.168.85.129", 6379));//120.55.98.235
+        shards.add(new JedisShardInfo("127.0.0.1", 6379));//120.55.98.235
 
         // 构造池
         shardedJedisPool = new ShardedJedisPool(config, shards);
@@ -404,6 +405,7 @@ public class RedisClient {
 
         System.out.println("=============删=============");
         System.out.println("hashs中删除key002键值对："+shardedJedis.hdel("hashs", "key002"));
+        //shardedJedis.hdel
         System.out.println("hashs中的所有值："+shardedJedis.hvals("hashs"));
         System.out.println();
 
