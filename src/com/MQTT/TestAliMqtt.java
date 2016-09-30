@@ -3,22 +3,22 @@ package com.MQTT;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-import javax.xml.bind.DatatypeConverter;
-import java.security.MessageDigest;
-import java.util.Date;
 
+public class TestAliMqtt {
 
-public class TestMqtt {
-
-    private static String hostName="tcp://127.0.0.1:1883";//"tcp://iot.eclipse.org:1883";
+    private static String hostName="tcp://mqtt-test.cn-qingdao.aliyuncs.com:1883";//"tcp://iot.eclipse.org:1883";
     //private static String username= uuid ;
    // private static String password= token ;
-    private static String subscribeTopic= "/d/lv8918" ;
-    private static String publishTopic= "/d/lv8918" ;
+    private static String subscribeTopic= "tricheerTest" ;
+    private static String publishTopic= "tricheerTest" ;
     private static String sendMsg="message come from jackl";
-    private static String clientId     = "JavaSampleforjackl";
-    private static String username     = "123456";
-    private static String password     = "123456";
+    private static String clientId     = "GroupID@@@123456";
+
+    private static String publishClient="PID_csad@@@123456";
+    private static String subscribeClient="CID_davjk@@@123456";
+
+    private static String username     = "LTAIVMjladPyyNOv";//access key
+    private static String password     = "123456";//PmrbD9kYRp9XpoCFjucFjcC498Wlgm
     private static MqttClient client ;
     private static MemoryPersistence persistence;
     public static void main(String[] args) {
@@ -54,13 +54,13 @@ public class TestMqtt {
            conOptions.setUserName(username);
            conOptions.setPassword(password.toCharArray());
            conOptions.setCleanSession(true);
-           conOptions.setWill(subscribeTopic,"will msg".getBytes(),1,true);
+           conOptions.setWill(subscribeTopic, "will msg".getBytes(), 1, true);
 
 
             client.connect(conOptions);
             client.subscribe(subscribeTopic, 1);
             boolean isSuccess =client.isConnected();
-            System.out.println("连接状态:"+isSuccess);
+            System.out.println("连接状态:" + isSuccess);
             //client.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
