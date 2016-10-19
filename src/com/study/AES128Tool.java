@@ -134,7 +134,7 @@ public class AES128Tool {
         byte[] encryptResult = encrypt(content.getBytes(), password);
         System.out.println("密文："+parseByte2HexStr(encryptResult));
         //解密
-       byte[] decryptResult = decrypt(encryptResult,password);
+       byte[] decryptResult = decrypt(encryptResult,"12345665465786");
         System.out.println("解密：" + new String(decryptResult));
      /*   byte[] before=parseHexStr2Byte("561E163D00000001F40000007B30313233343536373839616263646566");
         byte[] encryptResult = encrypt(before, "12345678919912345678919991234");

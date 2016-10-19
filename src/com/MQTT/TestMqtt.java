@@ -10,13 +10,11 @@ import java.util.Date;
 
 public class TestMqtt {
 
-    private static String hostName="tcp://127.0.0.1:1883";//"tcp://iot.eclipse.org:1883";
-    //private static String username= uuid ;
-   // private static String password= token ;
+    private static String hostName="tcp://127.0.0.1:1884";//"tcp://iot.eclipse.org:1883";
     private static String subscribeTopic= "/d/lv8918" ;
-    private static String publishTopic= "/d/lv8918" ;
+    private static String publishTopic= "/d/lv8918/123456" ;
     private static String sendMsg="message come from jackl";
-    private static String clientId     = "JavaSampleforjackl";
+    private static String clientId     = "123445";
     private static String username     = "123456";
     private static String password     = "123456";
     private static MqttClient client ;
@@ -78,12 +76,12 @@ public class TestMqtt {
             System.out.println("发送的消息内容为:" + sendMsg);
             MqttMessage message = new MqttMessage(sendMsg.getBytes());
             message.setQos(1);
-            while(true){
+       //     while(true){
                 MqttDeliveryToken token = topic.publish(message);
                 while (!token.isComplete()){
                     token.waitForCompletion(5000);
                 }
-           }
+      //     }
         } catch (Exception e) {
             e.printStackTrace();
         }
