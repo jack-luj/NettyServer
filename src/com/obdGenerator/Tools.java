@@ -16,6 +16,7 @@ public class Tools {
         return (int)(a+Math.random()*(b-a+1));
     }
 
+
     public Tools(String logPath,String filename){
         this.logPath=logPath;
         this.filename=filename;
@@ -35,6 +36,18 @@ public class Tools {
         }
         return s;
     }
+
+    /**
+     * 返回n年前的时间
+     * @param beforeYears
+     * @return
+     */
+    public  Date getDateBefore(int beforeYears){
+        long now=new Date().getTime();
+        Date targetDate=new Date(now-1000*60*60*24*365);//365天前
+        return targetDate;
+    }
+
     public   void writeGloablTxt(String content){
         content=DateUtil.format(new Date())+" "+content;
         System.out.println(content);

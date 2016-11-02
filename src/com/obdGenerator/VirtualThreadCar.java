@@ -23,6 +23,10 @@ public class VirtualThreadCar extends TimerTask {
     private CarModel carModel;
     private Tools tools;
     private DBManager dbManager;
+    private double centerLon=116.303875;//中心点经度
+    private double centerLat=39.855168;//中心点纬度
+    //北京 116.403875,39.915168  39.855168,116.303875
+    //常州 119.965034，31.8097941
 
     public VirtualThreadCar(int id, String obdCode, String vin, Date driveDeadLine,DBManager dbManager,String logPath) {
         this.id = id;
@@ -78,8 +82,8 @@ public class VirtualThreadCar extends TimerTask {
             Stringtmp = Stringtmp.replace("{speedUp}",String.valueOf(Tools.getNoBetween(1, 2) - 1));
             Stringtmp = Stringtmp.replace("{maxSpeed}",String.valueOf(Tools.getNoBetween(10, 80)));
 
-            Stringtmp = Stringtmp.replace("{lon}", tools.cutString(String.valueOf(119.965034 + Tools.getNoBetween(1000, 8000) * 0.000001), 11));
-            Stringtmp = Stringtmp.replace("{lat}", tools.cutString(String.valueOf(31.8097941 + Tools.getNoBetween(1000, 8000) * 0.000001), 10));
+            Stringtmp = Stringtmp.replace("{lon}", tools.cutString(String.valueOf(centerLon + Tools.getNoBetween(1000, 14000) * 0.000001), 11));
+            Stringtmp = Stringtmp.replace("{lat}", tools.cutString(String.valueOf(centerLat + Tools.getNoBetween(1000, 12000) * 0.000001), 10));
 
             startRecordTime=getCurrentDate();
             int countPerTrip= Tools.getNoBetween(10, 300);
@@ -106,8 +110,8 @@ public class VirtualThreadCar extends TimerTask {
                 lastSpeed=speed;
                 s = s.replace("{locationSpeed}", String.valueOf(speed));
                 s = s.replace("{distance}", String.valueOf(startDistance));
-                s = s.replace("{lon}", tools.cutString(String.valueOf(119.965034 + Tools.getNoBetween(1000, 8000) * 0.000001), 11));
-                s = s.replace("{lat}", tools.cutString(String.valueOf(31.8097941 + Tools.getNoBetween(1000, 8000) * 0.000001), 10));
+                s = s.replace("{lon}", tools.cutString(String.valueOf(centerLon + Tools.getNoBetween(1000, 14000) * 0.000001), 11));
+                s = s.replace("{lat}", tools.cutString(String.valueOf(centerLat + Tools.getNoBetween(1000, 12000) * 0.000001), 10));
                 s = s.replace("{direction}", String.valueOf(Tools.getNoBetween(1, 300)));
                 s = s.replace("{locationTime}", DateUtil.format(DateUtil.gmt8toUTC(getCurrentDate())));
                 if(j%5==0){
