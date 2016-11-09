@@ -10,6 +10,7 @@ public class VirtualCar {
 
     private static int uuid=1;
     private int id;
+    private int s4_id;
     private String obdCode;
     private String vin;
     private String license;
@@ -22,8 +23,9 @@ public class VirtualCar {
     private CarModel carModel;
     private Tools tools;
 
-    public VirtualCar(String groupId,int id, String obdCode, String vin, String license,String simNumber, Date activeTime, Date driveDeadLine,CarModel carModel) {
+    public VirtualCar(String groupId,int id,int s4_id, String obdCode, String vin, String license,String simNumber, Date activeTime, Date driveDeadLine,CarModel carModel) {
         this.id = id;
+        this.s4_id=s4_id;
         this.obdCode = obdCode;
         this.vin = vin;
         this.license = license;
@@ -53,18 +55,23 @@ public class VirtualCar {
     public void active(){
         //todo 激活车辆
         Tools.writeGloablTxt("-- 激活车辆:" + " " + license + " " + obdCode + " " + vin + " " + " " + simNumber + " " + DateUtil.format(activeTime));
-        String Stringtmp="INSERT INTO t_car VALUES ({id}, '1', '{2}', '{0}', '1', '{1}', {3}, '{brandId}', '{seriesId}', '{yearModel}', '{engineType}', '{disp}', '0', '2013-09-05', '', '2014-09-05', 'V1.50.00', 'V0.00.00', 'V3.13.15', '255', '0', 'service.incardata.com.cn', '9005', '0', '0', null);";
+        String Stringtmp="INSERT INTO t_car VALUES ({id}, '{s4_id}', '{2}', '{0}', '0', null, {3}, '{brandId}', '{seriesId}', '{yearModel}', '{engineType}', '{disp}', '0', null, '', '{1}', 'V1.50.00', 'V0.00.00', 'V3.13.15', '255', '0', 'service.incardata.com.cn', '9005', '0', '0', null, null);";
 
-        String Stringfile="{id},1,{2},{0},1,{1},{3},{brandId},{seriesId},{yearModel},{engineType},{disp},0,2013-09-05,,2014-09-05,V1.50.00,V0.00.00,V3.13.15,255,0,service.incardata.com.cn,9005,0,0,0";
+        String Stringfile="{id},1,{2},{0},1,null,{3},{brandId},{seriesId},{yearModel},{engineType},{disp},0,2013-09-05,,2014-09-05,V1.50.00,V0.00.00,V3.13.15,255,0,service.incardata.com.cn,9005,0,0,0";
 
 
         Stringtmp = Stringtmp.replace("{id}", String.valueOf(id));
+        Stringtmp = Stringtmp.replace("{s4_id}", String.valueOf(s4_id));
         Stringfile = Stringfile.replace("{id}", String.valueOf(id));
-
+    if(obdCode.equals("")){
+        Stringtmp = Stringtmp.replace("'{0}'", "null"); Stringfile = Stringfile.replace("'{0}'", "null");
+    }else{
         Stringtmp = Stringtmp.replace("{0}", obdCode); Stringfile = Stringfile.replace("{0}", obdCode);
-        Stringtmp = Stringtmp.replace("{1}",DateUtil.format(activeTime)); Stringfile = Stringfile.replace("{1}",DateUtil.format(activeTime));
+    }
+
+        Stringtmp = Stringtmp.replace("{1}",DateUtil.formatDate(activeTime)); Stringfile = Stringfile.replace("{1}",DateUtil.format(activeTime));
         Stringtmp=Stringtmp.replace("{2}",license);  Stringfile=Stringfile.replace("{2}",license);
-        Stringtmp=Stringtmp.replace("{3}",simNumber); Stringfile=Stringfile.replace("{3}",simNumber);
+        Stringtmp=Stringtmp.replace("{3}","null"); Stringfile=Stringfile.replace("{3}",simNumber);
 
         Stringtmp=Stringtmp.replace("{brandId}",String.valueOf(carModel.getBrand())); Stringfile=Stringfile.replace("{brandId}",String.valueOf(carModel.getBrand()));
         Stringtmp=Stringtmp.replace("{seriesId}",String.valueOf(carModel.getSeries())); Stringfile=Stringfile.replace("{seriesId}",String.valueOf(carModel.getSeries()));
