@@ -3,7 +3,6 @@ package com.obdGenerator80mile;
 
 
 import java.util.Date;
-import java.util.TimerTask;
 
 /**
  * Created by Administrator on 2016/3/10.
@@ -22,7 +21,7 @@ public class VirtualThreadCar {
     private int tripId;
     private int totalMileage;
     private CarModel carModel;
-    private Tools tools;
+    private UtilTools tools;
     private DBManager dbManager;
     private double centerLon=116.303875;//中心点经度
     private double centerLat=39.855168;//中心点纬度
@@ -34,8 +33,8 @@ public class VirtualThreadCar {
         this.license = license;
         this.createDate=createDate;
         tripId=1;
-        totalMileage= Tools.getNoBetween(3000, 12000);//车辆初始里程 km
-        tools=new Tools(logPath,"");
+        totalMileage= UtilTools.getNoBetween(3000, 12000);//车辆初始里程 km
+        tools=new UtilTools(logPath,"");
         this.dbManager=dbManager;
     }
 
@@ -53,7 +52,7 @@ public class VirtualThreadCar {
         //todo 发送行驶数据
         //todo 发送定位数据
 
-        int startCount= Tools.getNoBetween(1, 7)-1;//车一天启动0~6次
+        int startCount= UtilTools.getNoBetween(1, 7)-1;//车一天启动0~6次
         //startCount=1;
         tools.writeGloablTxt(DateUtil.format(getCurrentDate(), "-- 【yyyy-MM-dd】") + "-----" + obdCode + " " + " 启动次数 " + startCount);
         for (int i = 0; i < startCount; i++) {
@@ -62,9 +61,9 @@ public class VirtualThreadCar {
             int startDistance=0;
             int alreadyDriveSeconds=0;
             Date startRecordTime=getCurrentDate();
-            addHours(Tools.getNoBetween(1, 3) - 1);
-            addMinutes(Tools.getNoBetween(1, 50));
-            addSeconds(Tools.getNoBetween(1, 50));
+            addHours(UtilTools.getNoBetween(1, 3) - 1);
+            addMinutes(UtilTools.getNoBetween(1, 50));
+            addSeconds(UtilTools.getNoBetween(1, 50));
 
             tools.writeGloablTxt("-- >>>启动一次:" + obdCode + " " + vin + " " + DateUtil.format(getCurrentDate()));
             String Stringtmp="INSERT INTO t_obd_drive VALUES (null, '{obdCode}', '{tripId}', (select id from t_car where obd_code='{obdCode}' ), '{vin}', '{fireTime}', '8.9', '0', '0', 'W000.000000', 'S00.000000', '0', '1970-01-02 00:00:00', '0', '{driveTime}', '{currentMileage}', '{currentAvgOil}', '{mileage}', '{avgOil}', '[{\\\"speed\\\":1,\\\"time\\\":{time1},\\\"distance\\\":{distance1}},{\\\"speed\\\":45,\\\"time\\\":{time2},\\\"distance\\\":{distance2}},{\\\"speed\\\":90,\\\"time\\\":{time3},\\\"distance\\\":{distance3}},{\\\"speed\\\":255,\\\"time\\\":{time4},\\\"distance\\\":{distance4}}]', '0', '{speedUp}', '0', '0', '{maxSpeed}', '0', '{currentMileage}', 'E{lon}', 'N{lat}', '0', '{flameOutLocationTime}', '0', '10.2', '3', '{flameOutTime}', '{lastUpdateTime}');";
@@ -77,23 +76,23 @@ public class VirtualThreadCar {
             Stringtmp = Stringtmp.replace("{id}", String.valueOf(id));
             Stringtmp = Stringtmp.replace("{vin}", vin);
             Stringtmp = Stringtmp.replace("{fireTime}",DateUtil.format(getCurrentDate()));
-            Stringtmp = Stringtmp.replace("{currentAvgOil}",String.valueOf(Tools.getNoBetween(800, 1800)));
-            Stringtmp = Stringtmp.replace("{avgOil}",String.valueOf(Tools.getNoBetween(1000, 2500)));
-            Stringtmp = Stringtmp.replace("{speedUp}",String.valueOf(Tools.getNoBetween(1, 2) - 1));
-            Stringtmp = Stringtmp.replace("{maxSpeed}",String.valueOf(Tools.getNoBetween(10, 80)));
+            Stringtmp = Stringtmp.replace("{currentAvgOil}",String.valueOf(UtilTools.getNoBetween(800, 1800)));
+            Stringtmp = Stringtmp.replace("{avgOil}",String.valueOf(UtilTools.getNoBetween(1000, 2500)));
+            Stringtmp = Stringtmp.replace("{speedUp}",String.valueOf(UtilTools.getNoBetween(1, 2) - 1));
+            Stringtmp = Stringtmp.replace("{maxSpeed}",String.valueOf(UtilTools.getNoBetween(10, 80)));
 
-            Stringtmp = Stringtmp.replace("{lon}", tools.cutString(String.valueOf(centerLon + Tools.getNoBetween(1000, 14000) * 0.000001), 11));
-            Stringtmp = Stringtmp.replace("{lat}", tools.cutString(String.valueOf(centerLat + Tools.getNoBetween(1000, 12000) * 0.000001), 10));
+            Stringtmp = Stringtmp.replace("{lon}", tools.cutString(String.valueOf(centerLon + UtilTools.getNoBetween(1000, 14000) * 0.000001), 11));
+            Stringtmp = Stringtmp.replace("{lat}", tools.cutString(String.valueOf(centerLat + UtilTools.getNoBetween(1000, 12000) * 0.000001), 10));
 
             startRecordTime=getCurrentDate();
-            int countPerTrip= Tools.getNoBetween(10, 300);
+            int countPerTrip= UtilTools.getNoBetween(10, 300);
 
             //需要记录依次行程的累计行驶时间
 
             Date tripStartDate=getCurrentDate();//每次行程的开始时间
             Date tripendDate=getCurrentDate();//每次行程的结束时间
             for (int j = 0; j < countPerTrip; j++) {
-                int second= Tools.getNoBetween(5, 13);//
+                int second= UtilTools.getNoBetween(5, 13);//
                 addSeconds(second);
 
                 String s="INSERT INTO t_obd_location VALUES (null, '{obdCode}', '{tripId}', (select id from t_car where obd_code='{obdCode}' ), '{vin}', '{locationSpeed}', '{distance}', 'E{lon}', 'N{lat}', '{direction}', '{locationTime}', '2', '{recordTime}');";
@@ -103,22 +102,22 @@ public class VirtualThreadCar {
                 s = s.replace("{tripId}", String.valueOf(tripId));
                 s = s.replace("{id}", String.valueOf(id));
                 s=s.replace("{vin}", vin);
-                int speed= Tools.getNoBetween(1, 90);
+                int speed= UtilTools.getNoBetween(1, 90);
                 if(Math.abs(speed-lastSpeed)>36){
                     speed=speed/2;
                 }
                 lastSpeed=speed;
                 s = s.replace("{locationSpeed}", String.valueOf(speed));
                 s = s.replace("{distance}", String.valueOf(startDistance));
-                s = s.replace("{lon}", tools.cutString(String.valueOf(centerLon + Tools.getNoBetween(1000, 14000) * 0.000001), 11));
-                s = s.replace("{lat}", tools.cutString(String.valueOf(centerLat + Tools.getNoBetween(1000, 12000) * 0.000001), 10));
-                s = s.replace("{direction}", String.valueOf(Tools.getNoBetween(1, 300)));
+                s = s.replace("{lon}", tools.cutString(String.valueOf(centerLon + UtilTools.getNoBetween(1000, 14000) * 0.000001), 11));
+                s = s.replace("{lat}", tools.cutString(String.valueOf(centerLat + UtilTools.getNoBetween(1000, 12000) * 0.000001), 10));
+                s = s.replace("{direction}", String.valueOf(UtilTools.getNoBetween(1, 300)));
                 s = s.replace("{locationTime}", DateUtil.format(DateUtil.gmt8toUTC(getCurrentDate())));
                 if(j%5==0){
-                    startRecordTime=new Date(getCurrentDate().getTime()+1000* Tools.getNoBetween(40, 150));
+                    startRecordTime=new Date(getCurrentDate().getTime()+1000* UtilTools.getNoBetween(40, 150));
                 }
                 s = s.replace("{recordTime}", DateUtil.format(startRecordTime));
-                startDistance=startDistance+ Tools.getNoBetween(20, 90);
+                startDistance=startDistance+ UtilTools.getNoBetween(20, 90);
                 tools.writeLocationTxt(s);
                 dbManager.executeUpdate(s);
                 alreadyDriveSeconds=alreadyDriveSeconds+second;
@@ -132,12 +131,12 @@ public class VirtualThreadCar {
             Stringtmp = Stringtmp.replace("{mileage}",String.valueOf(totalMileage));
             Stringtmp = Stringtmp.replace("{driveTime}",String.valueOf(alreadyDriveSeconds));
 
-            int time1= Tools.getNoBetween(alreadyDriveSeconds / 4, alreadyDriveSeconds / 3);
-            int time2= Tools.getNoBetween(alreadyDriveSeconds / 3, alreadyDriveSeconds / 2);
+            int time1= UtilTools.getNoBetween(alreadyDriveSeconds / 4, alreadyDriveSeconds / 3);
+            int time2= UtilTools.getNoBetween(alreadyDriveSeconds / 3, alreadyDriveSeconds / 2);
             int time3=alreadyDriveSeconds-time1-time2;
             int time4=0;
-            int distance1= Tools.getNoBetween(startDistance / 4, startDistance / 3);
-            int distance2= Tools.getNoBetween(startDistance / 3, startDistance / 2);
+            int distance1= UtilTools.getNoBetween(startDistance / 4, startDistance / 3);
+            int distance2= UtilTools.getNoBetween(startDistance / 3, startDistance / 2);
             int distance3=startDistance-distance1-distance2;
             int distance4=0;
             Stringtmp = Stringtmp.replace("{time1}",String.valueOf(time1));
@@ -151,7 +150,7 @@ public class VirtualThreadCar {
 
             Stringtmp = Stringtmp.replace("{flameOutTime}",DateUtil.format(new Date(getCurrentDate().getTime() + 1000 * alreadyDriveSeconds)));
             Stringtmp = Stringtmp.replace("{lastUpdateTime}",DateUtil.format(new Date(getCurrentDate().getTime() + 3 + 1000 * alreadyDriveSeconds)));
-            Stringtmp = Stringtmp.replace("{flameOutLocationTime}",DateUtil.format(DateUtil.gmt8toUTC(new Date(getCurrentDate().getTime() + 1000 * 60 * Tools.getNoBetween(5, 10)))));
+            Stringtmp = Stringtmp.replace("{flameOutLocationTime}",DateUtil.format(DateUtil.gmt8toUTC(new Date(getCurrentDate().getTime() + 1000 * 60 * UtilTools.getNoBetween(5, 10)))));
 
             tools.writeDriveTxt(Stringtmp);
             dbManager.executeUpdate(Stringtmp);
@@ -162,7 +161,7 @@ public class VirtualThreadCar {
             condition = condition.replace("{tripId}", String.valueOf(tripId));
             condition = condition.replace("{id}", String.valueOf(id));
             condition = condition.replace("{vin}", vin);
-            condition = condition.replace("{recordTime}", DateUtil.format(new Date(getCurrentDate().getTime() + 1000 * Tools.getNoBetween(40, 150))));
+            condition = condition.replace("{recordTime}", DateUtil.format(new Date(getCurrentDate().getTime() + 1000 * UtilTools.getNoBetween(40, 150))));
             tools.writeConditionTxt(condition);
             dbManager.executeUpdate(condition);
 

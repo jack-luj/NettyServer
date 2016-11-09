@@ -413,7 +413,7 @@ public class DateUtil {
      * @return Date 日期 yyyy-MM-dd HH:mm:ss格式
      */
     public static Date formatDateToDate(Date date) {
-        String t = com.obdGenerator.DateUtil.getDateTime(date);
+        String t = getDateTime(date);
         System.out.println(t);
         String n = t.replace(t.substring(14, 19), "00:00");
         System.out.println(n);

@@ -10,11 +10,11 @@ public class DBManager {
     Connection conn = null;
     private String url = "";
     private String logPath="";
-    private Tools tools;
+    private UtilTools tools;
     public DBManager(String logPath,String jdbsUrl){
         this.logPath=logPath;
         this.url=jdbsUrl;
-        tools=new Tools(logPath,"");
+        tools=new UtilTools(logPath,"");
     }
     public void buildConnection() {
         tools.writeGloablTxt("buildConnection..." + url.substring(0,url.indexOf("password")));

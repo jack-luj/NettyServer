@@ -39,13 +39,13 @@ public class Generator {
         //初始化车辆
         List<VirtualThreadCar> virtualCarList=initTool.getObdListFromTxt();
         long start=new Date().getTime();
-        Tools tools=new Tools(logPath,"");
+        UtilTools tools=new UtilTools(logPath,"");
         tools.writeGloablTxt("-- available car count:" + virtualCarList.size());
         tools.writeGloablTxt("-- 从23:10:00开始生成当天行程数据" );
         /////////////////////////////////////////////////////////////////
         Timer timer=new Timer();//正式模式从23:10:00开始工作
         WorkTask workTask=new WorkTask(virtualCarList,dbManager,logPath);
-        Date firstStartDate=DateUtil.parseStrToDate(DateUtil.format(new Date(),"yyyy-MM-dd") + " 13:10:00");
+        Date firstStartDate=DateUtil.parseStrToDate(DateUtil.format(new Date(),"yyyy-MM-dd") + " 23:10:00");
         timer.scheduleAtFixedRate(workTask, firstStartDate, 1000 * 60 * 60 * 24);//每天执行一次
         /////////////////////////////////////////////////////////////////////
 

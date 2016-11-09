@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Created by jack lu on 2016/3/7.
  */
-public class Tools {
+public class UtilTools {
     private String logPath="";
    private String filename="do-not-exe-me";
     public static int getRandom4int(){
@@ -34,7 +34,7 @@ public class Tools {
     }
 
 
-    public Tools(String logPath,String filename){
+    public UtilTools(String logPath, String filename){
         this.logPath=logPath;
         this.filename=filename;
     }

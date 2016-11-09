@@ -10,8 +10,8 @@ import java.util.TimerTask;
  */
 public class TestMysqlTask extends TimerTask {
     private DBManager dbManager;
-    private Tools tools;
-    public TestMysqlTask(DBManager dbManager,Tools tools){
+    private UtilTools tools;
+    public TestMysqlTask(DBManager dbManager,UtilTools tools){
         this.dbManager=dbManager;
         this.tools=tools;
 

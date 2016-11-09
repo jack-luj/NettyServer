@@ -2,8 +2,6 @@ package com.obdGenerator80mile;
 
 
 import java.io.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,13 +13,13 @@ public class InitTool {
     private DBManager dbManager;
     private String obdListFile="";
     private String jdbcUrl="jdbc:mysql://localhost:3306/incarobd?user=root&password=123456&useUnicode=true&characterEncoding=UTF8";
-    private Tools tools;
+    private UtilTools tools;
     private String logPath;
     public InitTool(String obdListFile,String logPath,String jdbcUrl,DBManager dbManager){
         this.obdListFile=obdListFile;
         this.dbManager=dbManager;
         this.logPath=logPath;
-        tools=new Tools(logPath,"");
+        tools=new UtilTools(logPath,"");
     }
 
 

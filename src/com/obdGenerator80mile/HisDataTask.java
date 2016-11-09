@@ -8,12 +8,12 @@ import java.util.List;
  */
 public class HisDataTask {
     private List<VirtualThreadCar> virtualCarList;
-    private Tools tools;
+    private UtilTools tools;
     private DBManager dbManager;
     private List<Date> startDateList;
     int count=0;
 
-    public HisDataTask(List<VirtualThreadCar> virtualCarList, Tools tools, DBManager dbManager,  List<Date> startDateList) {
+    public HisDataTask(List<VirtualThreadCar> virtualCarList, UtilTools tools, DBManager dbManager,  List<Date> startDateList) {
         this.virtualCarList = virtualCarList;
         this.tools = tools;
         this.dbManager = dbManager;
@@ -32,7 +32,7 @@ public class HisDataTask {
                 if(car.getCreateDate().getTime()>startDate.getTime()){
                     continue;
                 }
-                int startCount= Tools.getNoBetween(1, 4)-1;//车一天启动0~3次
+                int startCount= UtilTools.getNoBetween(1, 4)-1;//车一天启动0~3次
                 Date _startDate=startDate;
                 tools.writeGloablTxt(DateUtil.format(startDate, "-- 【yyyy-MM-dd】") + "-----" + car.getId() + " " + " 启动次数 " + startCount);
                 for (int k = 0; k < startCount; k++) {
@@ -42,18 +42,18 @@ public class HisDataTask {
 
                     String Stringtmp="INSERT INTO t_bt_drive VALUES (null, '{carId}', '{fireTime}', '{hotCarTime}', '{idlingTime}', '{drivingTime}', '{mileage}', '{totalMileage}', '{idlingOilUsed}', '{drivingOilUsed}', '{highestSpeed}', '{highestRotation}', '{speedUp}', '{speedDown}', '{costOfOil}', '{frameoutTime}');";
                     Stringtmp = Stringtmp.replace("{carId}", String.valueOf(car.getId()));
-                    Date fireTime=addTime(_startDate, Tools.getNoBetween(0, 4), Tools.getNoBetween(1, 50), Tools.getNoBetween(10, 30));
+                    Date fireTime=addTime(_startDate, UtilTools.getNoBetween(0, 4), UtilTools.getNoBetween(1, 50), UtilTools.getNoBetween(10, 30));
                     _startDate=fireTime;
 
 
                     Stringtmp = Stringtmp.replace("{fireTime}", DateUtil.format(fireTime));
-                    float hotCarTime=Tools.getNoBetween(2,40);
+                    float hotCarTime= UtilTools.getNoBetween(2, 40);
                     Stringtmp = Stringtmp.replace("{hotCarTime}", String.valueOf(hotCarTime));
-                    float idlingTime=Tools.getFloatNoBetween(3,30,1);
+                    float idlingTime= UtilTools.getFloatNoBetween(3, 30, 1);
                     Stringtmp = Stringtmp.replace("{idlingTime}", String.valueOf(idlingTime));
-                    float drivingTime=Tools.getFloatNoBetween(3,62,1);
+                    float drivingTime= UtilTools.getFloatNoBetween(3, 62, 1);
                     Stringtmp = Stringtmp.replace("{drivingTime}", String.valueOf(drivingTime));
-                    int _mileage=Tools.getNoBetween((int)drivingTime/3, (int)drivingTime);
+                    int _mileage= UtilTools.getNoBetween((int) drivingTime / 3, (int) drivingTime);
                     Stringtmp = Stringtmp.replace("{mileage}", String.valueOf(_mileage));
                     Stringtmp = Stringtmp.replace("{totalMileage}", String.valueOf(_mileage));
 
@@ -62,12 +62,12 @@ public class HisDataTask {
 
                     float drivingOilUsed=_mileage*0.09f+0.02f;
                     Stringtmp = Stringtmp.replace("{drivingOilUsed}", String.valueOf(drivingOilUsed).substring(0,3));
-                    Stringtmp = Stringtmp.replace("{highestSpeed}", String.valueOf(Tools.getNoBetween(35, 80)));
-                    Stringtmp = Stringtmp.replace("{highestRotation}", String.valueOf(Tools.getNoBetween(2200, 4000)));
-                    Stringtmp = Stringtmp.replace("{speedUp}", String.valueOf(Tools.getNoBetween(1, 3)-1));
-                    Stringtmp = Stringtmp.replace("{speedDown}", String.valueOf(Tools.getNoBetween(1, 2)-1));
+                    Stringtmp = Stringtmp.replace("{highestSpeed}", String.valueOf(UtilTools.getNoBetween(35, 80)));
+                    Stringtmp = Stringtmp.replace("{highestRotation}", String.valueOf(UtilTools.getNoBetween(2200, 4000)));
+                    Stringtmp = Stringtmp.replace("{speedUp}", String.valueOf(UtilTools.getNoBetween(1, 3)-1));
+                    Stringtmp = Stringtmp.replace("{speedDown}", String.valueOf(UtilTools.getNoBetween(1, 2)-1));
                     Stringtmp = Stringtmp.replace("{costOfOil}", String.valueOf(idlingOilUsed+drivingOilUsed).substring(0, 3));
-                    Date frameoutTime = addTime(fireTime, 0, (int)(hotCarTime+idlingTime+drivingTime), Tools.getNoBetween(20, 50));
+                    Date frameoutTime = addTime(fireTime, 0, (int)(hotCarTime+idlingTime+drivingTime), UtilTools.getNoBetween(20, 50));
                     _startDate=frameoutTime;
                     Stringtmp = Stringtmp.replace("{frameoutTime}", DateUtil.format(frameoutTime));
                     tools.writeGloablTxt(Stringtmp);
