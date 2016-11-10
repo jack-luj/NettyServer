@@ -24,6 +24,7 @@ public class WorkTask extends TimerTask {
         Date startDate=DateUtil.parseStrToDate(DateUtil.format(new Date(), "yyyy-MM-dd") + " 07:11:00");
         tools.writeGloablTxt("--模拟开始时间:" + " " + DateUtil.format(startDate));
         makeData(startDate);
+        tools.writeGloablTxt("--生成数据结束，现在时间:" + " " + DateUtil.format(new Date()));
     }
 
 
@@ -31,6 +32,7 @@ public class WorkTask extends TimerTask {
 
     public void makeData(Date startDate){
         int count=0;
+        float[] avgOil={0.07f,0.08f,0.09f,0.1f,0.11f,0.12f,0.13f,0.14f};
         tools.writeGloablTxt("-- 开始生成一天历史数据:" + " " + DateUtil.format(startDate));
 
             for(int i=0;i<virtualCarList.size();i++){
@@ -48,7 +50,7 @@ public class WorkTask extends TimerTask {
 
                     String Stringtmp="INSERT INTO t_bt_drive VALUES (null, '{carId}', '{fireTime}', '{hotCarTime}', '{idlingTime}', '{drivingTime}', '{mileage}', '{totalMileage}', '{idlingOilUsed}', '{drivingOilUsed}', '{highestSpeed}', '{highestRotation}', '{speedUp}', '{speedDown}', '{costOfOil}', '{frameoutTime}');";
                     Stringtmp = Stringtmp.replace("{carId}", String.valueOf(car.getId()));
-                    Date fireTime=addTime(_startDate, UtilTools.getNoBetween(0, 4), UtilTools.getNoBetween(1, 50), UtilTools.getNoBetween(10, 30));
+                    Date fireTime=addTime(_startDate, UtilTools.getNoBetween(0, 3), UtilTools.getNoBetween(1, 30), UtilTools.getNoBetween(10, 30));
                     _startDate=fireTime;
                     Stringtmp = Stringtmp.replace("{fireTime}", DateUtil.format(fireTime));
                     float hotCarTime= UtilTools.getNoBetween(2, 40);
@@ -63,8 +65,9 @@ public class WorkTask extends TimerTask {
 
                     float idlingOilUsed=idlingTime*0.02f+0.01f;
                     Stringtmp = Stringtmp.replace("{idlingOilUsed}", String.valueOf(idlingOilUsed).substring(0,3));
-
-                    float drivingOilUsed=_mileage*0.09f+0.02f;
+                    int index=UtilTools.getNoBetween(0, avgOil.length-1);
+                    float _avgOil=avgOil[index];
+                    float drivingOilUsed=_mileage*_avgOil+0.02f;
                     Stringtmp = Stringtmp.replace("{drivingOilUsed}", String.valueOf(drivingOilUsed).substring(0, 3));
                     Stringtmp = Stringtmp.replace("{highestSpeed}", String.valueOf(UtilTools.getNoBetween(35, 80)));
                     Stringtmp = Stringtmp.replace("{highestRotation}", String.valueOf(UtilTools.getNoBetween(2200, 4000)));
