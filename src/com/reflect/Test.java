@@ -23,7 +23,7 @@ import java.util.List;
 
 public class Test {
 
-    public static String objectModifyLog(UserBean a,UserBean b)throws Exception{
+    public static String objectModifyLog(Object a,Object b)throws Exception{
         //得到类对象
         StringBuilder sb=new StringBuilder();
 

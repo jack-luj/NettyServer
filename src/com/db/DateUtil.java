@@ -55,7 +55,7 @@ public class DateUtil {
 	public static Date parseStrToDate(String dateStr) {
 		try {
 			dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			date = (Date) dateFormat.parse(dateStr);
+			date = dateFormat.parse(dateStr);
 		} catch (Exception e) {
 			return null;
 		}

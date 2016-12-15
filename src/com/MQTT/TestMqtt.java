@@ -2,20 +2,17 @@ package com.MQTT;
 
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-
-import javax.xml.bind.DatatypeConverter;
-import java.security.MessageDigest;
 import java.util.Date;
 
 
 public class TestMqtt {
 
     private static String hostName="tcp://127.0.0.1:1884";//"tcp://iot.eclipse.org:1883";
-    private static String subscribeTopic= "/d/lv8918" ;
+    private static String subscribeTopic= "/d/lv8918/"+"868516020035370" ;
     private static String publishTopic= "/d/lv8918/123456" ;
     private static String sendMsg="message come from jackl";
-    private static String clientId     = "123445";
-    private static String username     = "123456";
+    private static String clientId     = "testClient";
+    private static String username     = "jackl";
     private static String password     = "123456";
     private static MqttClient client ;
     private static MemoryPersistence persistence;
@@ -23,7 +20,7 @@ public class TestMqtt {
         //订阅消息的方法
         subscribe();
         //发布消息的类
-      publish();
+    //  publish();
     }
     public static String subscribe() {
         try {
@@ -38,7 +35,7 @@ public class TestMqtt {
                 @Override
                 public void messageArrived(String s, MqttMessage message) throws Exception {
                     try {
-                        System.out.println(s + "从服务器收到的消息为:" + message.toString());
+                        System.out.println(new Date().toLocaleString()+"  "+s + "从服务器收到的消息为:" + message.toString());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
