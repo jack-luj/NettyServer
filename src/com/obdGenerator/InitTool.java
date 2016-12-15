@@ -39,6 +39,8 @@ public class InitTool {
                     c.setTripId(max_trip_id + 1);//tripid自增
                     c.setTotalMileage(max_mileage);
                 }
+                rs.close();
+                dbManager.closePrepareStatement();
             } catch (SQLException e) {
             }
             re.add(c);

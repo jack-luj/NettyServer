@@ -25,6 +25,8 @@ public class TestMysqlTask extends TimerTask {
                 String now = rs.getString("now");
                 tools.writeGloablTxt("test mysql..."+now);
             }
+            rs.close();
+            dbManager.closePrepareStatement();
         } catch (SQLException e) {
         }
     }

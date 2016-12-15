@@ -11,6 +11,8 @@ public class DBManager {
     private String url = "";
     private String logPath="";
     private UtilTools tools;
+    Statement stmt;
+    PreparedStatement pstmt;
     public DBManager(String logPath,String jdbsUrl){
         this.logPath=logPath;
         this.url=jdbsUrl;
@@ -36,7 +38,7 @@ public class DBManager {
             buildConnection();
         }
         try {
-            Statement stmt = conn.createStatement();
+            stmt = conn.createStatement();
             result = stmt.executeUpdate(sql);// executeUpdate语句会返回一个受影响的行数，如果返回-1就没有成功
         } catch (SQLException e) {
             tools.writeGloablTxt("MySQL exception "+e.getMessage());
@@ -45,27 +47,44 @@ public class DBManager {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-            return result;
+        }finally {
+            try {
+                stmt.close();
+            }catch (SQLException e){
+                tools.writeGloablTxt("close stmt exception "+e.getMessage());
+            }
         }
         return result;
     }
 
     public ResultSet executeQuery(String sql){
+        ResultSet resultSet=null;
         if (conn == null) {
             buildConnection();
         }
         try{
-            Statement stmt = conn.createStatement() ;
-            PreparedStatement pstmt = conn.prepareStatement(sql) ;
+            pstmt = conn.prepareStatement(sql) ;
             ResultSet rs = pstmt.executeQuery();
-            return rs;
+            resultSet=rs;
         }catch (SQLException e){
             tools.writeGloablTxt("MySQL exception "+e.getMessage());
             tools.writeGloablTxt("try reconnect to mysql server ");
             buildConnection();
-            return null;
+        }
+        return resultSet;
+    }
+
+    public void closePrepareStatement() {
+       // tools.writeGloablTxt("closePrepareStatement..." );
+        try {
+            pstmt.close();
+        } catch (SQLException e) {
+            tools.writeGloablTxt("close pstmt exception "+e.getMessage());
+            e.printStackTrace();
         }
     }
+
+
 
     public void closeConnection() {
         tools.writeGloablTxt("closeConnection..." + url);
