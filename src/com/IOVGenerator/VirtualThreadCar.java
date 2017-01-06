@@ -48,7 +48,7 @@ public class VirtualThreadCar extends TimerTask {
 
 
     public void run(){
-        tools.writeGloablTxt(new Date().toLocaleString() + " drive one day>>>" + this.getId() + "," + this.getVin() + "," + this.getTripId() + "," + this.getTotalMileage());
+        tools.writeGloablTxt(new Date().toLocaleString() + " start drive >>>" + this.getId() + "," + this.getVin() + "," + this.getTripId() + "," + this.getTotalMileage());
         driveOneDay();
     }
 
@@ -78,7 +78,7 @@ public class VirtualThreadCar extends TimerTask {
             gpsSb.append(gpsSql);
 
             ////实时数据
-            String realDataSql="(null, '{vin}', '{imei}', '34', '1', '{sending_time}', '0', '514', '0', '-200', '{avg_oil_a}', '{avg_oil_b}', '-200', '0', '-200', '-200', '-200', '-200', '-200', '0', '0', '0', '0', '{vehicle_temperature}', '{vehicle_outer_temperature}', '1', '1', '0', '1', '1', '1', '1', '0', '{voltage}', '{average_speed_a}', '{average_speed_b}'),";
+            String realDataSql="(null, '{vin}', '{imei}', '34', '1', '{sending_time}', '0', '0', '0', '-200', '{avg_oil_a}', '{avg_oil_b}', '-200', '0', '-200', '-200', '-200', '-200', '-200', '2', '2', '2', '2', '{vehicle_temperature}', '{vehicle_outer_temperature}', '1', '1', '0', '1', '1', '1', '1', '0', '{voltage}', '{average_speed_a}', '{average_speed_b}'),";
             realDataSql = realDataSql.replace("{vin}", vin);
             realDataSql = realDataSql.replace("{imei}", imei);
             realDataSql = realDataSql.replace("{sending_time}",sending_time);

@@ -23,6 +23,11 @@ public class DBManager {
         tools.writeGloablTxt("buildConnection..." + url.substring(0,url.indexOf("password")));
         try {
             Class.forName("com.mysql.jdbc.Driver");// 动态加载mysql驱动
+            if(conn!=null){
+                if(!conn.isClosed()){
+                    conn.close();
+                }
+            }
             conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
             tools.writeGloablTxt("MySQL exception " + e.getMessage());

@@ -121,7 +121,7 @@ public class Tools {
     }
     public  void writeLocationTxt(String content) {
         System.out.println(content);
-        String file=logPath+ this.getFilename() +"location.sql";
+       /* String file=logPath+ this.getFilename() +"location.sql";
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(
@@ -135,7 +135,7 @@ public class Tools {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
     public   void writeTripTxt(String content){
         System.out.println(content);
