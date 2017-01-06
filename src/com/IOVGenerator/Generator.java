@@ -31,6 +31,10 @@ public class Generator {
 
         int batchSize=Integer.parseInt(args[5]);
         int intervalSeconds=Integer.parseInt(args[6]);
+        int maxVehicleSize=999999;
+        if(args.length>7){
+            maxVehicleSize=Integer.parseInt(args[7]);
+        }
 
         String jdbcUrl=jdbc+"?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&user="+jdbcUser+"&password="+jdbcPwd+"";
         System.out.println("runtime args obdListPath "+obdListFile);
@@ -50,7 +54,7 @@ public class Generator {
         Tools tools=new Tools(logPath,"");
         tools.writeGloablTxt("available car count:" + virtualCarList.size());
 
-        for (int i = 0; i < virtualCarList.size(); i++) {
+        for (int i = 0; i < (virtualCarList.size()<maxVehicleSize? virtualCarList.size():maxVehicleSize); i++) {
             VirtualThreadCar virtualCar=virtualCarList.get(i);
             Timer timer=new Timer();//
             timer.schedule(virtualCar,0);
