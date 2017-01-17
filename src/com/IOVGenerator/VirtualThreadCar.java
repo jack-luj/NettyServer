@@ -78,14 +78,25 @@ public class VirtualThreadCar extends TimerTask {
             gpsSb.append(gpsSql);
 
             ////实时数据
-            String realDataSql="(null, '{vin}', '{imei}', '34', '1', '{sending_time}', '0', '0', '0', '-200', '{avg_oil_a}', '{avg_oil_b}', '-200', '0', '-200', '-200', '-200', '-200', '-200', '2', '2', '2', '2', '{vehicle_temperature}', '{vehicle_outer_temperature}', '1', '1', '0', '1', '1', '1', '1', '0', '{voltage}', '{average_speed_a}', '{average_speed_b}'),";
+            String realDataSql="(null, '{vin}', '{imei}', '34', '1', '{sending_time}', '0', '0', '0', '{fuel_oil}', '{avg_oil_a}', '{avg_oil_b}', '{driving_range}', '{mileage_range}', '-200', '{left_front_tire_pressure}', '{left_rear_tire_pressure}', '{right_front_tire_pressure}', '{right_rear_tire_pressure}', '2', '2', '2', '2', '{vehicle_temperature}', '{vehicle_outer_temperature}', '1', '1', '1', '1', '1', '1', '2', '0', '{voltage}', '{average_speed_a}', '{average_speed_b}'),";
+            //车门信息 0开1关2保留3信号异常
+            //车窗信息 0开1半开2关3信号异常
             realDataSql = realDataSql.replace("{vin}", vin);
             realDataSql = realDataSql.replace("{imei}", imei);
             realDataSql = realDataSql.replace("{sending_time}",sending_time);
+            int _fuel=48;
+            realDataSql = realDataSql.replace("{fuel_oil}",String.valueOf(_fuel));
             realDataSql = realDataSql.replace("{avg_oil_a}","7.8");
             realDataSql = realDataSql.replace("{avg_oil_b}","8.1");
-            realDataSql = realDataSql.replace("{vehicle_temperature}","1");
-            realDataSql = realDataSql.replace("{vehicle_outer_temperature}","0");
+            realDataSql = realDataSql.replace("{driving_range}","122"+tools.getNoBetween(1, 99));
+            realDataSql = realDataSql.replace("{mileage_range}",String.valueOf(tools.getNoBetween(550, 620)));
+
+            realDataSql = realDataSql.replace("{left_front_tire_pressure}","25"+tools.getNoBetween(1, 9));
+            realDataSql = realDataSql.replace("{left_rear_tire_pressure}","25"+tools.getNoBetween(1,9));
+            realDataSql = realDataSql.replace("{right_front_tire_pressure}","25"+tools.getNoBetween(1,9));
+            realDataSql = realDataSql.replace("{right_rear_tire_pressure}","25"+tools.getNoBetween(1,9));
+            realDataSql = realDataSql.replace("{vehicle_temperature}","21");
+            realDataSql = realDataSql.replace("{vehicle_outer_temperature}","3");
             realDataSql = realDataSql.replace("{voltage}","13."+tools.getWidthNo(1111,8888,4));
             realDataSql = realDataSql.replace("{average_speed_a}","43");
             realDataSql = realDataSql.replace("{average_speed_b}","33");
