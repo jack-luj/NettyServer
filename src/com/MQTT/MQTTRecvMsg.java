@@ -11,25 +11,25 @@ import java.io.IOException;
 public class MQTTRecvMsg {
     public static void main(String[] args) throws IOException {
         /**
-         * ÉèÖÃMQTTµÄ½ÓÈëµã£¬Çë¸ù¾İÓ¦ÓÃËùÔÚ»·¾³Ñ¡ÔñºÏÊÊµÄregion£¬²»Ö§³Ö¿çRegion·ÃÎÊ
+         * è®¾ç½®MQTTçš„æ¥å…¥ç‚¹ï¼Œè¯·æ ¹æ®åº”ç”¨æ‰€åœ¨ç¯å¢ƒé€‰æ‹©åˆé€‚çš„regionï¼Œä¸æ”¯æŒè·¨Regionè®¿é—®
          */
         final String broker ="tcp://mqtt-test.cn-qingdao.aliyuncs.com:1883";
         /**
-         * ÉèÖÃ°¢ÀïÔÆµÄAccessKey£¬ÓÃÓÚ¼øÈ¨
+         * è®¾ç½®é˜¿é‡Œäº‘çš„AccessKeyï¼Œç”¨äºé‰´æƒ
          */
         final String acessKey ="LTAIVMjladPyyNOv";
         /**
-         * ÉèÖÃ°¢ÀïÔÆµÄSecretKey£¬ÓÃÓÚ¼øÈ¨
+         * è®¾ç½®é˜¿é‡Œäº‘çš„SecretKeyï¼Œç”¨äºé‰´æƒ
          */
         final String secretKey ="PmrbD9kYRp9XpoCFjucFjcC498Wlgm";
         /**
-         * ·¢ÏûÏ¢Ê¹ÓÃµÄÒ»¼¶Topic£¬ĞèÒªÏÈÔÚMQ¿ØÖÆÌ¨ÀïÉêÇë
+         * å‘æ¶ˆæ¯ä½¿ç”¨çš„ä¸€çº§Topicï¼Œéœ€è¦å…ˆåœ¨MQæ§åˆ¶å°é‡Œç”³è¯·
          */
         final String topic ="tricheerTest/d/lv8918";
         /**
-         * MQTTµÄClientID£¬Ò»°ãÓÉ2²¿·Ö×é³É£¬ConsumerID@@@DeviceID
-         * ÆäÖĞConsumerIDÔÚMQ¿ØÖÆÌ¨ÀïÉêÇë
-         * DeviceIDÓÉÓ¦ÓÃ·½ÉèÖÃ£¬¿ÉÄÜÊÇÉè±¸±àºÅµÈ£¬ĞèÒªÎ¨Ò»£¬·ñÔò·şÎñ¶Ë¾Ü¾øÖØ¸´µÄClientIDÁ¬½Ó
+         * MQTTçš„ClientIDï¼Œä¸€èˆ¬ç”±2éƒ¨åˆ†ç»„æˆï¼ŒConsumerID@@@DeviceID
+         * å…¶ä¸­ConsumerIDåœ¨MQæ§åˆ¶å°é‡Œç”³è¯·
+         * DeviceIDç”±åº”ç”¨æ–¹è®¾ç½®ï¼Œå¯èƒ½æ˜¯è®¾å¤‡ç¼–å·ç­‰ï¼Œéœ€è¦å”¯ä¸€ï¼Œå¦åˆ™æœåŠ¡ç«¯æ‹’ç»é‡å¤çš„ClientIDè¿æ¥
          */
         final String clientId ="CID_davjk@@@123456";
         String sign;
@@ -39,9 +39,9 @@ public class MQTTRecvMsg {
             final MqttConnectOptions connOpts = new MqttConnectOptions();
             System.out.println("Connecting to broker: " + broker);
             /**
-             * ¼ÆËãÇ©Ãû£¬½«Ç©Ãû×÷ÎªMQTTµÄpassword¡£
-             * Ç©ÃûµÄ¼ÆËã·½·¨£¬²Î¿¼¹¤¾ßÀàMacSignature£¬µÚÒ»¸ö²ÎÊıÊÇClientIDµÄÇ°°ë²¿·Ö£¬¼´Producer ID»òÕßConsumer ID
-             * µÚ¶ş¸ö²ÎÊı°¢ÀïÔÆµÄSecretKey
+             * è®¡ç®—ç­¾åï¼Œå°†ç­¾åä½œä¸ºMQTTçš„passwordã€‚
+             * ç­¾åçš„è®¡ç®—æ–¹æ³•ï¼Œå‚è€ƒå·¥å…·ç±»MacSignatureï¼Œç¬¬ä¸€ä¸ªå‚æ•°æ˜¯ClientIDçš„å‰åŠéƒ¨åˆ†ï¼Œå³Producer IDæˆ–è€…Consumer ID
+             * ç¬¬äºŒä¸ªå‚æ•°é˜¿é‡Œäº‘çš„SecretKey
              */
             sign = MacSignature.macSignature(clientId.split("@@@")[0], secretKey);
             connOpts.setUserName(acessKey);
@@ -76,7 +76,7 @@ public class MQTTRecvMsg {
             });
             sampleClient.connect(connOpts);
             /**
-             * ÉèÖÃ¶©ÔÄ·½¶©ÔÄµÄTopic¼¯ºÏ£¬´Ë´¦×ñÑ­MQTTµÄ¶©ÔÄ¹æÔò£¬¿ÉÒÔÊÇÒ»¼¶Topic£¬¶ş¼¶Topic»òÕßÊÇP2PÏûÏ¢£¬
+             * è®¾ç½®è®¢é˜…æ–¹è®¢é˜…çš„Topicé›†åˆï¼Œæ­¤å¤„éµå¾ªMQTTçš„è®¢é˜…è§„åˆ™ï¼Œå¯ä»¥æ˜¯ä¸€çº§Topicï¼ŒäºŒçº§Topicæˆ–è€…æ˜¯P2Pæ¶ˆæ¯ï¼Œ
              */
             final String p2ptopic = topic+"/p2p/";
             final String[] topicFilters=new String[]{topic+"/notice/",p2ptopic};

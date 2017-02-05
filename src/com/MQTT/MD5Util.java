@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 public class MD5Util {
 
     /**
-     * MD5 16λ��д
+     * MD5 16位大写
      * @param sourceStr
      * @return
      */

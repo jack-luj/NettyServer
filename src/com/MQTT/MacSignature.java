@@ -16,9 +16,9 @@ import java.util.List;
  */
 public class MacSignature {
     /**
-     * @param text      ÒªÇ©ÃûµÄÎÄ±¾
-     * @param secretKey °¢ÀïÔÆMQ secretKey
-     * @return ¼ÓÃÜºóµÄ×Ö·û´®
+     * @param text      è¦ç­¾åçš„æ–‡æœ¬
+     * @param secretKey é˜¿é‡Œäº‘MQ secretKey
+     * @return åŠ å¯†åçš„å­—ç¬¦ä¸²
      * @throws InvalidKeyException
      * @throws NoSuchAlgorithmException
      */
@@ -31,11 +31,11 @@ public class MacSignature {
         return new String(Base64.encodeBase64(bytes), charset);
     }
     /**
-     * ·¢ËÍ·½Ç©Ãû·½·¨
+     * å‘é€æ–¹ç­¾åæ–¹æ³•
      *
      * @param clientId  Mqtt ClientId
-     * @param secretKey °¢ÀïÔÆMQ secretKey
-     * @return ¼ÓÃÜºóµÄ×Ö·û´®
+     * @param secretKey é˜¿é‡Œäº‘MQ secretKey
+     * @return åŠ å¯†åçš„å­—ç¬¦ä¸²
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeyException
      */
@@ -43,17 +43,17 @@ public class MacSignature {
         return macSignature(clientId, secretKey);
     }
     /**
-     * ¶©ÔÄ·½Ç©Ãû·½·¨
+     * è®¢é˜…æ–¹ç­¾åæ–¹æ³•
      *
-     * @param topics    Òª¶©ÔÄµÄTopic¼¯ºÏ
+     * @param topics    è¦è®¢é˜…çš„Topicé›†åˆ
      * @param clientId  Mqtt ClientId
-     * @param secretKey °¢ÀïÔÆMQ secretKey
-     * @return ¼ÓÃÜºóµÄ×Ö·û´®
+     * @param secretKey é˜¿é‡Œäº‘MQ secretKey
+     * @return åŠ å¯†åçš„å­—ç¬¦ä¸²
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeyException
      */
     public static String subSignature(List<String> topics, String clientId, String secretKey) throws NoSuchAlgorithmException, InvalidKeyException {
-        Collections.sort(topics); //ÒÔ×ÖµäË³ĞòÅÅĞò
+        Collections.sort(topics); //ä»¥å­—å…¸é¡ºåºæ’åº
         String topicText = "";
         for (String topic : topics) {
             topicText += topic + "\n";
@@ -62,12 +62,12 @@ public class MacSignature {
         return macSignature(text, secretKey);
     }
     /**
-     * ¶©ÔÄ·½Ç©Ãû·½·¨
+     * è®¢é˜…æ–¹ç­¾åæ–¹æ³•
      *
-     * @param topic     Òª¶©ÔÄµÄTopic
+     * @param topic     è¦è®¢é˜…çš„Topic
      * @param clientId  Mqtt ClientId
-     * @param secretKey °¢ÀïÔÆMQ secretKey
-     * @return ¼ÓÃÜºóµÄ×Ö·û´®
+     * @param secretKey é˜¿é‡Œäº‘MQ secretKey
+     * @return åŠ å¯†åçš„å­—ç¬¦ä¸²
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeyException
      */

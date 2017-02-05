@@ -7,28 +7,34 @@ import com.rabbitmq.client.*;
 
 public class PublishClient {
     public static void main(String[] args){
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setUsername("jackl");
-        factory.setPassword("123456");
-        //factory.setVirtualHost("");
-        factory.setHost("127.0.0.1");
-        factory.setPort(5672);
-        factory.setAutomaticRecoveryEnabled(true);
-        factory.setNetworkRecoveryInterval(10000);
+        PublishClient p=new PublishClient();
+        p.send("haha");
 
-        try{
-            String exchangeName="amq.direct";
-            String routingKey="queueAAAA";
-            Connection conn = factory.newConnection();
-            Channel channel = conn.createChannel();
-            channel.exchangeDeclare(exchangeName, "direct", true);
-            String queueName ="queueA";
-            channel.queueBind(queueName, exchangeName, routingKey);
-            byte[] messageBodyBytes = "zzz  Hello, world!".getBytes();
-            channel.basicPublish(exchangeName, routingKey, null, messageBodyBytes);
+    }
 
-        }catch (Exception e){
-        e.printStackTrace();
+    private static final String EXCHANGE_NAME = "amq.direct";
+    private static final String HOST_NAME = "localhost";
+    private void send(String message){
+        try {
+            ConnectionFactory factory = new ConnectionFactory();
+            factory.setHost(HOST_NAME);
+            factory.setUsername("jackl");
+            factory.setPassword("123456");
+            Connection connection = factory.newConnection();
+            Channel channel = connection.createChannel();
+           // channel.exchangeDeclare(EXCHANGE_NAME, "direct");
+
+            String target="000";
+            String queueName = "queueA";
+
+            channel.basicPublish(EXCHANGE_NAME, queueName, null, message.getBytes("UTF-8"));
+            System.out.println(" [x] Sent '" + queueName + "':'" + message + "'");
+
+            channel.close();
+            connection.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
