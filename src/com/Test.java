@@ -3,6 +3,7 @@ package com;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.Date;
 
 /**
  * Created by jackl on 2016/11/11.
@@ -13,16 +14,10 @@ public class Test {
 
     public static void main(String[] args){
         //02 22 5A 00 = 35805696
-        //06 AC A3 00 = 111977216
-
-        //02 4B 64 00 = 38495232
-        //06 C5 41 00 = 113590528
-        long lat=35805696;
-        long lon=111977216;
-        for (int i = 0; i <10000 ; i++) {
-            System.out.println(getTrueLatAndLon(lat)+","+getTrueLatAndLon(lon));
-        }
-
+       Date date=new Date(1000);
+        System.out.println(DateUtil.getDateTime(date));
+        String s="abcdef";
+        System.out.println(s);
     }
 
 

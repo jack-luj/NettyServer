@@ -1,19 +1,16 @@
-package com.RabbitMQ.Demo;
+package com.iov;
 
-/**
- * Created by jackl on 2017/2/5.
- */
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
 
-public class ReceiveLogsDirect {
-
-    private static final String EXCHANGE_NAME = "tcp_up";
+public class ReceiveLogs {
+    private static final String EXCHANGE_NAME = "logs1";
 
     public static void main(String[] argv) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
+        factory.setPort(5672);
         factory.setUsername("jackl");
         factory.setPassword("123456");
         Connection connection = factory.newConnection();
@@ -21,12 +18,8 @@ public class ReceiveLogsDirect {
 
         channel.exchangeDeclare(EXCHANGE_NAME, "direct");
         String queueName = channel.queueDeclare().getQueue();
-        argv=new String[]{"device.tcp.connect","device.tcp.disconnect","device.tcp.data"};
-
         channel.queueBind(queueName, EXCHANGE_NAME, "");
-        for(String severity : argv){
-            channel.queueBind(queueName, EXCHANGE_NAME, severity);
-        }
+
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
         Consumer consumer = new DefaultConsumer(channel) {
@@ -34,7 +27,7 @@ public class ReceiveLogsDirect {
             public void handleDelivery(String consumerTag, Envelope envelope,
                                        AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String message = new String(body, "UTF-8");
-                System.out.println(" [x] Received '" + envelope.getRoutingKey() + "':'" + message + "'");
+                System.out.println(" [x] Received '" + message + "'");
             }
         };
         channel.basicConsume(queueName, true, consumer);

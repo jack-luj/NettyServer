@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class EmitLogDirect {
 
-    private static final String EXCHANGE_NAME = "direct_logs";
+    private static final String EXCHANGE_NAME = "server_collection";
 
     public static void main(String[] argv)
             throws Exception {
